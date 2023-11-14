@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
-import { PlaywrightModule } from 'nestjs-playwright';
-import { ITHomeService } from './ithome.service';
-import { HttpModule } from '@nestjs/axios';
-import { SitesController } from './sites.controller';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HttpConfig } from 'src/configuration';
+import { Module } from '@nestjs/common'
+import { PlaywrightModule } from 'nestjs-playwright'
+import { ITHomeService } from './ithome.service'
+import { HttpModule } from '@nestjs/axios'
+import { SitesController } from './sites.controller'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { HttpConfig } from 'src/configuration'
+import { ZhihuService } from './zhihu.service'
+import { WeiboService } from './weibo.service'
 
 @Module({
   imports: [
@@ -42,7 +44,7 @@ import { HttpConfig } from 'src/configuration';
     ),
     HttpModule
   ],
-  providers: [ITHomeService],
+  providers: [ZhihuService, ITHomeService, WeiboService],
   controllers: [SitesController]
 })
 export class SitesModule {}
