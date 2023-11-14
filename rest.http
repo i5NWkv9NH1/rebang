@@ -1,0 +1,27 @@
+@host = http://localhost:4002
+
+### ithome
+GET {{host}}/sites/ithome/day
+###
+GET {{host}}/sites/ithome/week
+###
+GET {{host}}/sites/ithome/month
+###
+GET {{host}}/sites/ithome/latest
+
+### zhihu
+GET {{host}}/sites/zhihu
+
+### weibo
+GET {{host}}/sites/weibo/realtimehot
+###
+GET {{host}}/sites/weibo/socialevent
+###
+GET {{host}}/sites/weibo/entrank
+
+### hupu
+GET {{host}}/sites/hupu/sports
+###
+GET {{host}}/sites/hupu/gambia
+###
+GET {{host}}/sites/hupu/ent

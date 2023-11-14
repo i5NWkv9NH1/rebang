@@ -99,7 +99,7 @@ export class WeiboService {
           const metrics = [
             $(tr).find('.td-02 span').text(),
             $(tr).find('.td-03 i').text()
-          ]
+          ].filter((item) => item)
           const emoji = $(tr).find('.td-02 img').attr('alt')
           return {
             sort,
@@ -110,8 +110,6 @@ export class WeiboService {
         })
         .toArray()
     )
-
-    return data
   }
 
   async getHtml(url: string, headers?: {}) {

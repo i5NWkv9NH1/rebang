@@ -19,9 +19,9 @@ export class ITHomeService {
   private readonly tags: ['日榜', '周榜', '热评', '月榜']
 
   constructor(
-    @InjectBrowser('TopHub') private readonly browser: Browser,
-    @InjectPage('TopHub') private readonly internalPage: Page,
-    @InjectContext('TopHub') private readonly internalContext: BrowserContext,
+    @InjectBrowser() private readonly browser: Browser,
+    @InjectPage() private readonly internalPage: Page,
+    @InjectContext() private readonly internalContext: BrowserContext,
     @Inject(CACHE_MANAGER) protected readonly cacheManager: CacheStore,
     private readonly httpService: HttpService
   ) {}

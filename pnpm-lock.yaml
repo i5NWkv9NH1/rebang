@@ -56,6 +56,9 @@ dependencies:
   rxjs:
     specifier: ^7.8.1
     version: 7.8.1
+  user-agents:
+    specifier: ^1.1.23
+    version: 1.1.23
 
 devDependencies:
   '@nestjs/cli':
@@ -82,6 +85,9 @@ devDependencies:
   '@types/supertest':
     specifier: ^2.0.12
     version: 2.0.16
+  '@types/user-agents':
+    specifier: ^1.0.4
+    version: 1.0.4
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.0.0
     version: 6.10.0(@typescript-eslint/parser@6.10.0)(eslint@8.53.0)(typescript@5.2.2)
@@ -1360,6 +1366,10 @@ packages:
     resolution: {integrity: sha512-6c2ogktZ06tr2ENoZivgm7YnprnhYE4ZoXGMY+oA7IuAf17M8FWvujXZGmxLv8y0PTyts4x5A+erSwVUFA8XSg==}
     dependencies:
       '@types/superagent': 4.1.21
+    dev: true
+
+  /@types/user-agents@1.0.4:
+    resolution: {integrity: sha512-AjeFc4oX5WPPflgKfRWWJfkEk7Wu82fnj1rROPsiqFt6yElpdGFg8Srtm/4PU4rA9UiDUZlruGPgcwTMQlwq4w==}
     dev: true
 
   /@types/yargs-parser@21.0.3:
@@ -5464,6 +5474,12 @@ packages:
     dependencies:
       punycode: 2.3.1
     dev: true
+
+  /user-agents@1.1.23:
+    resolution: {integrity: sha512-x+ugouGCBU/SDCGqOZzZnbJ2cn94Qox7KuGFH7i6ErObS4s9Q/oje3gh7bkY04f3Bq5mGloq+Yum/GF0KG0qGw==}
+    dependencies:
+      lodash.clonedeep: 4.5.0
+    dev: false
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

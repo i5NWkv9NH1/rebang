@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config'
 import configuration from './configuration'
 import { PlaywrightModule } from 'nestjs-playwright'
 import { CacheModule } from '@nestjs/cache-manager'
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { CacheModule } from '@nestjs/cache-manager'
       ttl: 3600,
       max: 9999
     }),
-    SitesModule
+    SitesModule,
+    TasksModule
   ],
   controllers: [AppController],
   providers: [AppService]
