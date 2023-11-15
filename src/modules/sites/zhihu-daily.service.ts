@@ -4,21 +4,31 @@ import { InjectBrowser } from 'nestjs-playwright'
 import { Browser } from 'playwright'
 import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosProxyConfig } from 'axios'
 import { genUserAgent } from 'src/helpers'
 
 @Injectable()
 export class ZhihuDailyService {
   private logger = new Logger(ZhihuDailyService.name)
+  private proxy = {
+    host: '117.160.250.131',
+    port: 8899,
+    protocol: 'http'
+  }
 
   constructor(private httpService: HttpService) {}
 
   public async latest() {
     const url = `https://news-at.zhihu.com/api/4/news/latest`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<{ date: string; stories: any[] }>(url, {
-      'user-agent': userAgent
-    })
+    const response = await this.http<{ date: string; stories: any[] }>(
+      url,
+      {
+        'user-agent': userAgent
+      },
+      {},
+      this.proxy
+    )
     return this.transformFields(response.data.stories)
   }
 
@@ -33,9 +43,14 @@ export class ZhihuDailyService {
       image: string
       //? 新闻详情带有大图和小图
       images: string[]
-    }>(url, {
-      'user-agent': userAgent
-    })
+    }>(
+      url,
+      {
+        'user-agent': userAgent
+      },
+      {},
+      this.proxy
+    )
     const thumbnail = response.data.image
     const id = response.data.id
     const $ = cheerio.load(response.data.body)
@@ -69,9 +84,14 @@ export class ZhihuDailyService {
   public async findByDate(date: string) {
     const url = `https://news-at.zhihu.com/api/4/news/before/${date}`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<{ date: string; stories: any[] }>(url, {
-      'user-agent': userAgent
-    })
+    const response = await this.http<{ date: string; stories: any[] }>(
+      url,
+      {
+        'user-agent': userAgent
+      },
+      {},
+      this.proxy
+    )
     return this.transformFields(response.data.stories)
   }
 
@@ -110,13 +130,19 @@ export class ZhihuDailyService {
     })
   }
 
-  public async http<T>(url: string, headers: {} = {}, params = {}) {
+  public async http<T>(
+    url: string,
+    headers?: {},
+    params?: {},
+    proxy?: AxiosProxyConfig
+  ) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService
         .get<T>(url, {
           headers,
-          params
+          params,
+          proxy
         })
         .pipe(
           catchError((error: AxiosError) => {

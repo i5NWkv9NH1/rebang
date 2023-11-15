@@ -13,7 +13,7 @@ GET {{host}}/sites/ithome/latest
 GET {{host}}/sites/zhihu
 
 ### zhihu daily
-GET {{host}}/sites/zhihu-daily/latest
+GET {{host}}/api/sites/zhihu-daily/latest
 ###
 GET {{host}}/sites/zhihu-daily/news/3977867
 ###

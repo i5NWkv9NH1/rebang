@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/public/site.webmanifest" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vuetify@3.4.1/dist/vuetify.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+
+    <title>Nest.js</title>
+  </head>
+  <body>
+    <div id="root">
+      <v-app>
+        <v-navigation-drawer v-model="drawer"> </v-navigation-drawer>
+        <v-app-bar>
+          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+          <v-app-bar-title>App</v-app-bar-title>
+          <v-spacer></v-spacer>
+          <v-btn @click="toggleTheme"> Theme </v-btn>
+          <v-switch v-model="isShowAPIs" class="d-flex" label="APIs" inser />
+        </v-app-bar>
+        <v-main>
+          <v-slide-y-transition>
+            <v-alert class="my-4" v-if="alert.status">
+              {{ alert.message }}
+              <template v-slot:close="{ toggle }">
+                <v-btn
+                  @click="alert.status = false"
+                  icon
+                  color="primary"
+                  variant="tonal"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </template>
+            </v-alert>
+          </v-slide-y-transition>
+          <v-container>
+            <div class="d-flex flex-column" style="gap: 2rem" v-if="isShowAPIs">
+              <div
+                class="item"
+                v-for="(item, siteIndex) in apis"
+                :key="item.title"
+              >
+                <div class="text-h4 font-weight-bolder my-4">
+                  {{item.title}}
+                  <span class="text-body-1 text-error">
+                    {{ item.children.length === 0 ? '施工中...' : ''}}
+                  </span>
+                </div>
+                <v-row>
+                  <v-col v-for="(api, apiIndex) in item.children" cols="6">
+                    <v-fade-transition>
+                      <v-card height="400" :loading="api.loading">
+                        <v-card-title>{{ api.name }} </v-card-title>
+                        <v-card-text
+                          :style="[
+                            api.content ? `overflow: scroll; max-height: calc(100% - 50px)` : 'height: 280px'
+                          ]"
+                        >
+                          <v-fade-transition>
+                            <pre v-if="api.content">
+                              <code class="language-json">
+                                {{ api.content ? (api.content) : '无' }}
+                              </code>
+                            </pre>
+                            <div
+                              v-else
+                              v-ripple
+                              class="d-flex justify-center align-center fill-height"
+                              @click="() => { if(!api.loading) fetchAPI(api.path, siteIndex, apiIndex) } "
+                            >
+                              <div class="text-h4">Empty</div>
+                            </div>
+                          </v-fade-transition>
+                        </v-card-text>
+                        <v-card-actions v-if="!api.content">
+                          <v-btn
+                            color="secondary"
+                            variant="tonal"
+                            @click="fetchAPI(api.path, siteIndex, apiIndex)"
+                          >
+                            获取数据
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-fade-transition>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </v-container>
+        </v-main>
+      </v-app>
+    </div>
+  </body>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+        "vuetify": "https://cdn.jsdelivr.net/npm/vuetify@3.4.1/dist/vuetify.esm.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { createApp, ref, onMounted, computed } from 'vue'
+    import { createVuetify, useTheme } from 'vuetify'
+
+    const vuetify = createVuetify({
+      defaults: {
+        VCard: {
+          rounded: 'lg'
+        }
+      }
+    })
+
+    const app = createApp({
+      setup() {
+        const theme = useTheme()
+        const drawer = ref(false)
+        const isShowAPIs = ref(true)
+        function toggleTheme() {
+          theme.global.name.value = theme.global.current.value.dark
+            ? 'light'
+            : 'dark'
+        }
+
+        const alert = ref({
+          status: false,
+          message: ''
+        })
+
+        const apis = ref([
+          {
+            title: '百度',
+            children: [
+              { path: '/baidu/hot', name: '热搜', content: '', loading: false },
+              {
+                path: '/baidu/novel',
+                name: '小说',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/baidu/movie',
+                name: '电影',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/baidu/teleplay',
+                name: '电视剧',
+                content: '',
+                loading: false
+              },
+              { path: '/baidu/car', name: '汽车', content: '', loading: false },
+              { path: '/baidu/game', name: '游戏', content: '', loading: false }
+            ]
+          },
+          {
+            title: '哔哩哔哩',
+            children: [
+              {
+                path: '/bilibili/hot',
+                name: '热门',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/bilibili/week',
+                name: '每周必看',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/bilibili/rank',
+                name: '排行榜',
+                content: '',
+                loading: false
+              }
+            ]
+          },
+          {
+            title: '抖音',
+            children: []
+          },
+          {
+            title: '虎扑',
+            children: [
+              {
+                path: '/hupu/sports',
+                name: '综合体育',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/hupu/gambia',
+                name: '步行街',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/hupu/ent',
+                name: '影视娱乐',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/hupu/lol',
+                name: '英雄联盟',
+                content: '',
+                loading: false
+              },
+              { path: '/hupu/gg', name: '游戏', content: '', loading: false },
+              { path: '/hupu/nba', name: 'NBA', content: '', loading: false },
+              { path: '/hupu/gear', name: '装备', content: '', loading: false },
+              {
+                path: '/hupu/soccer',
+                name: '国际足球',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/hupu/digital',
+                name: '数码',
+                content: '',
+                loading: false
+              }
+            ]
+          },
+          {
+            title: 'IT之家',
+            children: [
+              { path: '/ithome', name: '日榜', content: '', loading: false }
+            ]
+          },
+          {
+            title: '掘金',
+            children: [
+              {
+                path: '/juejin/mix',
+                name: '综合',
+                content: '',
+                loading: false
+              },
+              { path: '/juejin/be', name: '后端', content: '', loading: false },
+              { path: '/juejin/fe', name: '前端', content: '', loading: false },
+              {
+                path: '/juejin/android',
+                name: 'android',
+                content: '',
+                loading: false
+              },
+              { path: '/juejin/ios', name: 'iOS', content: '', loading: false },
+              {
+                path: '/juejin/ai',
+                name: '人工智能',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/juejin/develop',
+                name: '开发工具',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/juejin/code',
+                name: '代码人生',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/juejin/read',
+                name: '阅读',
+                content: '',
+                loading: false
+              }
+            ]
+          },
+          {
+            title: '36氪',
+            children: []
+          },
+          {
+            title: '头条',
+            children: [
+              {
+                path: '/toutiao/hot',
+                name: '热门',
+                content: '',
+                loading: false
+              }
+            ]
+          },
+          {
+            title: '微博',
+            children: [
+              {
+                path: '/weibo/realtimehot',
+                name: '热搜',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/weibo/socialevent',
+                name: '要闻',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/weibo/entrank',
+                name: '文娱',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/weibo/topicband',
+                name: '话题',
+                content: '',
+                loading: false
+              }
+            ]
+          },
+          {
+            title: '知乎',
+            children: [
+              { path: '/zhihu', name: '热搜', content: '', loading: false }
+            ]
+          },
+          {
+            title: '知乎日报',
+            children: [
+              { path: '/zhihu-daily/latest', name: '最新', content: '' },
+              {
+                path: '/zhihu-daily/news/9767285',
+                name: '根据新闻id寻找详情 [id=9767285]',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/zhihu-daily/date/20231114',
+                name: '根据日期查找日报列表 [2023年11月14日]',
+                content: '',
+                loading: false
+              }
+            ]
+          }
+        ])
+
+        async function delay(ms) {
+          return new Promise((res, rej) => setTimeout(res, ms))
+        }
+
+        async function fetchAPI(path, siteIndex, apiIndex) {
+          const url = `http://localhost:4002/api/sites${path}`
+          try {
+            const api = apis.value[siteIndex].children[apiIndex]
+            api.loading = true
+            const response = await (await fetch(url)).json()
+            await delay(2000)
+            api.content = JSON.parse(JSON.stringify(response).trim())
+            api.loading = false
+          } catch (error) {
+            alert.value.message = error
+            alert.value.status = true
+            console.log(error)
+          }
+        }
+
+        onMounted(() => {
+          theme.global.name.value = 'dark'
+        })
+
+        return {
+          toggleTheme,
+          theme,
+          isShowAPIs,
+          drawer,
+
+          alert,
+          apis,
+          fetchAPI
+        }
+      }
+    })
+      .use(vuetify)
+      .mount('#root')
+  </script>
+</html>

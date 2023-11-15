@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosProxyConfig } from 'axios'
 import * as cheerio from 'cheerio'
 import { InjectBrowser } from 'nestjs-playwright'
 import { Browser } from 'playwright'
@@ -33,6 +33,11 @@ export class BiliBiliService {
   public async hot(pageNumber: number = 1, pageSize: number = 100) {
     const url = `https://api.bilibili.com/x/web-interface/wx/hot?pn=${pageNumber}&ps=${pageSize}&teenage_mode=0`
     const userAgent = genUserAgent('mobile')
+    const proxy = {
+      host: '117.160.250.131',
+      port: 8899,
+      protocol: 'http'
+    }
     interface ResponseData {
       code: number
       data: any[]
@@ -46,10 +51,14 @@ export class BiliBiliService {
         ps: number
       }
     }
-    const response = await this.http<ResponseData>(url, {
-      ...this.headers,
-      'user-agent': userAgent
-    })
+    const response = await this.http<ResponseData>(
+      url,
+      {
+        ...this.headers,
+        'user-agent': userAgent
+      },
+      proxy
+    )
 
     const meta = {
       totalSize: response.data.page.count,
@@ -172,16 +181,21 @@ export class BiliBiliService {
   }
   //#endregion
 
-  public async http<T>(url: string, headers: {} = {}) {
+  public async http<T>(
+    url: string,
+    headers: {} = {},
+    proxy?: AxiosProxyConfig
+  ) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService
         .get<T>(url, {
-          headers
+          headers,
+          proxy
         })
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error.response.data)
+            this.logger.error(error)
             throw 'An error happened!'
           })
         )
