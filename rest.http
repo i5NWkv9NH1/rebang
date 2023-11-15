@@ -12,6 +12,13 @@ GET {{host}}/sites/ithome/latest
 ### zhihu
 GET {{host}}/sites/zhihu
 
+### zhihu daily
+GET {{host}}/sites/zhihu-daily/latest
+###
+GET {{host}}/sites/zhihu-daily/news/3977867
+###
+GET {{host}}/sites/zhihu-daily/date/20140618
+
 ### weibo
 GET {{host}}/sites/weibo/realtimehot
 ###
@@ -25,3 +32,47 @@ GET {{host}}/sites/hupu/sports
 GET {{host}}/sites/hupu/gambia
 ###
 GET {{host}}/sites/hupu/ent
+
+
+### bilibili
+###
+GET {{host}}/sites/bilibili/hot
+###
+GET {{host}}/sites/bilibili/week
+###
+GET {{host}}/sites/bilibili/rank
+
+### juejin
+GET {{host}}/sites/juejin/mix
+###
+GET {{host}}/sites/juejin/be
+###
+GET {{host}}/sites/juejin/fe
+###
+GET {{host}}/sites/juejin/android
+###
+GET {{host}}/sites/juejin/iOS
+###
+GET {{host}}/sites/juejin/ai
+###
+GET {{host}}/sites/juejin/develop
+###
+GET {{host}}/sites/juejin/code
+###
+GET {{host}}/sites/juejin/read
+
+### toutiao
+GET {{host}}/sites/toutiao/hot
+
+### baidu
+GET {{host}}/sites/baidu/hot
+### 
+GET {{host}}/sites/baidu/novel
+### 
+GET {{host}}/sites/baidu/movie
+### 
+GET {{host}}/sites/baidu/teleplay
+### 
+GET {{host}}/sites/baidu/car
+### 
+GET {{host}}/sites/baidu/game

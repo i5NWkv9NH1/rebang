@@ -1,9 +1,14 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common'
+import { Controller, Get, Param, Query, UseInterceptors } from '@nestjs/common'
 import { ITHomeService } from './ithome.service'
 import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager'
 import { ZhihuService } from './zhihu.service'
 import { WeiboService } from './weibo.service'
 import { HupuService } from './hupu.service'
+import { BiliBiliService } from './bilibili.service'
+import { JuejinService } from './juejin.service'
+import { ToutiaoService } from './toutiao.service'
+import { BaiduService } from './baidu.service'
+import { ZhihuDailyService } from './zhihu-daily.service'
 
 @Controller('sites')
 @UseInterceptors(CacheInterceptor)
@@ -12,7 +17,12 @@ export class SitesController {
     private readonly ithomeService: ITHomeService,
     private readonly zhihuService: ZhihuService,
     private readonly weiboService: WeiboService,
-    private readonly hupuService: HupuService
+    private readonly hupuService: HupuService,
+    private readonly bilibiliService: BiliBiliService,
+    private readonly juejinService: JuejinService,
+    private readonly toutiaoService: ToutiaoService,
+    private readonly baiduService: BaiduService,
+    private readonly zhihuDailyService: ZhihuDailyService
   ) {}
 
   // #region ithome
@@ -95,6 +105,112 @@ export class SitesController {
   @Get('hupu/digital')
   public async hupuDigital() {
     return await this.hupuService.digital()
+  }
+  //#endregion
+
+  //#region bilibili
+  // @Get('bilibili/rec')
+  // public async bilibiliRec() {
+  //   return await this.bilibiliService.rec()
+  // }
+  @Get('bilibili/hot')
+  public async bilibiliHot() {
+    return await this.bilibiliService.hot()
+  }
+  @Get('bilibili/week')
+  public async bilibiliWeek() {
+    return await this.bilibiliService.week()
+  }
+  @Get('bilibili/rank')
+  public async bilibiliRank() {
+    return await this.bilibiliService.rank()
+  }
+  //#endregion
+
+  //#region juejin
+  @Get('juejin/mix')
+  public async juejinMix() {
+    return await this.juejinService.mix()
+  }
+  @Get('juejin/be')
+  public async juejinBE() {
+    return await this.juejinService.be()
+  }
+  @Get('juejin/fe')
+  public async juejinFE() {
+    return await this.juejinService.fe()
+  }
+  @Get('juejin/android')
+  public async juejinAndroid() {
+    return await this.juejinService.android()
+  }
+  @Get('juejin/ios')
+  public async juejiniOS() {
+    return await this.juejinService.iOS()
+  }
+  @Get('juejin/ai')
+  public async juejinAI() {
+    return await this.juejinService.ai()
+  }
+  @Get('juejin/develop')
+  public async juejinDevelop() {
+    return await this.juejinService.develop()
+  }
+  @Get('juejin/code')
+  public async juejinCode() {
+    return await this.juejinService.code()
+  }
+  @Get('juejin/read')
+  public async juejinRead() {
+    return await this.juejinService.read()
+  }
+
+  //#region toutiao
+  @Get('toutiao/hot')
+  public async hot() {
+    return await this.toutiaoService.hot()
+  }
+  //#endregion
+
+  //#region baidu
+  @Get('baidu/hot')
+  public async baiduHot() {
+    return await this.baiduService.hot()
+  }
+  @Get('baidu/novel')
+  public async baiduNovel() {
+    return await this.baiduService.novel()
+  }
+  @Get('baidu/movie')
+  public async baiduMovie() {
+    return await this.baiduService.movie()
+  }
+  @Get('baidu/teleplay')
+  public async baiduTeleplay() {
+    return await this.baiduService.teleplay()
+  }
+  @Get('baidu/car')
+  public async baiduCard() {
+    return await this.baiduService.car()
+  }
+  @Get('baidu/game')
+  public async baiduGame() {
+    return await this.baiduService.game()
+  }
+  //#endregion
+
+  //#region zhihu daily
+  @Get('zhihu-daily/latest')
+  public async zhihuDailyLatest() {
+    return await this.zhihuDailyService.latest()
+  }
+  @Get('zhihu-daily/news/:id')
+  public async zhihuDailyFindContentById(@Param('id') id: string) {
+    return await this.zhihuDailyService.findContentById(id)
+  }
+  @Get('zhihu-daily/date/:date')
+  public async zhihuDailyFindByDate(@Param('date') date: string) {
+    return await this.zhihuDailyService.findByDate(date)
   }
   //#endregion
 }

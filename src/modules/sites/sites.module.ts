@@ -3,12 +3,16 @@ import { PlaywrightModule } from 'nestjs-playwright'
 import { ITHomeService } from './ithome.service'
 import { HttpModule } from '@nestjs/axios'
 import { SitesController } from './sites.controller'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { HttpConfig } from 'src/configuration'
 import { ZhihuService } from './zhihu.service'
 import { WeiboService } from './weibo.service'
 import { ScheduleModule } from '@nestjs/schedule'
 import { HupuService } from './hupu.service'
+import { BiliBiliService } from './bilibili.service'
+import { JuejinService } from './juejin.service'
+import { ToutiaoService } from './toutiao.service'
+import { BaiduService } from './baidu.service'
+import { ZhihuDailyService } from './zhihu-daily.service'
+import { KrService } from './kr.service'
 
 @Module({
   imports: [
@@ -27,7 +31,29 @@ import { HupuService } from './hupu.service'
     HttpModule
   ],
   controllers: [SitesController],
-  providers: [ZhihuService, ITHomeService, WeiboService, HupuService],
-  exports: [ZhihuService, ITHomeService, WeiboService, HupuService]
+  providers: [
+    BaiduService,
+    BiliBiliService,
+    HupuService,
+    ITHomeService,
+    JuejinService,
+    KrService,
+    ToutiaoService,
+    WeiboService,
+    ZhihuDailyService,
+    ZhihuService
+  ],
+  exports: [
+    BaiduService,
+    BiliBiliService,
+    HupuService,
+    ITHomeService,
+    JuejinService,
+    KrService,
+    ToutiaoService,
+    WeiboService,
+    ZhihuDailyService,
+    ZhihuService
+  ]
 })
 export class SitesModule {}

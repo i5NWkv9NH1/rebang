@@ -1,10 +1,6 @@
-import { HttpService } from '@nestjs/axios'
-import { Inject, Injectable, Logger } from '@nestjs/common'
-import { AxiosError } from 'axios'
-import * as cheerio from 'cheerio'
-import { InjectBrowser, getBrowserToken } from 'nestjs-playwright'
+import { Injectable, Logger } from '@nestjs/common'
+import { InjectBrowser } from 'nestjs-playwright'
 import { Browser, Page } from 'playwright'
-import { async, catchError, delay, firstValueFrom } from 'rxjs'
 import { genUserAgent } from 'src/helpers'
 
 interface Tag {
