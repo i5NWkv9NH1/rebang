@@ -13,6 +13,7 @@ import { ToutiaoService } from './toutiao.service'
 import { BaiduService } from './baidu.service'
 import { ZhihuDailyService } from './zhihu-daily.service'
 import { KrService } from './kr.service'
+import { HuxiuService } from './huxiu.service'
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { KrService } from './kr.service'
     ToutiaoService,
     WeiboService,
     ZhihuDailyService,
-    ZhihuService
+    ZhihuService,
+    HuxiuService
   ],
   exports: [
     BaiduService,
@@ -53,7 +55,8 @@ import { KrService } from './kr.service'
     ToutiaoService,
     WeiboService,
     ZhihuDailyService,
-    ZhihuService
+    ZhihuService,
+    HuxiuService
   ]
 })
 export class SitesModule {}

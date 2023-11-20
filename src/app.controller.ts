@@ -6,7 +6,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello() {
-    return { message: 'Hello, world' }
+  async start() {
+    await this.appService.set()
+    return await this.appService.get('key')
   }
 }

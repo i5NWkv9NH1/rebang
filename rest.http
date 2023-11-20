@@ -1,5 +1,9 @@
 @host = http://localhost:4002
 
+### test
+### redis
+GET {{host}}/api
+
 ### ithome
 GET {{host}}/sites/ithome/day
 ###
@@ -76,3 +80,6 @@ GET {{host}}/sites/baidu/teleplay
 GET {{host}}/sites/baidu/car
 ### 
 GET {{host}}/sites/baidu/game
+
+### huxiu
+POST  https://api-article.huxiu.com/web/article/articleList

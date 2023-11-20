@@ -382,7 +382,12 @@
           {
             title: '知乎日报',
             children: [
-              { path: '/zhihu-daily/latest', name: '最新', content: '' },
+              {
+                path: '/zhihu-daily/latest',
+                name: '最新',
+                content: '',
+                loading: false
+              },
               {
                 path: '/zhihu-daily/news/9767285',
                 name: '根据新闻id寻找详情 [id=9767285]',
@@ -392,6 +397,29 @@
               {
                 path: '/zhihu-daily/date/20231114',
                 name: '根据日期查找日报列表 [2023年11月14日]',
+                content: '',
+                loading: false
+              }
+            ]
+          },
+          {
+            title: '虎嗅',
+            children: [
+              {
+                path: '/huxiu/latest',
+                name: '最新',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/huxiu/hot',
+                name: '热文',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/huxiu/event',
+                name: '号外',
                 content: '',
                 loading: false
               }

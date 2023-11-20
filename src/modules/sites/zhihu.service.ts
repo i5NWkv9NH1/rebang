@@ -1,7 +1,9 @@
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
 import { AxiosError } from 'axios'
 import * as cheerio from 'cheerio'
+import { Redis } from 'ioredis'
 import { catchError, firstValueFrom } from 'rxjs'
 
 @Injectable()
@@ -18,9 +20,17 @@ export class ZhihuService {
 
   private readonly logger = new Logger(ZhihuService.name)
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    @InjectRedis() private readonly redis: Redis,
+    private readonly httpService: HttpService
+  ) {}
 
   public async start() {
+    const cache = JSON.parse(await this.redis.get('zhihu'))
+    if (cache) {
+      return cache
+    }
+
     const response = await this.getHtml(this.url)
     const $ = cheerio.load(response.data, { xmlMode: false })
     let data = []
@@ -42,6 +52,7 @@ export class ZhihuService {
         })
       }
     })
+    await this.redis.set('zhihu', JSON.stringify(data), 'EX', 3600)
 
     return data
   }

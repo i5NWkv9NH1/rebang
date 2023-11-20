@@ -9,6 +9,7 @@ import { JuejinService } from './juejin.service'
 import { ToutiaoService } from './toutiao.service'
 import { BaiduService } from './baidu.service'
 import { ZhihuDailyService } from './zhihu-daily.service'
+import { HuxiuService } from './huxiu.service'
 
 @Controller('sites')
 @UseInterceptors(CacheInterceptor)
@@ -22,7 +23,8 @@ export class SitesController {
     private readonly juejinService: JuejinService,
     private readonly toutiaoService: ToutiaoService,
     private readonly baiduService: BaiduService,
-    private readonly zhihuDailyService: ZhihuDailyService
+    private readonly zhihuDailyService: ZhihuDailyService,
+    private readonly huxiuService: HuxiuService
   ) {}
 
   // #region ithome
@@ -223,6 +225,21 @@ export class SitesController {
   @Get('zhihu-daily/date/:date')
   public async zhihuDailyFindByDate(@Param('date') date: string) {
     return await this.zhihuDailyService.findByDate(date)
+  }
+  //#endregion
+
+  //#region huxiu
+  @Get('huxiu/latest')
+  public async huxiuLatest() {
+    return await this.huxiuService.latest()
+  }
+  @Get('huxiu/hot')
+  public async huxiuHot() {
+    return await this.huxiuService.hot()
+  }
+  @Get('huxiu/event')
+  public async huxiuEvent() {
+    return await this.huxiuService.event()
   }
   //#endregion
 }

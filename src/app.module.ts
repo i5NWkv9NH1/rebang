@@ -9,9 +9,17 @@ import { CacheModule } from '@nestjs/cache-manager'
 import { TasksModule } from './modules/tasks/tasks.module'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
+import { RedisModule } from '@liaoliaots/nestjs-redis'
 
 @Module({
   imports: [
+    RedisModule.forRoot({
+      config: {
+        host: 'localhost',
+        port: 6379,
+        password: ''
+      }
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
       exclude: ['/api/(.*)', '/public/(.*)'],

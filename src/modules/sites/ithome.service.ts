@@ -7,6 +7,8 @@ import { catchError, firstValueFrom } from 'rxjs'
 import * as cheerio from 'cheerio'
 import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager'
 import { delay } from 'src/helpers'
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
+import { Redis } from 'ioredis'
 
 @Injectable()
 export class ITHomeService {
@@ -22,21 +24,21 @@ export class ITHomeService {
     @InjectBrowser() private readonly browser: Browser,
     @InjectPage() private readonly internalPage: Page,
     @InjectContext() private readonly internalContext: BrowserContext,
-    @Inject(CACHE_MANAGER) protected readonly cacheManager: CacheStore,
+    @InjectRedis() private readonly redis: Redis,
     private readonly httpService: HttpService
   ) {}
 
   async day() {
-    return await this.cacheManager.get('ithome/day')
+    return JSON.parse(await this.redis.get('ithome/day'))
   }
   async week() {
-    return await this.cacheManager.get('ithome/week')
+    return JSON.parse(await this.redis.get('ithome/week'))
   }
   async month() {
-    return await this.cacheManager.get('ithome/month')
+    return JSON.parse(await this.redis.get('ithome/month'))
   }
   async hot() {
-    return await this.cacheManager.get('ithome/hot')
+    return JSON.parse(await this.redis.get('ithome/hot'))
   }
 
   async start() {
@@ -58,19 +60,39 @@ export class ITHomeService {
           switch (index) {
             case 0:
               data.day = items
-              await this.cacheManager.set('ithome/day', items, 3600)
+              await this.redis.set(
+                'ithome/day',
+                JSON.stringify(items),
+                'EX',
+                3600
+              )
               break
             case 1:
               data.week = items
-              await this.cacheManager.set('ithome/week', items, 3600)
+              await this.redis.set(
+                'ithome/week',
+                JSON.stringify(items),
+                'EX',
+                3600
+              )
               break
             case 2:
               data.hot = items
-              await this.cacheManager.set('ithome/hot', items, 3600)
+              await this.redis.set(
+                'ithome/hot',
+                JSON.stringify(items),
+                'EX',
+                3600
+              )
               break
             case 3:
               data.month = items
-              await this.cacheManager.set('ithome/month', items, 3600)
+              await this.redis.set(
+                'ithome/month',
+                JSON.stringify(items),
+                'EX',
+                3600
+              )
               break
             default:
               break
@@ -80,7 +102,7 @@ export class ITHomeService {
         .toArray()
     )
 
-    await this.cacheManager.set('ithome', data, 3600)
+    await this.redis.set('ithome', JSON.stringify(data), 'EX', 3600)
 
     return data
   }
