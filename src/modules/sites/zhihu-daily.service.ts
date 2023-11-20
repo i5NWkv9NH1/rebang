@@ -10,11 +10,12 @@ import { genUserAgent } from 'src/helpers'
 @Injectable()
 export class ZhihuDailyService {
   private logger = new Logger(ZhihuDailyService.name)
-  private proxy = {
-    host: '117.160.250.131',
-    port: 8899,
-    protocol: 'http'
-  }
+  // private proxy = {
+  //   host: '117.160.250.131',
+  //   port: 8899,
+  //   protocol: 'http'
+  // }
+  private proxy: false = false
 
   constructor(private httpService: HttpService) {}
 
@@ -134,7 +135,7 @@ export class ZhihuDailyService {
     url: string,
     headers?: {},
     params?: {},
-    proxy?: AxiosProxyConfig
+    proxy?: false | AxiosProxyConfig
   ) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(

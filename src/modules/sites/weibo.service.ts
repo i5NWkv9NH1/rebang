@@ -86,7 +86,7 @@ export class WeiboService {
   }
   //? 文娱
   public async entrank() {
-    const response = await this.getHtml(`${this.url}=realtimehot`, {
+    const response = await this.getHtml(`${this.url}=entrank`, {
       'user-agent': ''
     })
     const $ = cheerio.load(response.data)
@@ -109,7 +109,10 @@ export class WeiboService {
           }
         })
         .toArray()
+        .filter((item) => item.title)
     )
+
+    return data
   }
 
   async getHtml(url: string, headers?: {}) {

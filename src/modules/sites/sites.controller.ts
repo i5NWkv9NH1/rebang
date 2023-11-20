@@ -35,6 +35,18 @@ export class SitesController {
   public async ithomeDay() {
     return await this.ithomeService.day()
   }
+  @Get('ithome/week')
+  public async ithomeWeek() {
+    return await this.ithomeService.week()
+  }
+  @Get('ithome/month')
+  public async ithomeMonth() {
+    return await this.ithomeService.month()
+  }
+  @Get('ithome/hot')
+  public async ithomeHot() {
+    return await this.ithomeService.hot()
+  }
   // #endregion
 
   // #region zhihu

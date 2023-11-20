@@ -51,32 +51,34 @@ export class ITHomeService {
       latest: {}
     }
 
-    $('.rank-box')
-      .map(async (index, rank) => {
-        const items = await this.crawler($, rank)
-        switch (index) {
-          case 0:
-            data.day = items
-            await this.cacheManager.set('ithome/day', items, 3600)
-            break
-          case 1:
-            data.week = items
-            await this.cacheManager.set('ithome/week', items, 3600)
-            break
-          case 2:
-            data.hot = items
-            await this.cacheManager.set('ithome/hot', items, 3600)
-            break
-          case 3:
-            data.month = items
-            await this.cacheManager.set('ithome/month', items, 3600)
-            break
-          default:
-            break
-        }
-        return items
-      })
-      .toArray()
+    await Promise.all(
+      $('.rank-box')
+        .map(async (index, rank) => {
+          const items = await this.crawler($, rank)
+          switch (index) {
+            case 0:
+              data.day = items
+              await this.cacheManager.set('ithome/day', items, 3600)
+              break
+            case 1:
+              data.week = items
+              await this.cacheManager.set('ithome/week', items, 3600)
+              break
+            case 2:
+              data.hot = items
+              await this.cacheManager.set('ithome/hot', items, 3600)
+              break
+            case 3:
+              data.month = items
+              await this.cacheManager.set('ithome/month', items, 3600)
+              break
+            default:
+              break
+          }
+          return items
+        })
+        .toArray()
+    )
 
     await this.cacheManager.set('ithome', data, 3600)
 
@@ -84,22 +86,24 @@ export class ITHomeService {
   }
 
   async crawler($: cheerio.CheerioAPI, el: cheerio.Element) {
-    const items = $(el)
-      .find('div a')
-      .map(async (index, a) => {
-        const url = $(a).attr('href')
-        const originUrl = this.transformPCUrl(url)
-        const title = $(a).find('.plc-title').text()
-        const thumbnail = $(a).find('.plc-image img').attr('src')
-        const time = $(a).find('.post-time').text()
-        const comments = $(a).find('.review-num').text()
-        this.logger.log(`Delay::3000`)
-        const response = await this.getHtml(url)
-        const $$ = cheerio.load(response.data)
-        const subtitle = $$('p').text()
-        return { url, originUrl, title, thumbnail, time, comments, subtitle }
-      })
-      .toArray()
+    const items = await Promise.all(
+      $(el)
+        .find('div a')
+        .map(async (index, a) => {
+          const url = $(a).attr('href')
+          const originUrl = this.transformPCUrl(url)
+          const title = $(a).find('.plc-title').text()
+          const thumbnail = $(a).find('.plc-image img').attr('src')
+          const time = $(a).find('.post-time').text()
+          const comments = $(a).find('.review-num').text()
+          this.logger.log(`Delay::3000`)
+          const response = await this.getHtml(url)
+          const $$ = cheerio.load(response.data)
+          const subtitle = $$('p').text()
+          return { url, originUrl, title, thumbnail, time, comments, subtitle }
+        })
+        .toArray()
+    )
     return items
   }
 

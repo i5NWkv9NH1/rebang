@@ -152,8 +152,9 @@
         }
 
         const alert = ref({
-          status: false,
-          message: ''
+          status: true,
+          message:
+            'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.'
         })
 
         const apis = ref([
@@ -257,7 +258,31 @@
           {
             title: 'IT之家',
             children: [
-              { path: '/ithome', name: '日榜', content: '', loading: false }
+              {
+                path: '/ithome',
+                name: '统一采集',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/ithome/day',
+                name: '日榜',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/ithome/week',
+                name: '周榜',
+                content: '',
+                loading: false
+              },
+              {
+                path: '/ithome/month',
+                name: '月榜',
+                content: '',
+                loading: false
+              },
+              { path: '/ithome/hot', name: '热榜', content: '', loading: false }
             ]
           },
           {
@@ -384,7 +409,7 @@
             const api = apis.value[siteIndex].children[apiIndex]
             api.loading = true
             const response = await (await fetch(url)).json()
-            await delay(2000)
+            // await delay(2000)
             api.content = JSON.parse(JSON.stringify(response).trim())
             api.loading = false
           } catch (error) {
@@ -394,9 +419,9 @@
           }
         }
 
-        onMounted(() => {
-          theme.global.name.value = 'dark'
-        })
+        // onMounted(() => {
+        //   theme.global.name.value = 'dark'
+        // })
 
         return {
           toggleTheme,
