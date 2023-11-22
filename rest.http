@@ -93,3 +93,6 @@ GET {{host}}/api/sites/pengpai/hot
 GET {{host}}/api/sites/pengpai/channels/25950
 ### 节点
 GET {{host}}/api/sites/pengpai/nodes/25462
+
+### 历史上的今天
+GET {{host}}/api/sites/history

@@ -1,6 +1,6 @@
 export * from './baidu.type'
 export * from './zhihu.type'
-
+export * from './toutiao.type'
 export type Tag = {
   path: string
   name: string

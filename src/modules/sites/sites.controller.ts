@@ -11,6 +11,7 @@ import { BaiduService } from './baidu.service'
 import { ZhihuDailyService } from './zhihu-daily.service'
 import { HuxiuService } from './huxiu.service'
 import { PengpaiService } from './pengpai.service'
+import { HistoryService } from './history.service'
 
 @Controller('sites')
 export class SitesController {
@@ -25,7 +26,8 @@ export class SitesController {
     private readonly baiduService: BaiduService,
     private readonly zhihuDailyService: ZhihuDailyService,
     private readonly huxiuService: HuxiuService,
-    private readonly pengpaiService: PengpaiService
+    private readonly pengpaiService: PengpaiService,
+    private readonly historyService: HistoryService
   ) {}
 
   // #region ithome
@@ -259,6 +261,13 @@ export class SitesController {
   public async node(@Param('id') id: string) {
     console.log('channel id:: ', id)
     return await this.pengpaiService.getByNodeIdPortal()
+  }
+  //#endregion
+
+  //#region 历史上的今天
+  @Get('history')
+  public async history() {
+    return await this.historyService.start()
   }
   //#endregion
 }

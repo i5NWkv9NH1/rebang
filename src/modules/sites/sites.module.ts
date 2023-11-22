@@ -16,6 +16,7 @@ import { KrService } from './kr.service'
 import { HuxiuService } from './huxiu.service'
 import { SharedModule } from 'src/shared/shared.module'
 import { PengpaiService } from './pengpai.service'
+import { HistoryService } from './history.service'
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { PengpaiService } from './pengpai.service'
     ZhihuDailyService,
     ZhihuService,
     HuxiuService,
-    PengpaiService
+    PengpaiService,
+    HistoryService
   ],
   exports: [
     BaiduService,
@@ -60,7 +62,8 @@ import { PengpaiService } from './pengpai.service'
     ZhihuDailyService,
     ZhihuService,
     HuxiuService,
-    PengpaiService
+    PengpaiService,
+    HistoryService
   ]
 })
 export class SitesModule {}

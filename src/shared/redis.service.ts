@@ -14,4 +14,8 @@ export class RedisService {
   public async set(key: string, data: Object) {
     await this.redis.set(key, JSON.stringify(data), 'EX', 3600)
   }
+
+  public async rm(key: string) {
+    return new Boolean(await this.redis.del(key))
+  }
 }
