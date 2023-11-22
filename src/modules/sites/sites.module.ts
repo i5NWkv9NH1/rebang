@@ -18,6 +18,7 @@ import { SharedModule } from 'src/shared/shared.module'
 import { PengpaiService } from './pengpai.service'
 import { HistoryService } from './history.service'
 import { PearvideoService } from './pearvideo.service'
+import { SogouService } from './sogou.service'
 
 @Module({
   imports: [
@@ -50,7 +51,8 @@ import { PearvideoService } from './pearvideo.service'
     HuxiuService,
     PengpaiService,
     HistoryService,
-    PearvideoService
+    PearvideoService,
+    SogouService
   ],
   exports: [
     BaiduService,
@@ -66,7 +68,8 @@ import { PearvideoService } from './pearvideo.service'
     HuxiuService,
     PengpaiService,
     HistoryService,
-    PearvideoService
+    PearvideoService,
+    SogouService
   ]
 })
 export class SitesModule {}

@@ -13,6 +13,7 @@ import { HuxiuService } from './huxiu.service'
 import { PengpaiService } from './pengpai.service'
 import { HistoryService } from './history.service'
 import { PearvideoService } from './pearvideo.service'
+import { SogouService } from './sogou.service'
 
 @Controller('sites')
 export class SitesController {
@@ -29,7 +30,8 @@ export class SitesController {
     private readonly huxiuService: HuxiuService,
     private readonly pengpaiService: PengpaiService,
     private readonly historyService: HistoryService,
-    private readonly pearvideoService: PearvideoService
+    private readonly pearvideoService: PearvideoService,
+    private readonly sogouService: SogouService
   ) {}
 
   // #region ithome
@@ -279,4 +281,10 @@ export class SitesController {
     return await this.pearvideoService.rank()
   }
   //#endregion
+
+  //#region 搜狗
+  @Get('sogou')
+  public async sogou() {
+    return await this.sogouService.start()
+  }
 }

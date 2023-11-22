@@ -101,3 +101,7 @@ GET {{host}}/api/sites/history
 ###
 GET {{host}}/api/sites/pearvideo/rank
 ###
+
+### 搜狗
+GET {{host}}/api/sites/sogou
+###
