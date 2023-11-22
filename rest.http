@@ -96,3 +96,8 @@ GET {{host}}/api/sites/pengpai/nodes/25462
 
 ### 历史上的今天
 GET {{host}}/api/sites/history
+
+### 梨视频 热榜
+###
+GET {{host}}/api/sites/pearvideo/rank
+###

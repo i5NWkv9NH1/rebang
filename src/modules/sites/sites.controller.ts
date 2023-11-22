@@ -12,6 +12,7 @@ import { ZhihuDailyService } from './zhihu-daily.service'
 import { HuxiuService } from './huxiu.service'
 import { PengpaiService } from './pengpai.service'
 import { HistoryService } from './history.service'
+import { PearvideoService } from './pearvideo.service'
 
 @Controller('sites')
 export class SitesController {
@@ -27,7 +28,8 @@ export class SitesController {
     private readonly zhihuDailyService: ZhihuDailyService,
     private readonly huxiuService: HuxiuService,
     private readonly pengpaiService: PengpaiService,
-    private readonly historyService: HistoryService
+    private readonly historyService: HistoryService,
+    private readonly pearvideoService: PearvideoService
   ) {}
 
   // #region ithome
@@ -268,6 +270,13 @@ export class SitesController {
   @Get('history')
   public async history() {
     return await this.historyService.start()
+  }
+  //#endregion
+
+  //#region  梨视频
+  @Get('pearvideo/rank')
+  public async pearvideoRank() {
+    return await this.pearvideoService.rank()
   }
   //#endregion
 }
