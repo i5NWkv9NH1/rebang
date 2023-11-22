@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { AxiosError, AxiosHeaders, AxiosRequestConfig } from 'axios'
 import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class WeiboService {
@@ -19,10 +20,16 @@ export class WeiboService {
   private readonly logger = new Logger(WeiboService.name)
   private tags: string[] = ['热搜', '文娱', '要闻']
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly redisService: RedisService,
+    private readonly httpService: HttpService
+  ) {}
 
-  //? 热搜
+  //#region  热搜
   public async realtimehot() {
+    const cache = await this.redisService.get('weibo/realtimehot')
+    if (cache) return cache
+
     const response = await this.getHtml(`${this.url}=realtimehot`)
     const $ = cheerio.load(response.data)
     const items = $('.list_a').find('li a')
@@ -54,10 +61,17 @@ export class WeiboService {
         })
         .toArray()
     )
+
+    await this.redisService.set('weibo/realtimehot', data)
     return data
   }
-  //? 要闻 新时代
+  //#endregion
+
+  //#region  要闻 新时代
   public async socialevent() {
+    const cache = await this.redisService.get('weibo/socialevent')
+    if (cache) return cache
+
     const response = await this.getHtml(`${this.url}=socialevent`)
     const $ = cheerio.load(response.data)
     const items = $('.list_b').find('li a')
@@ -82,10 +96,17 @@ export class WeiboService {
         })
         .toArray()
     )
+
+    await this.redisService.set('weibo/socialevent', data)
     return data
   }
-  //? 文娱
+  //#endregion
+
+  //#region 文娱
   public async entrank() {
+    const cache = await this.redisService.get('weibo/entrank')
+    if (cache) return cache
+
     const response = await this.getHtml(`${this.url}=entrank`, {
       'user-agent': ''
     })
@@ -112,31 +133,16 @@ export class WeiboService {
         .filter((item) => item.title)
     )
 
+    await this.redisService.set('weibo/entrank', data)
     return data
   }
+  //#endregion
 
-  async getHtml(url: string, headers?: {}) {
-    this.logger.log(`Http Request: ${url}`)
-    const response = await firstValueFrom(
-      this.httpService
-        .get<string>(url, {
-          headers: {
-            ...this.headers,
-            ...headers
-          }
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            this.logger.error(error.response.data)
-            throw 'An error happened!'
-          })
-        )
-    )
-    return response
-  }
-
-  //? 话题
+  //#region  话题
   public async topicband() {
+    const cache = await this.redisService.get('weibo/topicband')
+    if (cache) return cache
+
     const response = await this.getHtml(`${this.url}=topicband`)
     const $ = cheerio.load(response.data)
     const items = $('.list_b').find('li a')
@@ -161,36 +167,30 @@ export class WeiboService {
         })
         .toArray()
     )
+
+    await this.redisService.set('weibo/topicband', data)
     return data
   }
+  //#endregion
 
-  public async start() {
-    const url = 'https://passport.weibo.com/visitor/genvisitor'
-    const headers = {
-      'User-Agent':
-        '"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36")'
-    }
-
-    const body = {
-      cb: 'gen_callback',
-      fp: {
-        os: '1',
-        browser: 'Chrome95,0,4621,0',
-        fonts: 'undefined',
-        screenInfo: '1920*1080*24',
-        plugins:
-          'Portable Document Format::internal-pdf-viewer::Chromium PDF Plugin|::mhjfbmdgcfjbbpaeojofohoefgiehjai::Chromium PDF Viewer'
-      }
-    }
-    const cookieResponse = await firstValueFrom(
-      this.httpService.post<string>(url, body, { headers }).pipe(
-        catchError((error: AxiosError) => {
-          this.logger.error(error.response.data)
-          throw 'An error happened!'
+  public async getHtml(url: string, headers?: {}) {
+    this.logger.log(`Http Request: ${url}`)
+    const response = await firstValueFrom(
+      this.httpService
+        .get<string>(url, {
+          headers: {
+            ...this.headers,
+            ...headers
+          }
         })
-      )
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data)
+            throw 'An error happened!'
+          })
+        )
     )
-    console.log(cookieResponse)
+    return response
   }
 
   public transformUrl(url: string) {

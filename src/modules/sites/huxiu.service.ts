@@ -7,32 +7,23 @@ import { catchError, firstValueFrom } from 'rxjs'
 import { AxiosError, AxiosRequestConfig } from 'axios'
 import { genUserAgent } from 'src/helpers'
 import { stringify } from 'querystring'
-
-type HuxiuResponse = {
-  message: string
-  success: boolean
-  data: {
-    cur_page: number
-    dataList: any[]
-    is_have_next_page: boolean
-    last_dateline: number
-    pagesize: number
-    total: number
-    total_page: number
-  }
-}
+import { HuxiuLatestResponse } from 'src/types'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class HuxiuService {
   private logger = new Logger(HuxiuService.name)
 
   constructor(
-    @InjectBrowser() private readonly browser: Browser,
+    private readonly redisService: RedisService,
     private httpService: HttpService
   ) {}
 
   //#region 最新
   public async latest() {
+    const cache = await this.redisService.get('huxiu/latest')
+    if (cache) return cache
+
     const url = `https://api-article.huxiu.com/web/article/articleList`
     const userAgent = genUserAgent('desktop')
     const headers = {
@@ -49,9 +40,10 @@ export class HuxiuService {
       pagesize: pageSize
     }
 
-    const response = this.httpService.post<HuxiuResponse>(
+    const response = this.httpService.post<HuxiuLatestResponse>(
       url,
-      stringify(payload)
+      stringify(payload),
+      { headers }
     )
 
     this.logger.log(response)
@@ -71,10 +63,23 @@ export class HuxiuService {
   }
   //#endregion
 
-  public async http<T>(url: string, data: any, configs: AxiosRequestConfig) {
+  public async post<T>(url: string, data: any, config: AxiosRequestConfig) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
-      this.httpService.post<T>(url, data, configs).pipe(
+      this.httpService.post<T>(url, data, config).pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data)
+          throw 'An error happened!'
+        })
+      )
+    )
+    return response
+  }
+
+  public async get<T>(url: string, config: AxiosRequestConfig) {
+    this.logger.log(`Http Request: ${url}`)
+    const response = await firstValueFrom(
+      this.httpService.post<T>(url, config).pipe(
         catchError((error: AxiosError) => {
           this.logger.error(error.response.data)
           throw 'An error happened!'

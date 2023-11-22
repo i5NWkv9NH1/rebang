@@ -5,6 +5,7 @@ import { AxiosError } from 'axios'
 import * as cheerio from 'cheerio'
 import { Redis } from 'ioredis'
 import { catchError, firstValueFrom } from 'rxjs'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class ZhihuService {
@@ -21,12 +22,12 @@ export class ZhihuService {
   private readonly logger = new Logger(ZhihuService.name)
 
   constructor(
-    @InjectRedis() private readonly redis: Redis,
+    private readonly redisService: RedisService,
     private readonly httpService: HttpService
   ) {}
 
   public async start() {
-    const cache = JSON.parse(await this.redis.get('zhihu'))
+    const cache = await this.redisService.get('zhihu')
     if (cache) {
       return cache
     }
@@ -52,8 +53,8 @@ export class ZhihuService {
         })
       }
     })
-    await this.redis.set('zhihu', JSON.stringify(data), 'EX', 3600)
 
+    await this.redisService.set('zhihu', data)
     return data
   }
 

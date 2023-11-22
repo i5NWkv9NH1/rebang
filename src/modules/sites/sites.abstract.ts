@@ -15,7 +15,7 @@ export abstract class SiteProvider {
     private httpService: HttpService
   ) {}
 
-  public async http<T>(url: string, headers: {} = {}, params = {}) {
+  public async get<T>(url: string, headers: {} = {}, params = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService

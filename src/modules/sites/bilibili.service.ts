@@ -1,64 +1,41 @@
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
-import { AxiosError, AxiosProxyConfig } from 'axios'
+import { AxiosError, AxiosProxyConfig, AxiosRequestConfig } from 'axios'
 import * as cheerio from 'cheerio'
-import { InjectBrowser } from 'nestjs-playwright'
-import { Browser } from 'playwright'
+import { Redis } from 'ioredis'
 import { catchError, firstValueFrom } from 'rxjs'
 import { genUserAgent } from 'src/helpers'
-
-interface Tag {
-  path: string
-  name: string
-}
+import { RedisService } from 'src/shared/redis.service'
+import {
+  BiliBiliRankResponse,
+  BilibiliHotResponse,
+  BilibiliWeekResponse
+} from 'src/types'
 
 @Injectable()
 export class BiliBiliService {
   private logger = new Logger(BiliBiliService.name)
-  private tags: Tag[] = [
-    { path: '/hot', name: '热门' },
-    { path: '/每周必看', name: '步行街' },
-    { path: '/ent', name: '影视娱乐' }
-  ]
 
-  private headers = {}
+  //TODO
+  private headers: AxiosRequestConfig['headers'] = {}
+  private proxy: AxiosRequestConfig['proxy'] = false
 
   constructor(
-    @InjectBrowser() private readonly browser: Browser,
+    private readonly redisService: RedisService,
     private httpService: HttpService
   ) {}
 
   //#region 热门
   //? 各个领域中新奇好玩的优质内容都在这里~
   public async hot(pageNumber: number = 1, pageSize: number = 100) {
+    const cache = await this.redisService.get('bilibili/hot')
+    if (cache) return cache
+
     const url = `https://api.bilibili.com/x/web-interface/wx/hot?pn=${pageNumber}&ps=${pageSize}&teenage_mode=0`
     const userAgent = genUserAgent('mobile')
-    const proxy = {
-      host: '117.160.250.131',
-      port: 8899,
-      protocol: 'http'
-    }
-    interface ResponseData {
-      code: number
-      data: any[]
-      message: string
-      page: {
-        // total
-        count: number
-        // pageNumber
-        pn: number
-        // pageSize
-        ps: number
-      }
-    }
-    const response = await this.http<ResponseData>(
-      url,
-      {
-        ...this.headers,
-        'user-agent': userAgent
-      },
-      proxy
-    )
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<BilibiliHotResponse>(url, headers)
 
     const meta = {
       totalSize: response.data.page.count,
@@ -90,6 +67,7 @@ export class BiliBiliService {
         stat
       }
     })
+    await this.redisService.set('bilibili/hot', { reminder, meta, data })
     return {
       reminder,
       meta,
@@ -101,12 +79,14 @@ export class BiliBiliService {
   //#region 每周必看
   //? 每周五晚 18:00 更新
   public async week() {
+    const cache = await this.redisService.get('bilibili/week')
+    if (cache) return cache
+
     const url =
       'https://api.bilibili.com/x/web-interface/popular/series/one?number=242'
-
-    const response = await this.http<{
-      data: { reminder: string; list: any[] }
-    }>(url)
+    const userAgent = genUserAgent('mobile')
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<BilibiliWeekResponse>(url, headers)
     const data = response.data.data.list.map((item) => {
       const title = item.title
       const thumbnail = item.pic
@@ -132,6 +112,7 @@ export class BiliBiliService {
       }
     })
     const reminder = response.data.data.reminder
+    await this.redisService.set('bilibili/hot', { reminder, data })
     return {
       reminder,
       data
@@ -142,11 +123,14 @@ export class BiliBiliService {
   //#region 排行榜
   //? 排行榜根据稿件内容质量，近期的数据综合展示，动态更新
   public async rank() {
+    const cache = await this.redisService.get('bilibili/rank')
+    if (cache) return cache
+
     const url =
       'https://api.bilibili.com/x/web-interface/ranking/v2?rid=0&type=all'
-    const response = await this.http<{ data: { note: string; list: any[] } }>(
-      url
-    )
+    const userAgent = genUserAgent('mobile')
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<BiliBiliRankResponse>(url, headers)
 
     const reminder = response.data.data.note
     const data = response.data.data.list.map((item) => {
@@ -174,6 +158,8 @@ export class BiliBiliService {
       }
     })
 
+    await this.redisService.set('bilibili/rank', { reminder, data })
+
     return {
       reminder,
       data
@@ -181,17 +167,12 @@ export class BiliBiliService {
   }
   //#endregion
 
-  public async http<T>(
-    url: string,
-    headers: {} = {},
-    proxy?: AxiosProxyConfig
-  ) {
+  public async get<T>(url: string, headers: {} = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService
         .get<T>(url, {
-          headers,
-          proxy
+          headers
         })
         .pipe(
           catchError((error: AxiosError) => {

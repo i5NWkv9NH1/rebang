@@ -4,92 +4,115 @@ import { InjectBrowser } from 'nestjs-playwright'
 import { Browser } from 'playwright'
 import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosRequestConfig } from 'axios'
 import { genUserAgent } from 'src/helpers'
-
-interface Tag {
-  path: string
-  name: string
-}
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
+import { Redis } from 'ioredis'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class BaiduService {
   private logger = new Logger(BaiduService.name)
-  private tags: Tag[] = [
-    { path: '/hot', name: '热搜' },
-    { path: '/novel', name: '小说' },
-    { path: '/movie', name: '电影' },
-    { path: '/teleplay', name: '电视剧' },
-    { path: '/car', name: '汽车' },
-    { path: '/game', name: '游戏' }
-  ]
 
-  constructor(private httpService: HttpService) {}
+  //TODO
+  private headers: AxiosRequestConfig['headers'] = {}
+  private proxy: AxiosRequestConfig['proxy'] = false
 
+  constructor(
+    private readonly redisService: RedisService,
+    private httpService: HttpService
+  ) {}
+
+  //#region 热搜
   public async hot() {
+    const cache = await this.redisService.get('baidu/hot')
+    if (cache) return cache
+
     const url = `https://top.baidu.com/board?tab=realtime`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<string>(url, { 'user-agent': userAgent })
-    return await this.crawler(response.data)
-    // const $ = cheerio.load(response.data)
-    // const listEl = $('.category-wrap_iQLoo')
-    // const data = listEl
-    //   .map((index, item) => {
-    //     const title = $(item).find('.content_1YWBm a div').text()
-    //     const subtitle = $(item)
-    //       .find('.content_1YWBm .hot-desc_1m_jR')
-    //       .text()
-    //       .trim()
-    //       .replace(/\>/, '')
-    //       .replace('查看更多', '')
-    //     const metric = $(item)
-    //       .find('.trend_2RttY .hot-index_1Bl1a')
-    //       .text()
-    //       .trim()
-    //     const url = $(item).find('a').attr('href')
-    //     //? 有两个img，第一个img为图标
-    //     const thumbnail = $(item).find('a img').last().attr('src')
-    //     return { url, title, subtitle, metric, thumbnail }
-    //   })
-    //   .toArray()
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<string>(url, headers)
+    const data = await this.crawler(response.data)
 
-    // return data
+    await this.redisService.set('baidu/hot', data)
+    return data
   }
+  //#endregion
 
+  //#region 小说
   public async novel() {
+    const cache = await this.redisService.get('baidu/novel')
+    if (cache) return cache
     const url = `https://top.baidu.com/board?tab=novel`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<string>(url, { 'user-agent': userAgent })
-    return await this.crawler(response.data)
-  }
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<string>(url, headers)
+    const data = await this.crawler(response.data)
 
+    await this.redisService.set('baidu/novel', data)
+    return data
+  }
+  //#endregion
+
+  //#region 电影
   public async movie() {
+    const cache = await this.redisService.get('baidu/movie')
+    if (cache) return cache
     const url = `https://top.baidu.com/board?tab=movie`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<string>(url, { 'user-agent': userAgent })
-    return await this.crawler(response.data)
-  }
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<string>(url, headers)
+    const data = await this.crawler(response.data)
 
+    await this.redisService.set('baidu/movie', data)
+    return data
+  }
+  //#endregion
+
+  //#region 电视剧
   public async teleplay() {
+    const cache = await this.redisService.get('baidu/teleplay')
+    if (cache) return cache
     const url = `https://top.baidu.com/board?tab=teleplay`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<string>(url, { 'user-agent': userAgent })
-    return await this.crawler(response.data)
-  }
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<string>(url, headers)
+    const data = await this.crawler(response.data)
 
+    await this.redisService.set('baidu/teleplay', data)
+    return data
+  }
+  //#endregion
+
+  //#region 汽车
   public async car() {
+    const cache = await this.redisService.get('baidu/car')
+    if (cache) return cache
     const url = `https://top.baidu.com/board?tab=car`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<string>(url, { 'user-agent': userAgent })
-    return await this.crawler(response.data)
-  }
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<string>(url, headers)
+    const data = await this.crawler(response.data)
 
+    await this.redisService.set('baidu/car', data)
+    return data
+  }
+  //#endregion
+
+  //#region 游戏
   public async game() {
+    const cache = await this.redisService.get('baidu/game')
+    if (cache) return cache
     const url = `https://top.baidu.com/board?tab=game`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<string>(url, { 'user-agent': userAgent })
-    return await this.crawler(response.data)
+    const headers = { 'user-agent': userAgent }
+    const response = await this.get<string>(url, headers)
+    const data = await this.crawler(response.data)
+
+    await this.redisService.set('baidu/game', data)
+    return data
   }
+  //#endregion
 
   //#region 爬虫逻辑
   public async crawler(data: string) {
@@ -146,13 +169,12 @@ export class BaiduService {
   }
   //#endregion
 
-  public async http<T>(url: string, headers: {} = {}, params = {}) {
+  public async get<T>(url: string, headers: {} = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService
         .get<T>(url, {
-          headers,
-          params
+          headers
         })
         .pipe(
           catchError((error: AxiosError) => {

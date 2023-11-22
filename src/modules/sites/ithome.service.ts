@@ -9,6 +9,7 @@ import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager'
 import { delay } from 'src/helpers'
 import { InjectRedis } from '@liaoliaots/nestjs-redis'
 import { Redis } from 'ioredis'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class ITHomeService {
@@ -24,24 +25,27 @@ export class ITHomeService {
     @InjectBrowser() private readonly browser: Browser,
     @InjectPage() private readonly internalPage: Page,
     @InjectContext() private readonly internalContext: BrowserContext,
-    @InjectRedis() private readonly redis: Redis,
+    private readonly redisService: RedisService,
     private readonly httpService: HttpService
   ) {}
 
   async day() {
-    return JSON.parse(await this.redis.get('ithome/day'))
+    return await this.redisService.get('ithome/day')
   }
   async week() {
-    return JSON.parse(await this.redis.get('ithome/week'))
+    return await this.redisService.get('ithome/week')
   }
   async month() {
-    return JSON.parse(await this.redis.get('ithome/month'))
+    return await this.redisService.get('ithome/month')
   }
   async hot() {
-    return JSON.parse(await this.redis.get('ithome/hot'))
+    return await this.redisService.get('ithome/hot')
   }
 
   async start() {
+    const cache = await this.redisService.get('ithome')
+    if (cache) return cache
+
     const response = await this.getHtml(this.url)
     const $ = cheerio.load(response.data)
 
@@ -60,39 +64,19 @@ export class ITHomeService {
           switch (index) {
             case 0:
               data.day = items
-              await this.redis.set(
-                'ithome/day',
-                JSON.stringify(items),
-                'EX',
-                3600
-              )
+              await this.redisService.set('ithome/day', items)
               break
             case 1:
               data.week = items
-              await this.redis.set(
-                'ithome/week',
-                JSON.stringify(items),
-                'EX',
-                3600
-              )
+              await this.redisService.set('ithome/week', items)
               break
             case 2:
               data.hot = items
-              await this.redis.set(
-                'ithome/hot',
-                JSON.stringify(items),
-                'EX',
-                3600
-              )
+              await this.redisService.set('ithome/hot', items)
               break
             case 3:
               data.month = items
-              await this.redis.set(
-                'ithome/month',
-                JSON.stringify(items),
-                'EX',
-                3600
-              )
+              await this.redisService.set('ithome/month', items)
               break
             default:
               break
@@ -102,7 +86,7 @@ export class ITHomeService {
         .toArray()
     )
 
-    await this.redis.set('ithome', JSON.stringify(data), 'EX', 3600)
+    await this.redisService.set('ithome', data)
 
     return data
   }
@@ -118,11 +102,12 @@ export class ITHomeService {
           const thumbnail = $(a).find('.plc-image img').attr('src')
           const time = $(a).find('.post-time').text()
           const comments = $(a).find('.review-num').text()
-          this.logger.log(`Delay::3000`)
-          const response = await this.getHtml(url)
-          const $$ = cheerio.load(response.data)
-          const subtitle = $$('p').text()
-          return { url, originUrl, title, thumbnail, time, comments, subtitle }
+          //TODO: add subpage title get
+          // const response = await this.getHtml(url)
+          // const $$ = cheerio.load(response.data)
+          // const subtitle = $$('p').text()
+          // return { url, originUrl, title, thumbnail, time, comments, subtitle }
+          return { url, originUrl, title, thumbnail, time, comments }
         })
         .toArray()
     )

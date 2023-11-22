@@ -12,7 +12,6 @@ import { ZhihuDailyService } from './zhihu-daily.service'
 import { HuxiuService } from './huxiu.service'
 
 @Controller('sites')
-@UseInterceptors(CacheInterceptor)
 export class SitesController {
   constructor(
     private readonly ithomeService: ITHomeService,
@@ -59,10 +58,6 @@ export class SitesController {
   // #endregion
 
   //#region weibo
-  @Get('weibo')
-  public async start() {
-    return await this.weiboService.start()
-  }
   @Get('weibo/realtimehot')
   public async weiboRealtimehot() {
     return await this.weiboService.realtimehot()

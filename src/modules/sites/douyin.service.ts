@@ -1,16 +1,20 @@
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
+import { AxiosRequestConfig } from 'axios'
+import { Redis } from 'ioredis'
 import { InjectBrowser } from 'nestjs-playwright'
 import { Browser } from 'playwright'
-
-interface Tag {
-  path: string
-  name: string
-}
+import { RedisService } from 'src/shared/redis.service'
+import { Tag } from 'src/types'
 
 @Injectable()
 export abstract class DouyinService {
   private logger = new Logger(DouyinService.name)
+
+  //TODO
+  private headers: AxiosRequestConfig['headers'] = {}
+  private proxy: AxiosRequestConfig['proxy'] = false
   private tags: Tag[] = [
     { path: '/hot', name: '热门视频榜' },
     { path: '/hot', name: '热搜榜' },
@@ -27,9 +31,8 @@ export abstract class DouyinService {
   ]
 
   constructor(
+    private readonly redisService: RedisService,
     @InjectBrowser() private readonly browser: Browser,
     private httpService: HttpService
   ) {}
-
-  public async hot() {}
 }

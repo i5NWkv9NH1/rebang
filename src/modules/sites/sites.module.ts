@@ -14,6 +14,7 @@ import { BaiduService } from './baidu.service'
 import { ZhihuDailyService } from './zhihu-daily.service'
 import { KrService } from './kr.service'
 import { HuxiuService } from './huxiu.service'
+import { SharedModule } from 'src/shared/shared.module'
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { HuxiuService } from './huxiu.service'
       //? optional, can be useful for using Chrome and Firefox in the same project
       // 'TopHub'
     ),
-    ScheduleModule.forRoot(),
+    SharedModule,
     HttpModule
   ],
   controllers: [SitesController],

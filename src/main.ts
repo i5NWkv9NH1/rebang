@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
-import { HttpConfig, IConfigs } from './configuration'
+import { HttpConfig, IConfigs } from './shared/configuration'
 import {
   NestFastifyApplication,
   FastifyAdapter
@@ -30,6 +30,6 @@ async function bootstrap() {
   //   templates: join(__dirname, '..', 'views')
   // })
 
-  await app.listen(4002)
+  await app.listen(4002, '0.0.0.0')
 }
 bootstrap()

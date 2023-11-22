@@ -5,6 +5,7 @@ import { Browser } from 'playwright'
 import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
 import { AxiosError } from 'axios'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class KrService {
@@ -20,7 +21,7 @@ export class KrService {
   ]
 
   constructor(
-    @InjectBrowser() private readonly browser: Browser,
+    private readonly redisService: RedisService,
     private httpService: HttpService
   ) {}
 
@@ -38,7 +39,7 @@ export class KrService {
   //#region 一整天快讯
   public async today() {}
 
-  public async http<T>(url: string, headers: {} = {}, params = {}) {
+  public async get<T>(url: string, headers: {} = {}, params = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService

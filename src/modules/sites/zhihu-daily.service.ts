@@ -6,52 +6,39 @@ import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
 import { AxiosError, AxiosProxyConfig } from 'axios'
 import { genUserAgent } from 'src/helpers'
+import { RedisService } from 'src/shared/redis.service'
+import { ZhihuDailyContentResponse, ZhihuDailyLatestResponse } from 'src/types'
 
 @Injectable()
 export class ZhihuDailyService {
   private logger = new Logger(ZhihuDailyService.name)
-  // private proxy = {
-  //   host: '117.160.250.131',
-  //   port: 8899,
-  //   protocol: 'http'
-  // }
-  private proxy: false = false
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private readonly redisService: RedisService,
+    private httpService: HttpService
+  ) {}
 
   public async latest() {
+    const cache = await this.redisService.get('zhihu-daily/latest')
+    if (cache) return cache
+
     const url = `https://news-at.zhihu.com/api/4/news/latest`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<{ date: string; stories: any[] }>(
-      url,
-      {
-        'user-agent': userAgent
-      },
-      {},
-      this.proxy
-    )
-    return this.transformFields(response.data.stories)
+    const response = await this.get<ZhihuDailyLatestResponse>(url, {
+      'user-agent': userAgent
+    })
+    const data = this.transformFields(response.data.stories)
+
+    await this.redisService.set('zhihu-daily/latest', data)
+    return data
   }
 
   public async findContentById(newsId: string) {
     const url = `https://news-at.zhihu.com/api/5/news/${newsId}`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<{
-      id: number
-      body: string
-      title: string
-      url: string
-      image: string
-      //? 新闻详情带有大图和小图
-      images: string[]
-    }>(
-      url,
-      {
-        'user-agent': userAgent
-      },
-      {},
-      this.proxy
-    )
+    const response = await this.get<ZhihuDailyContentResponse>(url, {
+      'user-agent': userAgent
+    })
     const thumbnail = response.data.image
     const id = response.data.id
     const $ = cheerio.load(response.data.body)
@@ -85,15 +72,11 @@ export class ZhihuDailyService {
   public async findByDate(date: string) {
     const url = `https://news-at.zhihu.com/api/4/news/before/${date}`
     const userAgent = genUserAgent('desktop')
-    const response = await this.http<{ date: string; stories: any[] }>(
-      url,
-      {
-        'user-agent': userAgent
-      },
-      {},
-      this.proxy
-    )
-    return this.transformFields(response.data.stories)
+    const response = await this.get<ZhihuDailyLatestResponse>(url, {
+      'user-agent': userAgent
+    })
+    const data = this.transformFields(response.data.stories)
+    return data
   }
 
   /**
@@ -131,19 +114,12 @@ export class ZhihuDailyService {
     })
   }
 
-  public async http<T>(
-    url: string,
-    headers?: {},
-    params?: {},
-    proxy?: false | AxiosProxyConfig
-  ) {
+  public async get<T>(url: string, headers: {} = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService
         .get<T>(url, {
-          headers,
-          params,
-          proxy
+          headers
         })
         .pipe(
           catchError((error: AxiosError) => {
