@@ -1,14 +1,10 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
-import { InjectBrowser } from 'nestjs-playwright'
-import { Browser } from 'playwright'
-import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
 import { AxiosError, AxiosRequestConfig } from 'axios'
 import { genUserAgent } from 'src/helpers'
-import { InjectRedis } from '@liaoliaots/nestjs-redis'
-import { Redis } from 'ioredis'
 import { RedisService } from 'src/shared/redis.service'
+import * as cheerio from 'cheerio'
 
 @Injectable()
 export class BaiduService {

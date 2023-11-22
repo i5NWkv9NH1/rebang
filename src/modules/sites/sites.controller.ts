@@ -10,6 +10,7 @@ import { ToutiaoService } from './toutiao.service'
 import { BaiduService } from './baidu.service'
 import { ZhihuDailyService } from './zhihu-daily.service'
 import { HuxiuService } from './huxiu.service'
+import { PengpaiService } from './pengpai.service'
 
 @Controller('sites')
 export class SitesController {
@@ -23,7 +24,8 @@ export class SitesController {
     private readonly toutiaoService: ToutiaoService,
     private readonly baiduService: BaiduService,
     private readonly zhihuDailyService: ZhihuDailyService,
-    private readonly huxiuService: HuxiuService
+    private readonly huxiuService: HuxiuService,
+    private readonly pengpaiService: PengpaiService
   ) {}
 
   // #region ithome
@@ -235,6 +237,28 @@ export class SitesController {
   @Get('huxiu/event')
   public async huxiuEvent() {
     return await this.huxiuService.event()
+  }
+  //#endregion
+
+  //TODO: 分页
+  //TODO: 增加频道和节点
+  //#region 澎湃
+  //? 热榜
+  @Get('pengpai/hot')
+  public async pengpaiHot() {
+    return await this.pengpaiService.hot()
+  }
+  //? 频道
+  @Get('pengpai/channels/:id')
+  public async channel(@Param('id') id: string) {
+    console.log('channel id:: ', id)
+    return await this.pengpaiService.getByChannelId()
+  }
+  //? 节点
+  @Get('pengpai/nodes/:id')
+  public async node(@Param('id') id: string) {
+    console.log('channel id:: ', id)
+    return await this.pengpaiService.getByNodeIdPortal()
   }
   //#endregion
 }

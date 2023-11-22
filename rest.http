@@ -85,3 +85,11 @@ GET {{host}}/api/sites/baidu/game
 
 ### huxiu
 POST  https://api-article.huxiu.com/web/article/articleList
+
+### pengpai
+### 热榜
+GET {{host}}/api/sites/pengpai/hot
+### 频道
+GET {{host}}/api/sites/pengpai/channels/25950
+### 节点
+GET {{host}}/api/sites/pengpai/nodes/25462
