@@ -36,7 +36,7 @@ export class WeiboService {
     const data = await Promise.all(
       items
         .map(async (_, item) => {
-          const url = $(item).attr('href')
+          const url = 'https://s.weibo.com' + $(item).attr('href')
           if (!url.includes('?q')) return
           const sort = $(item).find('.hot').text()
 
@@ -48,6 +48,7 @@ export class WeiboService {
               return this.type === 'text'
             })
             .text()
+            .trim()
 
           const metric = $(item).find('span em').text()
           const tag = $(item).find('i').attr('class')
@@ -79,7 +80,7 @@ export class WeiboService {
       items
         .map(async (_, item) => {
           const thumbnail = $(item).find('div img').attr('src')
-          const url = $(item).attr('href')
+          const url = 'https://s.weibo.com' + $(item).attr('href')
           const body = $(item).find('article')
           const title = $(body).find('h2').text().replace('#', '')
           const subtitle = $(body).find('p').text()

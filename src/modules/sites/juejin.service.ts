@@ -4,6 +4,7 @@ import { AxiosError } from 'axios'
 import { InjectBrowser } from 'nestjs-playwright'
 import { Browser } from 'playwright'
 import { catchError, firstValueFrom } from 'rxjs'
+import { isEmpty } from 'src/helpers'
 import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
@@ -18,13 +19,14 @@ export class JuejinService {
   //#region 综合
   public async mix() {
     const cache = await this.redisService.get('juejin/mix')
-    if (cache) return cache
+    if (cache && !isEmpty(cache)) return cache
 
     const url =
       'https://api.juejin.cn/content_api/v1/content/article_rank?category_id=1&type=hot&aid=2608&uuid=7301602800306226727&spider=0'
 
     const response = await this.get(url)
     const data = this.transformFields(response.data)
+
     await this.redisService.set('juejin/mix', data)
 
     return data
@@ -157,7 +159,7 @@ export class JuejinService {
 
   //* data is response.body
   //* it include data content
-  public async transformFields(data: any) {
+  public transformFields(data: any) {
     return data.data.map((item) => {
       const title = item.content.title
       const metrics = item.content_counter

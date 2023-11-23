@@ -5,6 +5,7 @@ import { Browser } from 'playwright'
 import * as cheerio from 'cheerio'
 import { catchError, firstValueFrom } from 'rxjs'
 import { AxiosError } from 'axios'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export abstract class SiteProvider {
@@ -12,6 +13,7 @@ export abstract class SiteProvider {
 
   constructor(
     @InjectBrowser() private readonly browser: Browser,
+    private readonly redisService: RedisService,
     private httpService: HttpService
   ) {}
 

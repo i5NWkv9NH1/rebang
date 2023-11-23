@@ -14,6 +14,11 @@ import { PengpaiService } from './pengpai.service'
 import { HistoryService } from './history.service'
 import { PearvideoService } from './pearvideo.service'
 import { SogouService } from './sogou.service'
+import { _360Service } from './_360.service'
+import { _36KService } from './_36k.service'
+import { SspService } from './ssp.service'
+import { AcfunService } from './acfun.service'
+import { ShadiaoNewsService } from './shadiaonews.service'
 
 @Controller('sites')
 export class SitesController {
@@ -31,7 +36,12 @@ export class SitesController {
     private readonly pengpaiService: PengpaiService,
     private readonly historyService: HistoryService,
     private readonly pearvideoService: PearvideoService,
-    private readonly sogouService: SogouService
+    private readonly sogouService: SogouService,
+    private readonly _360service: _360Service,
+    private readonly _36kservice: _36KService,
+    private readonly sspService: SspService,
+    private readonly acfunService: AcfunService,
+    private readonly shadiaoNewsService: ShadiaoNewsService
   ) {}
 
   // #region ithome
@@ -59,9 +69,9 @@ export class SitesController {
   // #endregion
 
   // #region zhihu
-  @Get('zhihu')
+  @Get('zhihu/rank')
   public async zhihu() {
-    return await this.zhihuService.start()
+    return await this.zhihuService.rank()
   }
   // #endregion
 
@@ -287,4 +297,72 @@ export class SitesController {
   public async sogou() {
     return await this.sogouService.start()
   }
+  //#endregion
+
+  //#region 360
+  @Get('360/rank')
+  public async _360Rank() {
+    return await this._360service.rank()
+  }
+  //#endregion
+
+  //#region 36k
+  @Get('36k/latest')
+  public async _36kLatest() {
+    return await this._36kservice.latest()
+  }
+  @Get('36k/today')
+  public async _36kToday() {
+    return await this._36kservice.today()
+  }
+  @Get('36k/rank/hot')
+  public async _36kRankHot() {
+    return await this._36kservice.rankHot()
+  }
+  @Get('36k/rank/video')
+  public async _36kRankVideo() {
+    return await this._36kservice.rankVideo()
+  }
+  @Get('36k/rank/comment')
+  public async _36kRankComment() {
+    return await this._36kservice.rankComment()
+  }
+  @Get('36k/rank/collect')
+  public async _36kRankCollect() {
+    return await this._36kservice.rankCollect()
+  }
+  //#endregion
+
+  //#region ssp
+  @Get('ssp/hot')
+  public async sspHot() {
+    return await this.sspService.hot()
+  }
+  @Get('ssp/rec')
+  public async sspRec() {
+    return await this.sspService.rec()
+  }
+  //#endregion
+
+  //#region acfun
+  @Get('acfun/today')
+  public async acfunRankToday() {
+    return await this.acfunService.rankToday()
+  }
+  @Get('acfun/threedays')
+  public async acfunRankThreeDays() {
+    return await this.acfunService.rankThreeDays()
+  }
+  @Get('acfun/week')
+  public async acfunRankWeek() {
+    return await this.acfunService.rankWeek()
+  }
+  //#endregion
+
+  //#region 沙雕新闻
+  @Get('shadiaonews')
+  public async shadiaoNews() {
+    return await this.shadiaoNewsService.start()
+  }
+  //#endregion
 }

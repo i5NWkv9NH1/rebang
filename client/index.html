@@ -376,7 +376,7 @@
           {
             title: '知乎',
             children: [
-              { path: '/zhihu', name: '热搜', content: '', loading: false }
+              { path: '/zhihu/rank', name: '热搜', content: '', loading: false }
             ]
           },
           {
@@ -432,7 +432,7 @@
         }
 
         async function fetchAPI(path, siteIndex, apiIndex) {
-          const url = `http://localhost:4002/api/sites${path}`
+          const url = `http://192.168.3.30:4002/api/sites${path}`
           try {
             const api = apis.value[siteIndex].children[apiIndex]
             api.loading = true

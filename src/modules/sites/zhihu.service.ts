@@ -26,8 +26,8 @@ export class ZhihuService {
     private readonly httpService: HttpService
   ) {}
 
-  public async start() {
-    const cache = await this.redisService.get('zhihu')
+  public async rank() {
+    const cache = await this.redisService.get('zhihu/rank')
     if (cache) {
       return cache
     }
@@ -54,7 +54,7 @@ export class ZhihuService {
       }
     })
 
-    await this.redisService.set('zhihu', data)
+    await this.redisService.set('zhihu/rank', data)
     return data
   }
 

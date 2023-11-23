@@ -32,7 +32,7 @@ export class HistoryService {
         const metrics = $(el).find('dt').text().split(' ')
         const title = metrics[metrics.length - 1]
         const thumbnail = $(el).find('img').attr('data-src')
-        const subtitle = $(el).find('dd').find('.desc').text()
+        const subtitle = $(el).find('dd').find('.desc').text().trim()
 
         return {
           title,

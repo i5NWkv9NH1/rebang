@@ -131,11 +131,14 @@ export class BaiduService {
           .find('.content_1YWBm .hot-desc_1m_jR')
           .text()
           .trim()
-        subtitle = (subTitle1 || subTitle2)
+        // TODO: remove 查看更多
+        subtitle = subTitle1 || subTitle2
+        subtitle = subtitle
           .replace('查看更多', '')
           .replace(/\>/, '')
           .replaceAll('.', '')
           .trim()
+        console.log(subtitle)
 
         const metrics = [
           $(item).find('.trend_2RttY .hot-index_1Bl1a').text().trim()

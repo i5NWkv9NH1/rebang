@@ -7,3 +7,9 @@ http:
 playwright:
   # npx playwright install chrome
   brower: 'chrome'
+
+cron:
+  zhihu:
+    hot: ''
+  zhihu-daily:
+    latest:

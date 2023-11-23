@@ -2,7 +2,7 @@
 
 ### test
 ### redis
-GET {{host}}/api
+GET {{host}}/api/query?q=juejin/mix
 
 ### ithome
 GET {{host}}/api/sites/ithome 
@@ -13,17 +13,17 @@ GET {{host}}/api/sites/ithome/week
 ###
 GET {{host}}/api/sites/ithome/month
 ###
-GET {{host}}/api/sites/ithome/latest
+GET {{host}}/api/sites/ithome/hot
 
 ### zhihu
-GET {{host}}/api/sites/zhihu
+GET {{host}}/api/sites/zhihu/rank
 
 ### zhihu daily
 GET {{host}}/api/sites/zhihu-daily/latest
 ###
 GET {{host}}/api/sites/zhihu-daily/news/3977867
 ###
-GET {{host}}/api/sites/zhihu-daily/date/20140618
+GET {{host}}/api/sites/zhihu-daily/date/20231124
 
 ### weibo
 GET {{host}}/api/sites/weibo/realtimehot
@@ -38,7 +38,16 @@ GET {{host}}/api/sites/hupu/sports
 GET {{host}}/api/sites/hupu/gambia
 ###
 GET {{host}}/api/sites/hupu/ent
-
+###
+GET {{host}}/api/sites/hupu/lol
+###
+GET {{host}}/api/sites/hupu/game
+###
+GET {{host}}/api/sites/hupu/gear
+###
+GET {{host}}/api/sites/hupu/soccer
+###
+GET {{host}}/api/sites/hupu/digital
 
 ### bilibili
 ###
@@ -84,9 +93,8 @@ GET {{host}}/api/sites/baidu/car
 GET {{host}}/api/sites/baidu/game
 
 ### huxiu
-POST  https://api-article.huxiu.com/web/article/articleList
 
-### pengpai
+### 澎湃
 ### 热榜
 GET {{host}}/api/sites/pengpai/hot
 ### 频道
@@ -104,4 +112,29 @@ GET {{host}}/api/sites/pearvideo/rank
 
 ### 搜狗
 GET {{host}}/api/sites/sogou
+###
+
+### 360
+###
+GET {{host}}/api/sites/360/rank
+
+### 36k
+
+### ssp
+GET {{host}}/api/sites/ssp/hot
+###
+GET {{host}}/api/sites/ssp/rec
+###
+
+### acfun
+###
+GET {{host}}/api/sites/acfun/today
+### 
+GET {{host}}/api/sites/acfun/threedays
+###
+GET {{host}}/api/sites/acfun/week
+###
+
+### shadiaonews
+GET {{host}}/api/sites/shadiaonews
 ###

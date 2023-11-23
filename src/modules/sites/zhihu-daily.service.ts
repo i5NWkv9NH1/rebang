@@ -34,6 +34,9 @@ export class ZhihuDailyService {
   }
 
   public async findContentById(newsId: string) {
+    const cache = await this.redisService.get(`zhihu-daily/news/${newsId}`)
+    if (cache) return cache
+
     const url = `https://news-at.zhihu.com/api/5/news/${newsId}`
     const userAgent = genUserAgent('desktop')
     const response = await this.get<ZhihuDailyContentResponse>(url, {
@@ -61,21 +64,27 @@ export class ZhihuDailyService {
         link: $('.meta a').attr('href')
       }
     }
-    return {
+
+    const data = {
       thumbnail,
       daily,
       question,
       answer
     }
+    await this.redisService.set(`zhihu-daily/news/${newsId}`, data)
+    return data
   }
 
   public async findByDate(date: string) {
+    const cache = await this.redisService.get(`zhihu-daily/date/${date}`)
     const url = `https://news-at.zhihu.com/api/4/news/before/${date}`
     const userAgent = genUserAgent('desktop')
     const response = await this.get<ZhihuDailyLatestResponse>(url, {
       'user-agent': userAgent
     })
     const data = this.transformFields(response.data.stories)
+
+    await this.redisService.set(`zhihu-daily/date/${date}`, data)
     return data
   }
 

@@ -11,8 +11,8 @@ export class RedisService {
     return JSON.parse(cache)
   }
 
-  public async set(key: string, data: Object) {
-    await this.redis.set(key, JSON.stringify(data), 'EX', 3600)
+  public async set(key: string, data: Object, ttl?: number) {
+    await this.redis.set(key, JSON.stringify(data), 'EX', ttl || 3600)
   }
 
   public async rm(key: string) {

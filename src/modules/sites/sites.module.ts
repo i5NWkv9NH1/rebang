@@ -12,13 +12,17 @@ import { JuejinService } from './juejin.service'
 import { ToutiaoService } from './toutiao.service'
 import { BaiduService } from './baidu.service'
 import { ZhihuDailyService } from './zhihu-daily.service'
-import { KrService } from './kr.service'
+import { _36KService } from './_36k.service'
 import { HuxiuService } from './huxiu.service'
 import { SharedModule } from 'src/shared/shared.module'
 import { PengpaiService } from './pengpai.service'
 import { HistoryService } from './history.service'
 import { PearvideoService } from './pearvideo.service'
 import { SogouService } from './sogou.service'
+import { _360Service } from './_360.service'
+import { SspService } from './ssp.service'
+import { AcfunService } from './acfun.service'
+import { ShadiaoNewsService } from './shadiaonews.service'
 
 @Module({
   imports: [
@@ -43,7 +47,7 @@ import { SogouService } from './sogou.service'
     HupuService,
     ITHomeService,
     JuejinService,
-    KrService,
+    _36KService,
     ToutiaoService,
     WeiboService,
     ZhihuDailyService,
@@ -52,7 +56,11 @@ import { SogouService } from './sogou.service'
     PengpaiService,
     HistoryService,
     PearvideoService,
-    SogouService
+    SogouService,
+    _360Service,
+    SspService,
+    AcfunService,
+    ShadiaoNewsService
   ],
   exports: [
     BaiduService,
@@ -60,7 +68,7 @@ import { SogouService } from './sogou.service'
     HupuService,
     ITHomeService,
     JuejinService,
-    KrService,
+    _36KService,
     ToutiaoService,
     WeiboService,
     ZhihuDailyService,
@@ -69,7 +77,11 @@ import { SogouService } from './sogou.service'
     PengpaiService,
     HistoryService,
     PearvideoService,
-    SogouService
+    SogouService,
+    _360Service,
+    SspService,
+    AcfunService,
+    ShadiaoNewsService
   ]
 })
 export class SitesModule {}
