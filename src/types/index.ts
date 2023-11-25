@@ -6,8 +6,10 @@ export * from './toutiao.type'
 export * from './zhihu.type'
 export * from './ssp.type'
 export * from './acfun.type'
+export * from './xueqiu.type'
 
 export type Tag = {
   path: string
   name: string
 }
+

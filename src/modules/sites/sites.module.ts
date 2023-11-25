@@ -23,6 +23,8 @@ import { _360Service } from './_360.service'
 import { SspService } from './ssp.service'
 import { AcfunService } from './acfun.service'
 import { ShadiaoNewsService } from './shadiaonews.service'
+import { JiandanService } from './jiandan.service'
+import { XueqiuService } from './xueqiu.service'
 
 @Module({
   imports: [
@@ -60,7 +62,9 @@ import { ShadiaoNewsService } from './shadiaonews.service'
     _360Service,
     SspService,
     AcfunService,
-    ShadiaoNewsService
+    ShadiaoNewsService,
+    JiandanService,
+    XueqiuService
   ],
   exports: [
     BaiduService,
@@ -81,7 +85,9 @@ import { ShadiaoNewsService } from './shadiaonews.service'
     _360Service,
     SspService,
     AcfunService,
-    ShadiaoNewsService
+    ShadiaoNewsService,
+    JiandanService,
+    XueqiuService
   ]
 })
 export class SitesModule {}

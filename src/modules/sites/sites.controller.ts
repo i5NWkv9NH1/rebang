@@ -19,6 +19,8 @@ import { _36KService } from './_36k.service'
 import { SspService } from './ssp.service'
 import { AcfunService } from './acfun.service'
 import { ShadiaoNewsService } from './shadiaonews.service'
+import { JiandanService } from './jiandan.service'
+import { XueqiuService } from './xueqiu.service'
 
 @Controller('sites')
 export class SitesController {
@@ -41,7 +43,9 @@ export class SitesController {
     private readonly _36kservice: _36KService,
     private readonly sspService: SspService,
     private readonly acfunService: AcfunService,
-    private readonly shadiaoNewsService: ShadiaoNewsService
+    private readonly shadiaoNewsService: ShadiaoNewsService,
+    private readonly jiandanService: JiandanService,
+    private readonly xueqiuService: XueqiuService
   ) {}
 
   // #region ithome
@@ -246,13 +250,17 @@ export class SitesController {
   public async huxiuLatest() {
     return await this.huxiuService.latest()
   }
-  @Get('huxiu/hot')
-  public async huxiuHot() {
-    return await this.huxiuService.hot()
+  @Get('huxiu/channel')
+  public async huxiuChannel() {
+    return await this.huxiuService.channel()
   }
   @Get('huxiu/event')
   public async huxiuEvent() {
     return await this.huxiuService.event()
+  }
+  @Get('huxiu/timeline')
+  public async huxiuTimeline() {
+    return await this.huxiuService.timeline()
   }
   //#endregion
 
@@ -363,6 +371,60 @@ export class SitesController {
   @Get('shadiaonews')
   public async shadiaoNews() {
     return await this.shadiaoNewsService.start()
+  }
+  //#endregion
+
+  //#region 煎蛋
+  @Get('jiandan/4h')
+  public async jiandan4h() {
+    return await this.jiandanService._4h()
+  }
+  @Get('jiandan/7d')
+  public async jiandan7d() {
+    return await this.jiandanService._7d()
+  }
+  @Get('jiandan/3d')
+  public async jiandan3d() {
+    return await this.jiandanService._3d()
+  }
+  @Get('jiandan/top')
+  public async jiandanTop() {
+    return await this.jiandanService.top()
+  }
+  @Get('jiandan/ooxx')
+  public async jiandanOOXX() {
+    return await this.jiandanService.ooxx()
+  }
+  @Get('jiandan/comments')
+  public async jiandanComments() {
+    return await this.jiandanService.comments()
+  }
+  @Get('jiandan/tucao')
+  public async jiandanTucao() {
+    return await this.jiandanService.tucao()
+  }
+  //#endregion
+
+  //#region Xueqiu
+  @Get('xueqiu/cookie')
+  public async xueqiuCookie() {
+    return await this.xueqiuService.getCookie()
+  }
+  @Get('xueqiu/livenews')
+  public async xueqiuLivenews() {
+    return await this.xueqiuService.livenews()
+  }
+  @Get('xueqiu/notice')
+  public async xueqiuNotice() {
+    return await this.xueqiuService.notice()
+  }
+  @Get('xueqiu/news')
+  public async xueqiuNews() {
+    return await this.xueqiuService.news()
+  }
+  @Get('xueqiu/hotstock')
+  public async xueqiuHotStock() {
+    return await this.xueqiuService.hotStock()
   }
   //#endregion
 }

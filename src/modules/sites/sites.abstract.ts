@@ -17,13 +17,12 @@ export abstract class SiteProvider {
     private httpService: HttpService
   ) {}
 
-  public async get<T>(url: string, headers: {} = {}, params = {}) {
+  public async get<T>(url: string, headers: {} = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
       this.httpService
         .get<T>(url, {
-          headers,
-          params
+          headers
         })
         .pipe(
           catchError((error: AxiosError) => {

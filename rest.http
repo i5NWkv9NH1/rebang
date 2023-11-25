@@ -93,6 +93,14 @@ GET {{host}}/api/sites/baidu/car
 GET {{host}}/api/sites/baidu/game
 
 ### huxiu
+###
+GET {{host}}/api/sites/huxiu/latest
+###
+GET {{host}}/api/sites/huxiu/channel
+###
+GET {{host}}/api/sites/huxiu/event
+###
+GET {{host}}/api/sites/huxiu/timeline
 
 ### 澎湃
 ### 热榜
@@ -137,4 +145,32 @@ GET {{host}}/api/sites/acfun/week
 
 ### shadiaonews
 GET {{host}}/api/sites/shadiaonews
+###
+
+### jiandan
+GET {{host}}/api/sites/jiandan/4h
+###
+GET {{host}}/api/sites/jiandan/3d
+###
+GET {{host}}/api/sites/jiandan/7h
+###
+GET {{host}}/api/sites/jiandan/ooxx
+###
+GET {{host}}/api/sites/jiandan/top
+###
+GET {{host}}/api/sites/jiandan/comments
+###
+GET {{host}}/api/sites/jiandan/tucao
+###
+
+### xueqiu
+GET {{host}}/api/sites/xueqiu/cookie
+###
+GET {{host}}/api/sites/xueqiu/livenews
+###
+GET {{host}}/api/sites/xueqiu/notice
+###
+GET {{host}}/api/sites/xueqiu/news
+###
+GET {{host}}/api/sites/xueqiu/hotstock
 ###
