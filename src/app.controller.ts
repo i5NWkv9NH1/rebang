@@ -6,7 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('query')
-  async start(@Query('q') q: string) {
+  async start(@Query('q') q?: string) {
     return await this.appService.get(q)
   }
 }

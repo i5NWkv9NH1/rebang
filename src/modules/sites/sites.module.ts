@@ -31,23 +31,10 @@ import { WereadService } from './weread.service'
 import { DouyinService } from './douyin.service'
 import { TiebaService } from './tieba.service'
 import { TencentNewsService } from './tencent-news.service'
+import { AcfunModule } from './acfun/acfun.module'
 
 @Module({
-  imports: [
-    PlaywrightModule.forRoot(
-      {
-        headless: true,
-        channel: 'chrome',
-        isGlobal: true,
-        executablePath:
-          'C:\\Users\\sora\\scoop\\apps\\googlechromecanary-portable\\current\\chrome.exe'
-      } // optional, any Playwright launch options here or leave empty for good defaults */,
-      //? optional, can be useful for using Chrome and Firefox in the same project
-      // 'TopHub'
-    ),
-    SharedModule,
-    HttpModule
-  ],
+  imports: [SharedModule, AcfunModule],
   controllers: [SitesController],
   providers: [
     BaiduService,

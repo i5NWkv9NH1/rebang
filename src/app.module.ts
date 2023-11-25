@@ -12,10 +12,30 @@ import { join } from 'path'
 import { RedisModule } from '@liaoliaots/nestjs-redis'
 import { RedisService } from 'src/shared/redis.service'
 import { SharedModule } from './shared/shared.module'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ScheduleModule } from '@nestjs/schedule'
+import { HttpModule } from '@nestjs/axios'
 
 @Module({
   imports: [
     SharedModule,
+    PlaywrightModule.forRoot(
+      {
+        headless: true,
+        channel: 'chrome',
+        isGlobal: true,
+        executablePath:
+          'C:\\Users\\sora\\scoop\\apps\\googlechromecanary-portable\\current\\chrome.exe'
+      } // optional, any Playwright launch options here or leave empty for good defaults */,
+      //? optional, can be useful for using Chrome and Firefox in the same project
+      // 'TopHub'
+    ),
+    ConfigModule.forRoot({
+      load: [configuration],
+      isGlobal: true
+    }),
+
+    ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
       exclude: ['/api/(.*)', '/public/(.*)'],
@@ -23,6 +43,15 @@ import { SharedModule } from './shared/shared.module'
         // @ts-ignore
         decorateReply: false
       }
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      username: 'postgres',
+      password: 'aaa123',
+      database: 'postgres',
+      synchronize: true,
+      entities: [__dirname + '/**/*.entity.{js,ts}']
     }),
     SitesModule,
     TasksModule

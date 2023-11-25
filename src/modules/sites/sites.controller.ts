@@ -373,18 +373,7 @@ export class SitesController {
   //#endregion
 
   //#region acfun
-  @Get('acfun/today')
-  public async acfunRankToday() {
-    return await this.acfunService.rankToday()
-  }
-  @Get('acfun/threedays')
-  public async acfunRankThreeDays() {
-    return await this.acfunService.rankThreeDays()
-  }
-  @Get('acfun/week')
-  public async acfunRankWeek() {
-    return await this.acfunService.rankWeek()
-  }
+
   //#endregion
 
   //#region 沙雕新闻

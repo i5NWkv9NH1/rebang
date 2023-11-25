@@ -1,4 +1,5 @@
 import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis'
+import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { Redis } from 'ioredis'
 

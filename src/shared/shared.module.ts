@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common'
+import { Global, Module } from '@nestjs/common'
 import { RedisModule } from '@liaoliaots/nestjs-redis'
 import { ConfigModule } from '@nestjs/config'
 import configuration from './configuration'
 import { RedisService } from './redis.service'
+import { HttpModule } from '@nestjs/axios'
+import { FetchService } from './fetch.service'
 
+@Global()
 @Module({
   imports: [
     RedisModule.forRoot({
@@ -13,12 +16,12 @@ import { RedisService } from './redis.service'
         password: ''
       }
     }),
-    ConfigModule.forRoot({
-      load: [configuration],
-      isGlobal: true
-    })
+    {
+      ...HttpModule.register({}),
+      global: true
+    }
   ],
-  providers: [RedisService],
-  exports: [RedisService]
+  providers: [RedisService, FetchService],
+  exports: [RedisService, FetchService]
 })
 export class SharedModule {}

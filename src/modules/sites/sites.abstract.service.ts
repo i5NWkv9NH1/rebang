@@ -8,8 +8,8 @@ import { AxiosError } from 'axios'
 import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
-export abstract class SiteProvider {
-  private logger = new Logger(SiteProvider.name)
+export abstract class SiteService {
+  private logger = new Logger(SiteService.name)
 
   constructor(
     @InjectBrowser() private readonly browser: Browser,

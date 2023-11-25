@@ -99,7 +99,6 @@ export class AcfunService {
 
     return data
   }
-
   public async get<T>(url: string, params: {} = {}, headers: {} = {}) {
     this.logger.log(`Http Request: ${url}`)
     const response = await firstValueFrom(
