@@ -21,6 +21,12 @@ import { AcfunService } from './acfun.service'
 import { ShadiaoNewsService } from './shadiaonews.service'
 import { JiandanService } from './jiandan.service'
 import { XueqiuService } from './xueqiu.service'
+import { _163Service } from './_163.service'
+import { WechatService } from './wechat.service'
+import { WereadService } from './weread.service'
+import { DouyinService } from './douyin.service'
+import { TiebaService } from './tieba.service'
+import { TencentNewsService } from './tencent-news.service'
 
 @Controller('sites')
 export class SitesController {
@@ -41,11 +47,17 @@ export class SitesController {
     private readonly sogouService: SogouService,
     private readonly _360service: _360Service,
     private readonly _36kservice: _36KService,
+    private readonly _163service: _163Service,
     private readonly sspService: SspService,
     private readonly acfunService: AcfunService,
     private readonly shadiaoNewsService: ShadiaoNewsService,
     private readonly jiandanService: JiandanService,
-    private readonly xueqiuService: XueqiuService
+    private readonly wechatService: WechatService,
+    private readonly wereadService: WereadService,
+    private readonly xueqiuService: XueqiuService,
+    private readonly douyinService: DouyinService,
+    private readonly tiebaService: TiebaService,
+    private readonly tencentNewsService: TencentNewsService
   ) {}
 
   // #region ithome
@@ -227,6 +239,13 @@ export class SitesController {
   @Get('baidu/game')
   public async baiduGame() {
     return await this.baiduService.game()
+  }
+  //#endregion
+
+  //#region tieba
+  @Get('tieba/hot')
+  public async tiebaHot() {
+    return await this.tiebaService.hot()
   }
   //#endregion
 
@@ -425,6 +444,31 @@ export class SitesController {
   @Get('xueqiu/hotstock')
   public async xueqiuHotStock() {
     return await this.xueqiuService.hotStock()
+  }
+  //#endregion
+
+  //#region weread
+  @Get('weread')
+  public async rising() {
+    return await this.wereadService.rising()
+  }
+  //#endregion
+
+  //#region douyin
+  @Get('douyin/cookie')
+  public async douyinCookie() {
+    return await this.douyinService.getCookie()
+  }
+  @Get('douyin/hot')
+  public async douyinHot() {
+    return await this.douyinService.hot()
+  }
+  //#endregion
+
+  //#region tencent-news
+  @Get('tencent-news/hot')
+  public async tencentNewsHot() {
+    return await this.tencentNewsService.hot()
   }
   //#endregion
 }

@@ -25,6 +25,12 @@ import { AcfunService } from './acfun.service'
 import { ShadiaoNewsService } from './shadiaonews.service'
 import { JiandanService } from './jiandan.service'
 import { XueqiuService } from './xueqiu.service'
+import { _163Service } from './_163.service'
+import { WechatService } from './wechat.service'
+import { WereadService } from './weread.service'
+import { DouyinService } from './douyin.service'
+import { TiebaService } from './tieba.service'
+import { TencentNewsService } from './tencent-news.service'
 
 @Module({
   imports: [
@@ -64,7 +70,13 @@ import { XueqiuService } from './xueqiu.service'
     AcfunService,
     ShadiaoNewsService,
     JiandanService,
-    XueqiuService
+    XueqiuService,
+    _163Service,
+    WechatService,
+    WereadService,
+    DouyinService,
+    TiebaService,
+    TencentNewsService
   ],
   exports: [
     BaiduService,
@@ -87,7 +99,13 @@ import { XueqiuService } from './xueqiu.service'
     AcfunService,
     ShadiaoNewsService,
     JiandanService,
-    XueqiuService
+    XueqiuService,
+    _163Service,
+    WechatService,
+    WereadService,
+    DouyinService,
+    TiebaService,
+    TencentNewsService
   ]
 })
 export class SitesModule {}

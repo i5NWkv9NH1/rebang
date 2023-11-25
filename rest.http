@@ -127,6 +127,12 @@ GET {{host}}/api/sites/sogou
 GET {{host}}/api/sites/360/rank
 
 ### 36k
+###
+GET {{host}}/api/sites/36k/latest
+###
+GET {{host}}/api/sites/36k/today
+###
+GET {{host}}/api/sites/36k/rank/hot
 
 ### ssp
 GET {{host}}/api/sites/ssp/hot
@@ -174,3 +180,17 @@ GET {{host}}/api/sites/xueqiu/news
 ###
 GET {{host}}/api/sites/xueqiu/hotstock
 ###
+
+### douyin
+###
+GET {{host}}/api/sites/douyin/cookie
+###
+GET {{host}}/api/sites/douyin/hot
+###
+
+### tieba
+GET {{host}}/api/sites/tieba/hot
+### 
+### tencent news
+GET {{host}}/api/sites/tencent-news/hot
+### 
