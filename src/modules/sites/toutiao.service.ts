@@ -33,7 +33,9 @@ export class ToutiaoService {
       const title = item.Title
       const url = `${new URL(item.Url).host}${new URL(item.Url).pathname}`
       const thumbnail = item.Image.url
-      const metrics = [item.LabelDesc, item.Label].filter((item) => item)
+      const metrics = [item.LabelDesc, item.Label, item.HotValue].filter(
+        (item) => item
+      )
       const icon = item.Label
       const desc = item.LabelDesc
       return { title, url, thumbnail, metrics, icon, desc }

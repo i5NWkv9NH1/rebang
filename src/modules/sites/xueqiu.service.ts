@@ -31,6 +31,7 @@ export class XueqiuService {
     private httpService: HttpService
   ) {}
 
+  //TODO: use axios
   public async getCookie() {
     const ctx = await this.browser.newContext({
       userAgent: this.userAgent
@@ -45,7 +46,6 @@ export class XueqiuService {
     await page.close()
     await ctx.close()
     await this.redisService.set('xueqiu/cookie', cookie)
-
     return cookie
   }
 
