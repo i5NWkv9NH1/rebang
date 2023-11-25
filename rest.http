@@ -130,9 +130,17 @@ GET {{host}}/api/sites/360/rank
 ###
 GET {{host}}/api/sites/36k/latest
 ###
+GET {{host}}/api/sites/36k/latest?pageCallback=eyJmaXJzdElkIjo0NDI1MTg0LCJsYXN0SWQiOjQ0MjUwNzAsImZpcnN0Q3JlYXRlVGltZSI6MTcwMDgyODQxMDM5NiwibGFzdENyZWF0ZVRpbWUiOjE3MDA4MjUyNzUwODZ9
+### TODO
 GET {{host}}/api/sites/36k/today
 ###
 GET {{host}}/api/sites/36k/rank/hot
+###
+GET {{host}}/api/sites/36k/rank/video
+###
+GET {{host}}/api/sites/36k/rank/comment
+###
+GET {{host}}/api/sites/36k/rank/collect
 
 ### ssp
 GET {{host}}/api/sites/ssp/hot

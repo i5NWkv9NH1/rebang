@@ -7,6 +7,7 @@ import { catchError, firstValueFrom } from 'rxjs'
 import { AxiosError } from 'axios'
 import { genUserAgent } from 'src/helpers'
 import { RedisService } from 'src/shared/redis.service'
+import { _360Item } from 'src/types'
 
 @Injectable()
 export class _360Service {
@@ -23,7 +24,9 @@ export class _360Service {
 
     const url = `https://ranks.hao.360.com/mbsug-api/hotnewsquery?type=news&realhot_limit=${pageSize}&src=hao_ranklist_so`
     const userAgent = genUserAgent('mobile')
-    const response = await this.get<any[]>(url, { 'user-agent': userAgent })
+    const response = await this.get<_360Item[]>(url, {
+      'user-agent': userAgent
+    })
 
     const data = response.data.map((item) => {
       return {

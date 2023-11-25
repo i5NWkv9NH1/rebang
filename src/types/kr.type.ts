@@ -28,11 +28,12 @@ export interface KrRankItem {
     widgetTitle: string
     publishTime: number
     authorName: string
-    statRead: number
-    statCollect: number
-    statComment: number
-    statPraise: number
-    statFormat: string
+    statRead?: number
+    statCollect?: number
+    statComment?: number
+    statPraise?: number
+    statFormat?: string
+    duration?: number
   }
   route: string
   siteId: number

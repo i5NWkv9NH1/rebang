@@ -335,9 +335,10 @@ export class SitesController {
 
   //#region 36k
   @Get('36k/latest')
-  public async _36kLatest() {
-    return await this._36kservice.latest()
+  public async _36kLatest(@Query('pageCallback') pageCallback: string) {
+    return await this._36kservice.latest(pageCallback)
   }
+  // TODO
   @Get('36k/today')
   public async _36kToday() {
     return await this._36kservice.today()
