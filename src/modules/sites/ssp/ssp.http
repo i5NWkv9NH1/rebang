@@ -1,0 +1,6 @@
+@prefix = http://localhost:4002/api/sites/ssp
+
+###
+GET {{prefix}}/hot
+### 
+GET {{prefix}}/recommend 

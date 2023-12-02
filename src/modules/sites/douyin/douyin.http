@@ -1,0 +1,6 @@
+@prefix = http://localhost:4002/api/sites/douyin
+
+###
+GET {{prefix}}/cookie
+###
+GET {{prefix}}/hot

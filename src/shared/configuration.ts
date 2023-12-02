@@ -17,7 +17,6 @@ export interface HttpConfig {
 }
 
 export default () => {
-  console.log(resolve(__dirname))
   return yaml.load(
     readFileSync(resolve(__dirname, '..', '..', CONFIG_FILE_NAME), 'utf8')
   ) as Record<string, any>

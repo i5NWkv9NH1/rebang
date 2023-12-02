@@ -1,0 +1,6 @@
+@prefix = http://localhost:4002/api/sites/ithome
+
+### ithome
+GET {{prefix}}
+###
+GET {{prefix}}/rank?tab=day

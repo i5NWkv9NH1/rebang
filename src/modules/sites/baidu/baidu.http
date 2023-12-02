@@ -1,0 +1,14 @@
+@prefix = http://localhost:4002/api/sites/baidu
+
+###
+GET {{prefix}}/rank?tab=realtime
+###
+GET {{prefix}}/rank?tab=novel
+###
+GET {{prefix}}/rank?tab=movie
+###
+GET {{prefix}}/rank?tab=teleplay
+###
+GET {{prefix}}/rank?tab=car
+###
+GET {{prefix}}/rank?tab=game

@@ -1,0 +1,19 @@
+@prefix = http://localhost:4002/api/sites/juejin
+###
+GET {{prefix}}/mix
+###
+GET {{prefix}}/be
+###
+GET {{prefix}}/fe
+###
+GET {{prefix}}/android
+###
+GET {{prefix}}/iOS
+###
+GET {{prefix}}/ai
+###
+GET {{prefix}}/develop
+###
+GET {{prefix}}/code
+###
+GET {{prefix}}/read

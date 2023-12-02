@@ -1,0 +1,20 @@
+@prefix = http://localhost:4002/api/sites/36k
+
+### LATEST
+GET {{prefix}}/latest
+###
+GET {{prefix}}/latest?pageCallback=eyJmaXJzdElkIjo0NDMyMzU4LCJsYXN0SWQiOjQ0MzIyMDksImZpcnN0Q3JlYXRlVGltZSI6MTcwMTQzMzU1OTE4MSwibGFzdENyZWF0ZVRpbWUiOjE3MDE0Mjg5OTk2OTB9
+
+### RANK
+GET {{prefix}}/rank/hot
+###
+GET {{prefix}}/rank/video
+###
+GET {{prefix}}/rank/comment
+###
+GET {{prefix}}/rank/collect
+
+### TODO
+GET {{prefix}}/today
+
+

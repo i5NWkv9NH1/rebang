@@ -30,7 +30,7 @@ export class TencentNewsService {
 
     //? filter ad
     const data = respone.data.idlist[0].newslist.filter(
-      (item) => item.articletype === '560'
+      (item) => item.articletype !== '560'
     )
 
     await this.redisService.set('tencent-news/hot', data)

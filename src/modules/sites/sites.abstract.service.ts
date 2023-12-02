@@ -1,36 +1,19 @@
-import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
-import { InjectBrowser } from 'nestjs-playwright'
-import { Browser } from 'playwright'
-import * as cheerio from 'cheerio'
-import { catchError, firstValueFrom } from 'rxjs'
-import { AxiosError } from 'axios'
+import { InjectRepository } from '@nestjs/typeorm'
+import { FetchService } from 'src/shared/fetch.service'
 import { RedisService } from 'src/shared/redis.service'
+import { SiteAbstractEntity } from './site.abstract.entity'
+import { Repository } from 'typeorm'
 
 @Injectable()
-export abstract class SiteService {
-  private logger = new Logger(SiteService.name)
+export abstract class SiteAbstractService {
+  private readonly logger = new Logger(SiteAbstractService.name)
 
   constructor(
-    @InjectBrowser() private readonly browser: Browser,
-    private readonly redisService: RedisService,
-    private httpService: HttpService
-  ) {}
+    @InjectRepository(SiteAbstractEntity)
+    private readonly repo: Repository<SiteAbstractEntity>,
 
-  public async get<T>(url: string, headers: {} = {}) {
-    this.logger.log(`Http Request: ${url}`)
-    const response = await firstValueFrom(
-      this.httpService
-        .get<T>(url, {
-          headers
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            this.logger.error(error.response.data)
-            throw 'An error happened!'
-          })
-        )
-    )
-    return response
-  }
+    private readonly redisService: RedisService,
+    private readonly fetchService: FetchService
+  ) {}
 }

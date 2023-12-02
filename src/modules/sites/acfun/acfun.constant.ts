@@ -1,5 +1,11 @@
 import { CronExpression } from '@nestjs/schedule'
 
+export enum ACFUN_RANK_TYPE {
+  DAY,
+  THREE_DAYS,
+  WEEK
+}
+
 export const ACFUN_API = {
   RANK: {
     DAY: 'https://www.acfun.cn/rest/pc-direct/rank/channel',

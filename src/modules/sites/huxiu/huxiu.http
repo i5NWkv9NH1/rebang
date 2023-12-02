@@ -1,0 +1,9 @@
+@prefix = http://localhost:4002/api/sites/huxiu
+###
+GET {{prefix}}/latest
+### TODO
+GET {{prefix}}/channel
+###
+GET {{prefix}}/event
+###
+GET {{prefix}}/timeline

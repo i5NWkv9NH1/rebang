@@ -1,0 +1,10 @@
+@prefix = http://localhost:4002/api/sites/weibo
+
+### weibo
+GET {{prefix}}/realtimehot
+###
+GET {{prefix}}/socialevent
+###
+GET {{prefix}}/entrank
+###
+GET {{prefix}}/topicband

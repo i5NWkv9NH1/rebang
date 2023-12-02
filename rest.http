@@ -3,104 +3,24 @@
 ### test
 ### redis
 GET {{host}}/api/query?q=juejin/mix
+###
+GET {{host}}/api/del?q=tencent-news/hot
 
-### ithome
-GET {{host}}/api/sites/ithome 
-###
-GET {{host}}/api/sites/ithome/day
-###
-GET {{host}}/api/sites/ithome/week
-###
-GET {{host}}/api/sites/ithome/month
-###
-GET {{host}}/api/sites/ithome/hot
 
-### zhihu
-GET {{host}}/api/sites/zhihu/rank
 
-### zhihu daily
-GET {{host}}/api/sites/zhihu-daily/latest
-###
-GET {{host}}/api/sites/zhihu-daily/news/3977867
-###
-GET {{host}}/api/sites/zhihu-daily/date/20231124
 
-### weibo
-GET {{host}}/api/sites/weibo/realtimehot
-###
-GET {{host}}/api/sites/weibo/socialevent
-###
-GET {{host}}/api/sites/weibo/entrank
 
-### hupu
-GET {{host}}/api/sites/hupu/sports
-###
-GET {{host}}/api/sites/hupu/gambia
-###
-GET {{host}}/api/sites/hupu/ent
-###
-GET {{host}}/api/sites/hupu/lol
-###
-GET {{host}}/api/sites/hupu/game
-###
-GET {{host}}/api/sites/hupu/gear
-###
-GET {{host}}/api/sites/hupu/soccer
-###
-GET {{host}}/api/sites/hupu/digital
 
-### bilibili
-###
-GET {{host}}/api/sites/bilibili/hot
-###
-GET {{host}}/api/sites/bilibili/week
-###
-GET {{host}}/api/sites/bilibili/rank
 
-### juejin
-GET {{host}}/api/sites/juejin/mix
-###
-GET {{host}}/api/sites/juejin/be
-###
-GET {{host}}/api/sites/juejin/fe
-###
-GET {{host}}/api/sites/juejin/android
-###
-GET {{host}}/api/sites/juejin/iOS
-###
-GET {{host}}/api/sites/juejin/ai
-###
-GET {{host}}/api/sites/juejin/develop
-###
-GET {{host}}/api/sites/juejin/code
-###
-GET {{host}}/api/sites/juejin/read
+
+
+
 
 ### toutiao
 GET {{host}}/api/sites/toutiao/hot
 
-### baidu
-GET {{host}}/api/sites/baidu/hot
-### 
-GET {{host}}/api/sites/baidu/novel
-### 
-GET {{host}}/api/sites/baidu/movie
-### 
-GET {{host}}/api/sites/baidu/teleplay
-### 
-GET {{host}}/api/sites/baidu/car
-### 
-GET {{host}}/api/sites/baidu/game
 
-### huxiu
-###
-GET {{host}}/api/sites/huxiu/latest
-###
-GET {{host}}/api/sites/huxiu/channel
-###
-GET {{host}}/api/sites/huxiu/event
-###
-GET {{host}}/api/sites/huxiu/timeline
+
 
 ### 澎湃
 ### 热榜
@@ -109,9 +29,6 @@ GET {{host}}/api/sites/pengpai/hot
 GET {{host}}/api/sites/pengpai/channels/25950
 ### 节点
 GET {{host}}/api/sites/pengpai/nodes/25462
-
-### 历史上的今天
-GET {{host}}/api/sites/history
 
 ### 梨视频 热榜
 ###
@@ -122,82 +39,18 @@ GET {{host}}/api/sites/pearvideo/rank
 GET {{host}}/api/sites/sogou
 ###
 
-### 360
-###
-GET {{host}}/api/sites/360/rank
-
-### 36k
-###
-GET {{host}}/api/sites/36k/latest
-###
-GET {{host}}/api/sites/36k/latest?pageCallback=eyJmaXJzdElkIjo0NDI1MTg0LCJsYXN0SWQiOjQ0MjUwNzAsImZpcnN0Q3JlYXRlVGltZSI6MTcwMDgyODQxMDM5NiwibGFzdENyZWF0ZVRpbWUiOjE3MDA4MjUyNzUwODZ9
-### TODO
-GET {{host}}/api/sites/36k/today
-###
-GET {{host}}/api/sites/36k/rank/hot
-###
-GET {{host}}/api/sites/36k/rank/video
-###
-GET {{host}}/api/sites/36k/rank/comment
-###
-GET {{host}}/api/sites/36k/rank/collect
-
-### ssp
-GET {{host}}/api/sites/ssp/hot
-###
-GET {{host}}/api/sites/ssp/rec
-###
-
 ### acfun
-###
-GET {{host}}/api/sites/acfun/today
-### 
-GET {{host}}/api/sites/acfun/threedays
-###
-GET {{host}}/api/sites/acfun/week
-###
+
 
 ### shadiaonews
 GET {{host}}/api/sites/shadiaonews
 ###
 
-### jiandan
-GET {{host}}/api/sites/jiandan/4h
-###
-GET {{host}}/api/sites/jiandan/3d
-###
-GET {{host}}/api/sites/jiandan/7h
-###
-GET {{host}}/api/sites/jiandan/ooxx
-###
-GET {{host}}/api/sites/jiandan/top
-###
-GET {{host}}/api/sites/jiandan/comments
-###
-GET {{host}}/api/sites/jiandan/tucao
+
 ###
 
-### xueqiu
-GET {{host}}/api/sites/xueqiu/cookie
-###
-GET {{host}}/api/sites/xueqiu/livenews
-###
-GET {{host}}/api/sites/xueqiu/notice
-###
-GET {{host}}/api/sites/xueqiu/news
-###
-GET {{host}}/api/sites/xueqiu/hotstock
-###
 
-### douyin
-###
-GET {{host}}/api/sites/douyin/cookie
-###
-GET {{host}}/api/sites/douyin/hot
-###
 
-### tieba
-GET {{host}}/api/sites/tieba/hot
 ### 
 ### tencent news
 GET {{host}}/api/sites/tencent-news/hot

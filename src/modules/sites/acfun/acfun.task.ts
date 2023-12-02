@@ -20,13 +20,13 @@ export class AcFunTask implements OnModuleInit {
 
   async onModuleInit() {
     await Promise.all([
-      this.defineDayTask(),
-      this.defineThreeDaysTask(),
-      this.defineWeekTask()
+      // this.defineDayTask(),
+      // this.defineThreeDaysTask(),
+      // this.defineWeekTask()
     ])
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS, { name: ACFUN_TASK.RANK.DAY })
+  // @Cron(CronExpression.EVERY_10_SECONDS, { name: ACFUN_TASK.RANK.DAY })
   public async defineDayTask() {
     // const data = await this.acFunService.fetchDay()
     // await this.redisService.set(
@@ -36,11 +36,11 @@ export class AcFunTask implements OnModuleInit {
     // )
     console.log('day')
   }
-  @Cron(CronExpression.EVERY_10_SECONDS, { name: ACFUN_TASK.RANK.THREE_DAYS })
+  // @Cron(CronExpression.EVERY_10_SECONDS, { name: ACFUN_TASK.RANK.THREE_DAYS })
   public async defineThreeDaysTask() {
     console.log('three days')
   }
-  @Cron(CronExpression.EVERY_10_SECONDS, { name: ACFUN_TASK.RANK.WEEK })
+  // @Cron(CronExpression.EVERY_10_SECONDS, { name: ACFUN_TASK.RANK.WEEK })
   public async defineWeekTask() {
     console.log('week')
   }

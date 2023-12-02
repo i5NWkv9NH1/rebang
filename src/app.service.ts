@@ -18,6 +18,10 @@ export class AppService {
     return await this.redis.set('key', 'value', 'EX', 3600)
   }
 
+  async del(key: string) {
+    return await this.redis.del(key)
+  }
+
   getHello(): string {
     return 'Hello World!'
   }
