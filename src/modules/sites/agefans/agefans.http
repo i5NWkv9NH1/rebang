@@ -1,0 +1,13 @@
+@prefix = http://localhost:4002/api/sites/agefans
+
+###
+GET {{prefix}}/latest
+
+###
+GET {{prefix}}/comment?cid=20190020&page=1
+
+###
+GET {{prefix}}/detail?cid=20190020
+
+###
+GET {{prefix}}/category

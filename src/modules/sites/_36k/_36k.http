@@ -3,7 +3,7 @@
 ### LATEST
 GET {{prefix}}/latest
 ###
-GET {{prefix}}/latest?pageCallback=eyJmaXJzdElkIjo0NDMyMzU4LCJsYXN0SWQiOjQ0MzIyMDksImZpcnN0Q3JlYXRlVGltZSI6MTcwMTQzMzU1OTE4MSwibGFzdENyZWF0ZVRpbWUiOjE3MDE0Mjg5OTk2OTB9
+GET {{prefix}}/latest?pageCallback=eyJmaXJzdElkIjo0NDQxMzc5LCJsYXN0SWQiOjQ0NDEyMTQsImZpcnN0Q3JlYXRlVGltZSI6MTcwMjMwMTQyOTAwMCwibGFzdENyZWF0ZVRpbWUiOjE3MDIyOTMzNzcwOTd9
 
 ### RANK
 GET {{prefix}}/rank/hot

@@ -52,6 +52,11 @@ import { TiebaModule } from './tieba/tieba.module';
 import { ToutiaoModule } from './toutiao/toutiao.module';
 import { WereadModule } from './weread/weread.module';
 import { XueqiuModule } from './xueqiu/xueqiu.module';
+import { GhxiModule } from './ghxi/ghxi.module';
+import { AgefansModule } from './agefans/agefans.module';
+import { CaixinModule } from './caixin/caixin.module';
+import { YicaiModule } from './yicai/yicai.module';
+import { QqnewsModule } from './qqnews/qqnews.module';
 
 @Module({
   imports: [
@@ -75,7 +80,12 @@ import { XueqiuModule } from './xueqiu/xueqiu.module';
     TiebaModule,
     ToutiaoModule,
     WereadModule,
-    XueqiuModule
+    XueqiuModule,
+    GhxiModule,
+    AgefansModule,
+    CaixinModule,
+    YicaiModule,
+    QqnewsModule
   ],
   controllers: [SitesController],
   providers: [

@@ -1,0 +1,8 @@
+@prefix = http://localhost:4002/api/weather
+
+###
+GET {{prefix}}/seniverse/now?location=shantou
+###
+GET {{prefix}}/seniverse/daily?location=shantou&days=1
+###
+GET {{prefix}}/seniverse/city?city=shantou

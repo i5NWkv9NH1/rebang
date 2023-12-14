@@ -15,6 +15,7 @@ import { SharedModule } from './shared/shared.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ScheduleModule } from '@nestjs/schedule'
 import { HttpModule } from '@nestjs/axios'
+import { WeatherModule } from './modules/weather/weather.module';
 
 @Module({
   imports: [
@@ -54,7 +55,8 @@ import { HttpModule } from '@nestjs/axios'
       entities: [__dirname + '/**/*.entity.{js,ts}']
     }),
     SitesModule,
-    TasksModule
+    TasksModule,
+    WeatherModule
   ],
   controllers: [AppController],
   providers: [AppService, RedisService],

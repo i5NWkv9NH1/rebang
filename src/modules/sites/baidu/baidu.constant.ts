@@ -1,7 +1,7 @@
 export enum BaiduRankTab {
   RealTime = 'realtime',
   Novel = 'novel',
-  Movie = 'move',
+  Movie = 'movie',
   Teleplay = 'teleplay',
   Car = 'car',
   Game = 'game'

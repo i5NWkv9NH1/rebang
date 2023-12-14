@@ -9,15 +9,20 @@ export class RedisService {
 
   public async get(key: string) {
     const cache = await this.redis.get(key)
-    return JSON.parse(cache)
+    if (typeof cache === 'object') {
+      return JSON.parse(cache)
+    } else {
+      return cache
+    }
   }
 
-  public async set(key: string, data: Object, ttl?: number) {
+  public async set(key: string, data: any, ttl: number = 3600) {
     try {
-      if (typeof data === 'string') {
-        throw new Error('Data not string')
+      if (typeof data === 'object') {
+        await this.redis.set(key, JSON.stringify(data), 'EX', ttl)
+      } else {
+        await this.redis.set(key, data, 'EX', ttl)
       }
-      await this.redis.set(key, JSON.stringify(data), 'EX', ttl || 3600)
     } catch (error) {
       throw new Error(error)
     }

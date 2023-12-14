@@ -1,7 +1,28 @@
 @prefix = http://localhost:4002/api/sites/weibo
 
+###
+POST {{prefix}}/verify
+Content-Type: application/json
+
+{
+  "phone": "15697544151"
+}
+
+###
+POST {{prefix}}/cookie
+Content-Type: application/json
+
+{
+  "phone": "15697544151",
+  "smscode": "639165",
+  "getuser": 0,
+  "getcookie": 1,
+  "getoauth": 1
+}
+
+
 ### weibo
-GET {{prefix}}/realtimehot
+GET {{prefix}}/hotsearch
 ###
 GET {{prefix}}/socialevent
 ###
