@@ -11,6 +11,8 @@ export class AppController {
   }
   @Get('del')
   async del(@Query('q') q?: string) {
-    return await this.appService.del(q)
+    for await (const query of q.split(',')) {
+      return await this.appService.del(query)
+    }
   }
 }

@@ -1,0 +1,4 @@
+@prefix = http://localhost:4002/api/sites/baidu/tieba
+
+###
+GET {{prefix}}/hot

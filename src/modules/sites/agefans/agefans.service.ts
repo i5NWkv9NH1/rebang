@@ -61,34 +61,22 @@ export class AgefansService {
     page: number
     size: number
   }) {
-    // const query = {
-    //   genre: 'all',
-    //   label: '后宫',
-    //   letter: 'all',
-    //   order: 'time',
-    //   region: '日本',
-    //   resource: 'all',
-    //   season: 'all',
-    //   status: '完结',
-    //   year: 'all',
-    //   page: 1,
-    //   size: 10
-    // }
+    const _query = {
+      genre: 'all',
+      label: '后宫',
+      letter: 'all',
+      order: 'time',
+      region: '日本',
+      resource: 'all',
+      season: 'all',
+      status: '完结',
+      year: 'all',
+      page: 1,
+      size: 10
+    }
     const response = await this.fetchService.get(AGEFANS_API.CATEGORY, {
       headers: this.headers,
-      params: {
-        genre: query.genre,
-        label: query.label,
-        letter: query.letter,
-        order: query.order,
-        region: query.region,
-        resource: query.resource,
-        season: query.season,
-        status: query.status,
-        year: query.year,
-        page: query.page,
-        size: query.size
-      }
+      params: { ..._query }
     })
     return response.data
   }

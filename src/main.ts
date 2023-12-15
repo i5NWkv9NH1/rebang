@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
 import { HttpConfig, IConfigs } from './shared/configuration'
+import fastifyListRoutes from 'fastify-list-routes'
 import {
   NestFastifyApplication,
   FastifyAdapter
@@ -15,6 +16,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter()
   )
+  await app.register(fastifyListRoutes, { colors: true })
 
   // const configs = app.get(ConfigService);
   // const { host, port } = configs.get<HttpConfig>('http');

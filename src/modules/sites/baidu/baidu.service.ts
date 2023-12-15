@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { genUserAgent, removeHtmlTag } from 'src/helpers'
-import { BaiduEntity } from './baidu.entity'
 import { Repository } from 'typeorm'
 import { RedisService } from 'src/shared/redis.service'
 import { FetchService } from 'src/shared/fetch.service'
@@ -19,8 +18,6 @@ export class BaiduService {
   private readonly baseUrl = `https://top.baidu.com/board?tab=`
 
   constructor(
-    @InjectRepository(BaiduEntity)
-    private readonly repo: Repository<BaiduEntity>,
     private readonly redisService: RedisService,
     private readonly fetchService: FetchService
   ) {}

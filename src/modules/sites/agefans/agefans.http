@@ -1,7 +1,7 @@
 @prefix = http://localhost:4002/api/sites/agefans
 
 ###
-GET {{prefix}}/latest
+GET {{prefix}}/latest?page=2&size=10
 
 ###
 GET {{prefix}}/comment?cid=20190020&page=1

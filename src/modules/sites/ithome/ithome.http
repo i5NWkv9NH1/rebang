@@ -4,3 +4,12 @@
 GET {{prefix}}
 ###
 GET {{prefix}}/rank?tab=day
+
+### API
+GET {{prefix}}/menus
+###
+GET {{prefix}}/hot?type=1
+###
+GET {{prefix}}/hot?type=2
+###
+GET {{prefix}}/hot?type=3

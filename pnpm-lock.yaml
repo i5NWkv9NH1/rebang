@@ -68,6 +68,9 @@ dependencies:
   class-validator:
     specifier: ^0.14.0
     version: 0.14.0
+  fastify-list-routes:
+    specifier: ^1.0.0
+    version: 1.0.0
   handlebars:
     specifier: ^4.7.8
     version: 4.7.8
@@ -3323,6 +3326,12 @@ packages:
 
   /fast-uri@2.3.0:
     resolution: {integrity: sha512-eel5UKGn369gGEWOqBShmFJWfq/xSJvsgDzgLYC845GneayWvXBf0lJCBn5qTABfewy1ZDPoaR5OZCP+kssfuw==}
+    dev: false
+
+  /fastify-list-routes@1.0.0:
+    resolution: {integrity: sha512-1ayHJiHW54yDlyRTUwEmIB0kH1eFd29I6uIp3/23n8rbGCKwqQzTLKUxHTpmlSN2FG2ceQIrh5HRaNUh1m0ZAA==}
+    dependencies:
+      fastify-plugin: 4.5.1
     dev: false
 
   /fastify-plugin@4.5.1:

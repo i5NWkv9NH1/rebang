@@ -1,0 +1,32 @@
+@prefix = http://localhost:4002/api/sites/pengpai
+
+
+'''
+  public channels = [
+    { name: '要闻', channelId: '' },
+    { name: '时事', channelId: '25950' },
+    { name: '国际', channelId: '122908' },
+    { name: '财经', channelId: '25951' },
+    { name: '科技', channelId: '119908' },
+    { name: '要闻', channelId: '36079' },
+    { name: '智库', channelId: '119489' },
+    { name: '生活', channelId: '25953' },
+    { name: '思想', channelId: '25952' }
+  ]
+
+  public nodes = [
+    { name: '中国政库', nodeId: '25462' },
+    { name: '中南海', nodeId: '25488' }
+  ]
+
+'''
+
+###
+GET {{prefix}}/hot
+
+###
+GET {{prefix}}/channel/
+###
+GET {{prefix}}/channel/25950
+###
+GET {{prefix}}/node/25462

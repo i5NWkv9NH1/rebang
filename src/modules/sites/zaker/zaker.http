@@ -1,0 +1,32 @@
+@prefix = http://localhost:4002/api/sites/zaker
+
+###
+POST {{prefix}}/hot
+Content-Type: application/json
+
+{
+  "nextUrl": ""
+}
+###
+POST {{prefix}}/hot
+Content-Type: application/json
+
+{
+  "nextUrl": "//www.myzaker.com/news/home_index_next.php?since_date=1702509228&next_aticle_id=657a94358e9f094dc63a966b&otimestamp=274&top_tab_id=12183&opage=3&app_id=660&sin_key=FzOHtDLSWIL%253Dp1AnzE7bHILHq0OMiF-WWILIb%253DuDwP7icHeAWzwnzEL-l&bcode=84cf0620"
+}
+
+###
+POST {{prefix}}/onlyone
+Content-Type: application/json
+
+{
+  "nextUrl": ""
+}
+
+###
+POST {{prefix}}/onlyone
+Content-Type: application/json
+
+{
+  "nextUrl": "//www.myzaker.com/news/block_next.php?since_date=1701764397&next_aticle_id=656edd2d8e9f094bea0485b8&otimestamp=459&opage=2&app_id=23317&start=908006.672&sin_key=cLVsFcQczeUK4PFRGKTW2qEP0pYxiOTpBMSTyumBwKUxzXlx0ci8vdEKwPAUP&bcode=ba07e33e&is_flock=1"
+}
