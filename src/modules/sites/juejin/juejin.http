@@ -1,19 +1,20 @@
 @prefix = http://localhost:4002/api/sites/juejin
+
+###? 掘金文章榜
+GET {{prefix}}/article
 ###
-GET {{prefix}}/mix
+GET {{prefix}}/article?type=hot&categoryId=1
+
+###? 文章收藏榜
+GET {{prefix}}/article?type=collect&categoryId=1
+
+###? 精选专栏榜
+GET {{prefix}}/column
+
+###? 推荐收藏集
+GET {{prefix}}/rec-collect
+
+###? 优质作者榜
+GET {{prefix}}/author
 ###
-GET {{prefix}}/be
-###
-GET {{prefix}}/fe
-###
-GET {{prefix}}/android
-###
-GET {{prefix}}/iOS
-###
-GET {{prefix}}/ai
-###
-GET {{prefix}}/develop
-###
-GET {{prefix}}/code
-###
-GET {{prefix}}/read
+GET {{prefix}}/author?type=1&categoryId=6809637769959178254

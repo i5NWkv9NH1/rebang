@@ -1,12 +1,23 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { genUserAgent } from 'src/helpers'
 import { FetchService } from 'src/shared/fetch.service'
-import { JUEJIN_API } from './juejin.constant'
+import {
+  JUEJIN_API,
+  JUEJIN_ARTICLE_TYPE,
+  JUEJIN_CACHE_KEY,
+  JUEJIN_ARTICLE_CATEGORY,
+  JUEJIN_AUTHOR_TYPE,
+  JUEJIN_AUTHOR_CATEGORY
+} from './juejin.constant'
 import {
   JuejinItem,
-  OriginJuejinItem,
-  OriginJuejinResponse
+  OriginJuejinArticleItem,
+  OriginJuejinAuthorResponse,
+  OriginJuejinColumnResponse,
+  OriginJuejinRankResponse,
+  OriginJuejinRecCollectResponse
 } from './juejin.type'
+import { RedisService } from 'src/shared/redis.service'
 
 @Injectable()
 export class JuejinService {
@@ -15,119 +26,146 @@ export class JuejinService {
     'User-Agent': genUserAgent('desktop')
   }
 
-  constructor(private readonly fetchService: FetchService) {}
+  constructor(
+    private readonly fetchService: FetchService,
+    private readonly redisService: RedisService
+  ) {}
 
-  //#region 综合
-  public async mix() {
-    const url = JUEJIN_API.MIX
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
-    })
+  //? 掘金文章榜
+  //? 文章收藏榜
+  public async article(
+    type: JUEJIN_ARTICLE_TYPE = JUEJIN_ARTICLE_TYPE.HOT,
+    categoryId: JUEJIN_ARTICLE_CATEGORY = JUEJIN_ARTICLE_CATEGORY.MIX
+  ) {
+    const cacheKey = `${JUEJIN_CACHE_KEY.ARTICLE}/type/${type}/categoryId/${categoryId}`
+    const cache = await this.redisService.get(cacheKey)
+    if (cache) return cache
 
-    const items = this.transformFields(response.data.data)
+    const res = await this.fetchService.get<OriginJuejinRankResponse>(
+      `${JUEJIN_API.ARTICLE}&type=${type}&category_id=${categoryId}`,
+      { headers: this.headers }
+    )
+
+    const items = this.transformRankFields(res.data.data)
+
+    await this.redisService.set(cacheKey, items)
     return items
   }
-  //#endregion
 
-  //#region 后端
-  public async be() {
-    const url = JUEJIN_API.BE
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
+  public async column() {
+    const cache = await this.redisService.get(JUEJIN_CACHE_KEY.COLUMN)
+    if (cache) return cache
+
+    const payload = { cursor: '', page_size: 30, sort_type: 2 }
+    const res = await this.fetchService.post<OriginJuejinColumnResponse>(
+      JUEJIN_API.COLUMN,
+      payload,
+      { headers: this.headers }
+    )
+    const items = res.data.data.map((item) => {
+      const id = item.column.column_id
+      const originUrl = 'https://juejin.cn/column/' + id
+      const title = item.column.column_version.title
+      const caption = item.column.column_version.content
+      const thumbnailUrl = item.column.column_version.cover
+      const author = {
+        id: item.column.author.user_id,
+        name: item.column.author.user_name,
+        avatarUrl: item.column.author.avatar_large
+      }
+      const stats = {
+        article: item.column.column.article_cnt,
+        subscribe: item.column.column.follow_cnt
+      }
+      return { id, originUrl, title, caption, thumbnailUrl, author, stats }
     })
 
-    const items = this.transformFields(response.data.data)
+    await this.redisService.set(JUEJIN_CACHE_KEY.COLUMN, items)
     return items
   }
-  //#endregion
 
-  //#region 前端
-  public async fe() {
-    const url = JUEJIN_API.FE
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
+  public async recCollect() {
+    const cache = await this.redisService.get(JUEJIN_CACHE_KEY.REC_COLLECT)
+    if (cache) return cache
+
+    const payload = {
+      cursor: '',
+      filter: { article_info: true },
+      limit: 30,
+      module_type: 0,
+      sort_type: 2
+    }
+    const res = await this.fetchService.post<OriginJuejinRecCollectResponse>(
+      JUEJIN_API.REC_COLLECT,
+      payload,
+      {
+        headers: this.headers
+      }
+    )
+    const items = res.data.data.map((item) => {
+      const id = item.collection_set.creator_id
+      const originUrl = 'https://juejin.cn/collection/' + id
+      const title = item.collection_set.collection_name
+      const author = {
+        id: item.creator.user_id,
+        name: item.creator.user_name,
+        avatarUrl: item.creator.avatar_large
+      }
+      const stats = {
+        article: item.collection_set.post_article_count,
+        subscribe: item.collection_set.concern_user_count
+      }
+
+      return { id, originUrl, title, author, stats }
     })
 
-    const items = this.transformFields(response.data.data)
+    await this.redisService.set(JUEJIN_CACHE_KEY.REC_COLLECT, items)
     return items
   }
-  //#endregion
 
-  //#region 安卓
-  public async android() {
-    const url = JUEJIN_API.FE
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
+  public async author(
+    type: JUEJIN_AUTHOR_TYPE = JUEJIN_AUTHOR_TYPE.WEEK,
+    categoryId: JUEJIN_AUTHOR_CATEGORY = JUEJIN_AUTHOR_CATEGORY.BE
+  ) {
+    const cacheKey = `${JUEJIN_CACHE_KEY.AUTHOR}/type/${type}/category/${categoryId}`
+    const cache = await this.redisService.get(cacheKey)
+    if (cache) return cache
+
+    const payload = {
+      item_rank_type: type,
+      item_sub_rank_type: categoryId
+    }
+    const res = await this.fetchService.post<OriginJuejinAuthorResponse>(
+      JUEJIN_API.AUTHOR,
+      payload,
+      { headers: this.headers }
+    )
+
+    const items = res.data.data.user_rank_list.map((item) => {
+      const id = item.user_info.user_id
+      const name = item.user_info.user_name
+      const avatarUrl = item.user_info.avatar_large
+      const originUrl = 'https://juejin.cn/user/' + id
+      const caption = item.user_info.description
+      const jobTitle = item.user_info.job_title
+      const stats = {
+        level: item.user_info.level,
+        hot: item.hot_value,
+        article: item.user_info.post_article_count,
+        like: item.user_info.got_digg_count,
+        collect: item.user_info.collection_set_article_count,
+        follower: item.user_info.follower_count,
+        following: item.user_info.followee_count,
+        power: item.user_info.power,
+        view: item.user_info.got_view_count
+      }
+      return { id, name, avatarUrl, originUrl, caption, jobTitle, stats }
     })
-
-    const items = this.transformFields(response.data.data)
+    await this.redisService.set(cacheKey, items)
     return items
   }
-  //#endregion
 
-  //#region iOS
-  public async iOS() {
-    const url = JUEJIN_API.IOS
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
-    })
-
-    const items = this.transformFields(response.data.data)
-    return items
-  }
-  //#endregion
-
-  //#region 人工智能
-  public async ai() {
-    const url = JUEJIN_API.AI
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
-    })
-
-    const items = this.transformFields(response.data.data)
-    return items
-  }
-  //#endregion
-
-  //#region 开发工具
-  public async develop() {
-    const url = JUEJIN_API.DEVELOP
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
-    })
-
-    const items = this.transformFields(response.data.data)
-    return items
-  }
-  //#endregion
-
-  //#region 代码人生
-  public async code() {
-    const url = JUEJIN_API.CODE
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
-    })
-
-    const items = this.transformFields(response.data.data)
-    return items
-  }
-  //#endregion
-
-  //#region 阅读
-  public async read() {
-    const url = JUEJIN_API.CODE
-    const response = await this.fetchService.get<OriginJuejinResponse>(url, {
-      headers: this.headers
-    })
-
-    const items = this.transformFields(response.data.data)
-    return items
-  }
-  //#endregion
-
-  //* data is response.body
-  //* it include data content
-  public transformFields(items: OriginJuejinItem[]): JuejinItem[] {
+  public transformRankFields(items: OriginJuejinArticleItem[]): JuejinItem[] {
     return items.map((item) => {
       return {
         id: item.content.content_id,
