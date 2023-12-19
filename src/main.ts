@@ -3,32 +3,31 @@ import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
 import { HttpConfig, IConfigs } from './shared/configuration'
 import fastifyListRoutes from 'fastify-list-routes'
+// import expressListRoutes from 'express-list-routes'
 import {
   NestFastifyApplication,
   FastifyAdapter
 } from '@nestjs/platform-fastify'
 import { join } from 'path'
 import { BadRequestException, ValidationPipe } from '@nestjs/common'
+import { NestExpressApplication } from '@nestjs/platform-express'
 // import { ValidationPipe } from './shared/validation.pipe'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter()
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule
+    // new FastifyAdapter()
   )
-  await app.register(fastifyListRoutes, { colors: true })
+  // await app.register(fastifyListRoutes, { colors: true })
 
   // const configs = app.get(ConfigService);
   // const { host, port } = configs.get<HttpConfig>('http');
   app.enableShutdownHooks()
-  app.enableCors({
-    origin: ['http://localhost']
-  })
   app.setGlobalPrefix('api')
-  app.useStaticAssets({
-    root: join(__dirname, '..', 'public'),
-    prefix: '/public/'
-  })
+  // app.useStaticAssets({
+  //   root: join(__dirname, '..', 'public'),
+  //   prefix: '/public/'
+  // })
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

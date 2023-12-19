@@ -11,9 +11,14 @@ export class WeiboController {
     return await this.weiboService.getVerifyCode(getVerifyCodeDto)
   }
 
-  @Post('cookie')
-  public async getCookie(@Body() loginDto: LoginDto) {
-    return await this.weiboService.getCookie(loginDto)
+  @Post('login')
+  public async login(@Body() loginDto: LoginDto) {
+    return await this.weiboService.login(loginDto)
+  }
+
+  @Get('cookie')
+  public async getCookie() {
+    return await this.weiboService.getCookie()
   }
 
   //#region weibo

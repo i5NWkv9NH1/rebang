@@ -1,0 +1,8 @@
+@prefix = http://localhost:4002/api/tasks
+
+###
+GET {{prefix}}
+###
+GET {{prefix}}/repeat:17b3ce404a4c10bbf3bb3191105c0390:1702657275000
+###
+GET {{prefix}}/repeat:17b3ce404a4c10bbf3bb3191105c0390:1702657275000

@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
 import { AxiosError, AxiosRequestConfig } from 'axios'
-import { catchError, firstValueFrom } from 'rxjs'
+import { catchError, firstValueFrom, map } from 'rxjs'
 
 @Injectable()
 export class FetchService {
@@ -11,14 +11,16 @@ export class FetchService {
 
   public async get<T>(url: string, config: AxiosRequestConfig) {
     this.logger.log(`Http Request: ${url}`)
-    return await firstValueFrom(
-      this.httpService.get<T>(url, config).pipe(
-        catchError((error: AxiosError) => {
-          this.logger.error(error.response.data)
-          throw 'An error happened!'
-        })
-      )
-    )
+    // return await firstValueFrom(
+    //   this.httpService.get<T>(url, config).pipe(
+    //     catchError((error: AxiosError) => {
+    //       this.logger.error(error.response.data)
+    //       throw 'An error happened!'
+    //     })
+    //   )
+    // )
+    // return this.httpService.get<T>(url, config).pipe(map((res) => res.data))
+    return this.httpService.axiosRef.get<T>(url, config)
   }
 
   public async post<T>(url: string, payload: any, config: AxiosRequestConfig) {

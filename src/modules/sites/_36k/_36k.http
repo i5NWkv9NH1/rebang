@@ -1,11 +1,11 @@
 @prefix = http://localhost:4002/api/sites/36k
 
-### LATEST
+###? 最新
 GET {{prefix}}/latest
 ###
 GET {{prefix}}/latest?pageCallback=eyJmaXJzdElkIjo0NDQxMzc5LCJsYXN0SWQiOjQ0NDEyMTQsImZpcnN0Q3JlYXRlVGltZSI6MTcwMjMwMTQyOTAwMCwibGFzdENyZWF0ZVRpbWUiOjE3MDIyOTMzNzcwOTd9
 
-### RANK
+###? 榜单
 GET {{prefix}}/rank/hot
 ###
 GET {{prefix}}/rank/video

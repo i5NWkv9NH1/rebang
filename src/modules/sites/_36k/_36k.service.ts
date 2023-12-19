@@ -11,6 +11,7 @@ import {
   _36KPaginationItem,
   _36KRankCollectResponse,
   _36KRankCommentResponse,
+  _36KRankHotResponse,
   _36KRankItem,
   _36KRankVideoResponse
 } from './_36k.type'
@@ -43,10 +44,16 @@ export class _36KService {
   //#region 热榜 - 人气榜
   //? 每5分钟更新
   public async rankHot() {
-    const url = _36K_API.RANK.HOT
-    const response = await this.fetchService.post<any>(url, this.payload, {
-      headers: this.headers
-    })
+    const response = await this.fetchService.post<_36KRankHotResponse>(
+      _36K_API.RANK.HOT,
+      {
+        ...this.payload,
+        timestamp: new Date().getTime()
+      },
+      {
+        headers: this.headers
+      }
+    )
 
     const data = response.data.data.hotRankList
       .map((item: _36KRankItem) => {
@@ -54,7 +61,9 @@ export class _36KService {
         const thumbnail = item.templateMaterial.widgetImage
         const url = 'https://36kr.com/p/' + item.itemId
         const time = item.templateMaterial.publishTime
-        const author = item.templateMaterial.authorName
+        const author = {
+          name: item.templateMaterial.authorName
+        }
         const stats = {
           collect: item.templateMaterial.statCollect,
           comment: item.templateMaterial.statComment,

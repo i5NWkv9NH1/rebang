@@ -62,12 +62,15 @@ export class WeiboService {
       )
     }
 
-    return response.data
+    return {
+      message: response.data.msg,
+      sendsms: response.data.sendsms
+    }
   }
   //#endregion
 
   //#region 登录
-  public async getCookie(loginDto: LoginDto) {
+  public async login(loginDto: LoginDto) {
     const cache = await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
     if (cache) return cache
 
@@ -101,12 +104,18 @@ export class WeiboService {
       .toString()
       .replaceAll(',', ';')
 
-    await this.redisService.set(WEIBO_CACHE_KEY.COOKIE, cookie)
+    await this.redisService.set(WEIBO_CACHE_KEY.COOKIE, cookie, 259200)
 
     return {
       cookies: cookie,
       ...response.data
     }
+  }
+  //#endregion
+
+  //#region 获取Cookie
+  public async getCookie() {
+    return await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
   }
   //#endregion
 
@@ -153,9 +162,10 @@ export class WeiboService {
           publishedDate
         }
       })
-    await this.redisService.set(WEIBO_CACHE_KEY.HOT_SEARCH, items)
 
-    return items
+    const data = { items }
+    await this.redisService.set(WEIBO_CACHE_KEY.HOT_SEARCH, data)
+    return data
   }
   //#endregion
 
@@ -197,9 +207,11 @@ export class WeiboService {
         stats
       }
     })
-    await this.redisService.set(WEIBO_CACHE_KEY.HOT_SEARCH, items)
 
-    return items
+    const data = { items }
+    await this.redisService.set(WEIBO_CACHE_KEY.NEWS, data)
+
+    return data
   }
   //#endregion
 
@@ -243,9 +255,10 @@ export class WeiboService {
         }
       }
     )
-    await this.redisService.set(WEIBO_CACHE_KEY.ENTRANK, items)
 
-    return items
+    const data = { items }
+    await this.redisService.set(WEIBO_CACHE_KEY.ENTRANK, data)
+    return data
   }
   //#endregion
 

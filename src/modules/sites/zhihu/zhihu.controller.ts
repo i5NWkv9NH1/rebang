@@ -13,7 +13,6 @@ import { PaginateTransformInterceptor } from 'src/shared/paginate-transform.Inte
 import { SetCookieDto } from './zhihu.type'
 
 @Controller('sites/zhihu')
-@UseInterceptors(PaginateTransformInterceptor)
 export class ZhihuController {
   constructor(
     private readonly redisService: RedisService,

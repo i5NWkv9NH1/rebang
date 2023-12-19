@@ -55,33 +55,41 @@ export interface OriginZhihuWebResponse {
 
 //? api
 export interface OriginZhihuHotItem {
-  attached_info: string
-  card_id: string
-  feed_specific: { answer_count: number }
-  answer_count: number
-  id: string
+  type: string
   style_type: string
+  id: string
+  card_id: string
   target: {
-    excerpt_area: { text: string }
-    image_area: { url: string }
-    label_area: {
-      night_color: string
-      normal_color: string
-      trend: number
-      type: 'trend'
+    id: number
+    title: string
+    url: string
+    type: string
+    created: number
+    answer_count: number
+    follower_count: number
+    author: {
+      type: string
+      user_type: string
+      id: string
+      url_token: string
+      url: string
+      name: string
+      headline: string
+      avatar_url: string
     }
-    link: { url: string }
-    metrics_area: {
-      background: string
-      font_color: string
-      text: string
-      weight: string
-    }
-    title_area: {
-      text: string
-    }
+    bound_topic_ids: number[]
+    comment_count: number
+    is_following: boolean
+    excerpt: string
   }
-  type: 'hot_list_feed'
+  attached_info: string
+  detail_text: string
+  trend: number
+  debut: boolean
+  children: {
+    type: string
+    thumbnail: string
+  }[]
 }
 export interface OriginZhihuPaginateResponse {
   paging: {

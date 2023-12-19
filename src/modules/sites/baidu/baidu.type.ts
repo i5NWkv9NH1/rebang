@@ -11,4 +11,3 @@ export interface BaiduRankItem extends CommonItem {
     hot: number
   }
 }
-export interface BaiduRankResponse {}

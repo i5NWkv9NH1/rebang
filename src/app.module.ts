@@ -1,21 +1,19 @@
-import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { SitesModule } from './modules/sites/sites.module'
 import { ConfigModule } from '@nestjs/config'
-import configuration from './shared/configuration'
-import { PlaywrightModule } from 'nestjs-playwright'
-import { CacheModule } from '@nestjs/cache-manager'
-import { TasksModule } from './modules/tasks/tasks.module'
-import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
-import { RedisModule } from '@liaoliaots/nestjs-redis'
+import { Module } from '@nestjs/common'
+import { PlaywrightModule } from 'nestjs-playwright'
 import { RedisService } from 'src/shared/redis.service'
-import { SharedModule } from './shared/shared.module'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import { ScheduleModule } from '@nestjs/schedule'
-import { HttpModule } from '@nestjs/axios'
-import { WeatherModule } from './modules/weather/weather.module';
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { SharedModule } from './shared/shared.module'
+import { SitesModule } from './modules/sites/sites.module'
+import { TasksModule } from './modules/tasks/tasks.module'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { WeatherModule } from './modules/weather/weather.module'
+import configuration from './shared/configuration'
+import { BullModule } from '@nestjs/bull'
 
 @Module({
   imports: [
@@ -35,8 +33,7 @@ import { WeatherModule } from './modules/weather/weather.module';
       load: [configuration],
       isGlobal: true
     }),
-
-    ScheduleModule.forRoot(),
+    // ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
       exclude: ['/api/(.*)', '/public/(.*)'],
@@ -54,12 +51,12 @@ import { WeatherModule } from './modules/weather/weather.module';
       synchronize: true,
       entities: [__dirname + '/**/*.entity.{js,ts}']
     }),
-    SitesModule,
     TasksModule,
+    SitesModule,
     WeatherModule
   ],
   controllers: [AppController],
-  providers: [AppService, RedisService],
-  exports: [RedisService]
+  providers: [AppService],
+  exports: []
 })
 export class AppModule {}

@@ -19,7 +19,6 @@ import {
 } from 'src/types/kr.type'
 import { genUserAgent } from 'src/helpers'
 import { Tag } from 'src/types'
-import { _36kTags } from 'src/constants'
 
 @Injectable()
 export class _36KService {
