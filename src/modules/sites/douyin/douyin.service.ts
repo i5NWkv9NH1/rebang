@@ -18,7 +18,9 @@ export class DouyinService {
   ) {}
 
   public async getCookie() {
-    const cache = await this.redisService.get(DOUYIN_CACHE_KEY.COOKIE)
+    const cache = (await this.redisService.get(
+      DOUYIN_CACHE_KEY.COOKIE
+    )) as string
     if (cache) return cache
 
     const url = DOUYIN_API.COOKIE
@@ -32,8 +34,11 @@ export class DouyinService {
       cookie.includes(COOKIE_NAME)
     )
 
-    await this.redisService.set(DOUYIN_CACHE_KEY.COOKIE, cookies)
-    return cookies
+    const cookie = parseCookie(cookies)
+
+    await this.redisService.set(DOUYIN_CACHE_KEY.COOKIE, cookie)
+
+    return await this.getCookie()
   }
 
   public async hot() {
@@ -45,11 +50,11 @@ export class DouyinService {
       detail_list: 1,
       round_trip_time: 50
     }
-    const cookies = parseCookie(await this.getCookie())
+    const cookie = await this.getCookie()
     const response = await this.fetchService.get<DouyinRankHotResponse>(url, {
       headers: {
         ...this.headers,
-        Cookie: cookies
+        Cookie: cookie
       },
       params
     })

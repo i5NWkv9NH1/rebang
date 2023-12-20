@@ -16,5 +16,3 @@ GET {{prefix}}/rank/collect
 
 ### TODO
 GET {{prefix}}/today
-
-

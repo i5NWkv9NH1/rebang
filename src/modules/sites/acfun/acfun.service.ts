@@ -46,9 +46,9 @@ export class AcFunService {
       }
     )
 
-    const data = this.transformFields(response.data.rankList)
+    const items = this.transformFields(response.data.rankList)
 
-    return data
+    return items
   }
 
   public async fetchThreeDays() {
@@ -65,9 +65,9 @@ export class AcFunService {
       }
     )
 
-    const data = this.transformFields(response.data.rankList)
+    const items = this.transformFields(response.data.rankList)
 
-    return data
+    return items
   }
 
   public async fetchWeek() {
@@ -84,9 +84,9 @@ export class AcFunService {
       }
     )
 
-    const data = this.transformFields(response.data.rankList)
+    const items = this.transformFields(response.data.rankList)
 
-    return data
+    return items
   }
 
   public transformFields(items: OriginAcFunRankItem[]): AcFunItem[] {
@@ -95,7 +95,7 @@ export class AcFunService {
         id: item.contentId,
         title: item.title,
         caption: item.description || item.contentDesc || '',
-        originUrl: 'https://www.acfun.cn/v/av' + item.contentId,
+        originUrl: 'https://www.acfun.cn/v/ac' + item.contentId,
         thumbnailUrl: item.coverUrl || item.videoCover,
         duration: item.duration,
         publishedDate: item.contributeTime || item.createTimeMillis,

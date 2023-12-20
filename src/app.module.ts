@@ -23,8 +23,11 @@ import { BullModule } from '@nestjs/bull'
         headless: true,
         channel: 'chrome',
         isGlobal: true,
-        executablePath:
-          'C:\\Users\\sora\\scoop\\apps\\googlechromecanary-portable\\current\\chrome.exe'
+        // executablePath:
+        //   'C:\\Users\\sora\\scoop\\apps\\googlechromecanary-portable\\current\\chrome.exe',
+        executablePath: `/usr/bin/google-chrome`,
+        //? for wsl2 manual setting
+        args: ['--proxy-server=172.17.208.1:7890']
       } // optional, any Playwright launch options here or leave empty for good defaults */,
       //? optional, can be useful for using Chrome and Firefox in the same project
       // 'TopHub'
@@ -34,14 +37,14 @@ import { BullModule } from '@nestjs/bull'
       isGlobal: true
     }),
     // ScheduleModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/api/(.*)', '/public/(.*)'],
-      serveStaticOptions: {
-        // @ts-ignore
-        decorateReply: false
-      }
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'client'),
+    //   exclude: ['/api/(.*)', '/public/(.*)', '/queues/(.*)'],
+    //   serveStaticOptions: {
+    //     // @ts-ignore
+    //     decorateReply: false
+    //   }
+    // }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',

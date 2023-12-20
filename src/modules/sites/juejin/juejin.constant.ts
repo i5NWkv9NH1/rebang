@@ -6,7 +6,7 @@ export enum JUEJIN_API {
   //? 推荐收藏
   REC_COLLECT = `https://api.juejin.cn/interact_api/v2/collectionset/collection_recommend_rank?spider=0`,
   //? 优质作者榜
-  AUTHOR = `https://api.juejin.cn/user_api/v1/quality_user/rank?spider=0`
+  AUTHOR = `https://api.juejin.cn/user_api/v1/quality_user/rank`
 }
 
 export enum JUEJIN_ARTICLE_TYPE {

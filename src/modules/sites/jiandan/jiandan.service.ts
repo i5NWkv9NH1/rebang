@@ -125,7 +125,7 @@ export class JiandanService {
 
   public crawler(html: string) {
     const $ = cheerio.load(html)
-    const data = $('.commentlist li')
+    const items = $('.commentlist li')
       .map((_, el) => {
         const id = $(el)
           .find('.text')
@@ -133,14 +133,16 @@ export class JiandanService {
           .find('a')
           .text()
           .trim()
-        const url =
+        const originUrl =
           'https://jandan.net' +
           $(el).find('.text').find('.righttext').find('a').attr('href').trim()
-        const author = $(el).find('.author').find('strong').text().trim()
-        const date = $(el).find('.author').find('small').text().trim()
+        const author = {
+          name: $(el).find('.author').find('strong').text().trim()
+        }
+        const publishDate = $(el).find('.author').find('small').text().trim()
         const category = $(el).find('.text').find('b').text().trim()
         //TODO: text / image / images
-        const content = $(el).find('.text').find('p').html().trim()
+        const caption = $(el).find('.text').find('p').html().trim()
         const stats = {
           like:
             $(el).find('.jandan-vote').find('span').first().text().trim() || 0,
@@ -168,19 +170,19 @@ export class JiandanService {
 
           return {
             id,
-            url,
+            originUrl,
             author,
-            date,
+            publishDate,
             category,
-            content,
+            caption,
             hotTucaoList,
             stats
           }
         }
-        return { id, url, author, date, category, content, stats }
+        return { id, originUrl, author, publishDate, category, caption, stats }
       })
       .toArray()
 
-    return data
+    return items
   }
 }

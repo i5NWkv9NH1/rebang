@@ -10,8 +10,8 @@ export const HUPU_API = {
 }
 
 export enum HUPU_TABS {
-  SPORTS = `sports`,
   GAMBIA = `gambia`,
+  SPORTS = `sports`,
   ENT = `ent`,
   LOL = `lol`,
   GAME = `gg`,

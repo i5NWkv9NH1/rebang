@@ -2,63 +2,38 @@ import { InjectQueue } from '@nestjs/bull'
 import { HttpException, Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { SchedulerRegistry } from '@nestjs/schedule'
 import { HttpStatusCode } from 'axios'
-import { Queue } from 'bull'
+import { JobStatus, Queue } from 'bull'
+import { delay } from 'src/helpers'
 
 @Injectable()
-export class TasksService {
+export class TasksService implements OnModuleInit {
   private readonly logger = new Logger(TasksService.name)
+  private readonly types = [
+    'active',
+    'completed',
+    'delayed',
+    'failed',
+    'paused',
+    'waiting'
+  ] as JobStatus[]
+  private selectedQueue: Queue
 
   // constructor(private readonly schedulerRegistry: SchedulerRegistry) {}
   constructor(
     @InjectQueue('_36k')
-    private readonly _36kQueue: Queue,
+    private readonly queue_36k: Queue,
     @InjectQueue('_360')
-    private readonly _360Queue: Queue
+    private readonly queue_360: Queue
   ) {}
 
-  public async findAllTask() {
-    return await this._36kQueue.getJobs([
-      'active',
-      'completed',
-      'delayed',
-      'failed',
-      'paused',
-      'waiting'
-    ])
-    // let tasks: any[] = []
-    // const jobs = this.schedulerRegistry.getCronJobs()
-    // jobs.forEach((job, key, map) => {
-    //   const item = {
-    //     lastDate: job.lastDate(),
-    //     lastExcute: job.lastExecution,
-    //     cronTime: job.context.cronTime.toString()
-    //   }
-    //   tasks.push(item)
-    // })
-    // return tasks
+  async onModuleInit() {}
+  async findAllTask() {
+
   }
 
-  public startByTaskName(name: string) {
-    // const task = this.schedulerRegistry.getCronJob(name)
-    // if (!task) {
-    //   throw new HttpException(`Task ${name} not Found`, HttpStatusCode.NotFound)
-    // }
-    // task.stop()
-    // return { status: 'ok' }
-  }
-  public stopByTaskName(name: string) {
-    // const task = this.schedulerRegistry.getCronJob(name)
-    // if (!task) {
-    //   throw new HttpException(`Task ${name} not Found`, HttpStatusCode.NotFound)
-    // }
-    // task.start()
-    // return { status: 'ok' }
-  }
-  public setTaskTimeByName() {}
-
-  public async findTaskByName(id: string) {
-    // return await this._36kQueue.getJobs(['active', 'completed', 'delayed', 'failed', 'paused', 'waiting'])
-    return await this._36kQueue.getJob(id)
-    // return this.schedulerRegistry.getCronJob(name)
+  async findAllBySite(site: string) {
+    const name = `queue_${site}` as 'queue_36k' | 'queue_360'
+    this.selectedQueue = this[name]
+    return this.selectedQueue.getJobs(this.types)
   }
 }

@@ -34,16 +34,17 @@ export class XueqiuService {
       headers: this.headers
     })
     const cookies = response.headers['set-cookie'] as string[]
+    const cookie = parseCookie(cookies)
 
-    await this.redisService.set(XUEQIU_CACHE_KEY.COOKIE, cookies)
+    await this.redisService.set(XUEQIU_CACHE_KEY.COOKIE, cookie)
 
-    return cookies
+    return cookie
   }
   //#endregion
 
   //#region 热门股
   public async hotStock() {
-    const cookie = parseCookie(await this.getCookie())
+    const cookie = await this.getCookie()
     const url = XUEQIU_API.HOT_STOCK
     const params = {
       size: 8,
@@ -61,7 +62,7 @@ export class XueqiuService {
 
   //#region 公告
   public async notice() {
-    const cookie = parseCookie(await this.getCookie())
+    const cookie = await this.getCookie()
     const url = XUEQIU_API.NOTICE
 
     const params = {
@@ -94,7 +95,7 @@ export class XueqiuService {
 
   //#region 新闻
   public async news() {
-    const cookie = parseCookie(await this.getCookie())
+    const cookie = await this.getCookie()
     const url = XUEQIU_API.NEWS
     const params = {
       count: 1,
@@ -129,8 +130,7 @@ export class XueqiuService {
       maxId: -1,
       count: 10
     }
-
-    const cookie = parseCookie(await this.getCookie())
+    const cookie = await this.getCookie()
     const url = XUEQIU_API.DAY
     const response = await this.fetchService.get<any>(url, {
       headers: { ...this.headers, Cookie: cookie, Host: 'xueqiu.com' },

@@ -20,7 +20,7 @@ import { HUXIU_API } from './huxiu.constant'
 export class HuxiuService {
   private readonly logger = new Logger(HuxiuService.name)
   private readonly headers = {
-    'Uesr-Agent': genUserAgent('desktop'),
+    'Uesr-Agent': genUserAgent('mobile'),
     Origin: 'https://www.huxiu.com',
     Referer: 'https://www.huxiu.com/'
   }
@@ -44,14 +44,12 @@ export class HuxiuService {
 
     const response = await this.fetchService.get<OriginHuxiuPaginationResponse>(
       url,
-      {
-        headers: this.headers,
-        params
-      }
+      { params, headers: this.headers }
     )
-    const items = this.transformLatestItems(response.data.data.dataList).filter(
-      (item) => !item.status.sponsor
-    )
+    this.logger.debug(response.data)
+
+    const items = this.transformLatestItems(response.data.data.dataList)
+
     const meta = {
       currentPage: response.data.data.cur_page,
       pageSize: response.data.data.pagesize,

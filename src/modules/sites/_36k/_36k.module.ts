@@ -6,6 +6,8 @@ import { _36KTask } from './_36k.task'
 import { _36KController } from './_36k.controller'
 import { BullModule } from '@nestjs/bull'
 import { _36kProcessor } from './_36k.processor'
+import { BullBoardModule } from '@bull-board/nestjs'
+import { BullAdapter } from '@bull-board/api/bullAdapter'
 
 @Module({
   imports: [
@@ -13,7 +15,11 @@ import { _36kProcessor } from './_36k.processor'
     {
       ...BullModule.registerQueue({ name: '_36k' }),
       global: true
-    }
+    },
+    BullBoardModule.forFeature({
+      name: '_36k',
+      adapter: BullAdapter
+    })
   ],
   providers: [_36KService, _36KTask, _36kProcessor],
   exports: [_36KService, _36KTask, _36kProcessor],

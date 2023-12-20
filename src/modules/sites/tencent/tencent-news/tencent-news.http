@@ -1,0 +1,6 @@
+@prefix = http://localhost:4002/api/sites/tencent/news
+
+###
+GET {{prefix}}/rank
+###
+GET {{prefix}}/questions

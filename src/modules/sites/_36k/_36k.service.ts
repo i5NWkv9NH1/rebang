@@ -17,6 +17,8 @@ import {
 } from './_36k.type'
 import { _36K_API } from './_36k.constant'
 
+//TODO: paginate - latest
+//TODO: fields
 @Injectable()
 export class _36KService {
   private readonly logger = new Logger(_36KService.name)
@@ -55,12 +57,14 @@ export class _36KService {
       }
     )
 
-    const data = response.data.data.hotRankList
+    const items = response.data.data.hotRankList
       .map((item: _36KRankItem) => {
+        const id = item.itemId
         const title = item.templateMaterial.widgetTitle
-        const thumbnail = item.templateMaterial.widgetImage
-        const url = 'https://36kr.com/p/' + item.itemId
-        const time = item.templateMaterial.publishTime
+        const thumbnailUrl = item.templateMaterial.widgetImage
+        const originUrl = 'https://36kr.com/p/' + item.itemId
+        const publishedDate = item.templateMaterial.publishTime
+        const type = 'article'
         const author = {
           name: item.templateMaterial.authorName
         }
@@ -73,18 +77,19 @@ export class _36KService {
         }
 
         return {
+          id,
           title,
-          thumbnail,
+          type,
+          thumbnailUrl,
           author,
-          time,
-          url,
-          stats,
-          ...item
+          originUrl,
+          publishedDate,
+          stats
         }
       })
       .filter((item) => item)
 
-    return data
+    return items
   }
   //#endregion
 
@@ -96,19 +101,22 @@ export class _36KService {
       this.payload,
       { headers: this.headers }
     )
-    const data = response.data.data.videoList.map((item) => {
+    const items = response.data.data.videoList.map((item) => {
       return {
-        ...item,
         id: item.itemId,
         title: item.templateMaterial.widgetTitle,
-        thumbnail: item.templateMaterial.widgetImage,
-        duration: item.templateMaterial.duration,
+        type: 'video',
+        originUrl: 'https://36kr.com/video/' + item.itemId,
+        thumbnailUrl: item.templateMaterial.widgetImage,
         createdAt: item.templateMaterial.publishTime,
-        stats: { read: item.templateMaterial.statRead }
+        stats: {
+          read: item.templateMaterial.statRead,
+          duration: item.templateMaterial.duration
+        }
       }
     })
 
-    return data
+    return items
   }
   //#endregion
 
@@ -120,18 +128,19 @@ export class _36KService {
       this.payload,
       { headers: this.headers }
     )
-    const data = response.data.data.remarkList.map((item) => {
+    const items = response.data.data.remarkList.map((item) => {
       return {
-        ...item,
         id: item.itemId,
         title: item.templateMaterial.widgetTitle,
-        thumbnail: item.templateMaterial.widgetImage,
+        type: 'article',
+        originUrl: 'https://36kr.com/p/' + item.itemId,
+        thumbnailUrl: item.templateMaterial.widgetImage,
         createdAt: item.templateMaterial.publishTime,
         stats: { comment: item.templateMaterial.statComment }
       }
     })
 
-    return data
+    return items
   }
   //#endregion
 
@@ -143,22 +152,22 @@ export class _36KService {
       this.payload,
       { headers: this.headers }
     )
-    const data = response.data.data.collectList.map((item) => {
+    const items = response.data.data.collectList.map((item) => {
       return {
-        ...item,
         id: item.itemId,
         title: item.templateMaterial.widgetTitle,
-        thumbnail: item.templateMaterial.widgetImage,
+        type: 'article',
+        originUrl: 'https://36kr.com/p/' + item.itemId,
+        thumbnailUrl: item.templateMaterial.widgetImage,
         createdAt: item.templateMaterial.publishTime,
         stats: { collect: item.templateMaterial.statCollect }
       }
     })
 
-    return data
+    return items
   }
   //#endregion
 
-  //TODO: paginate
   //#region 最新资讯
   public async latest(pageCallback: string = '') {
     //* 先访问网页获取<script>数据
@@ -227,24 +236,30 @@ export class _36KService {
   //#endregion
 
   public transformPaginateData(items: _36KPaginationItem[]) {
-    return items
-      .map((item) => {
-        const title = item.templateMaterial.widgetTitle
-        const thumbnail = item.templateMaterial.widgetImage
-        const url = 'https://36kr.com/p/' + item.itemId
-        const author = item.templateMaterial.authorName
-        const time = item.templateMaterial.publishTime
-        const theme = item.templateMaterial.navName
-        return {
-          title,
-          author,
-          time,
-          thumbnail,
-          url,
-          theme,
-          ...item
-        }
-      })
-      .filter((item) => item.title)
+    return (
+      items
+        //? ad
+        .filter((item) => item.itemType !== 0)
+        .map((item) => {
+          const id = item.itemId
+          const title = item.templateMaterial.widgetTitle
+          const thumbnailUrl = item.templateMaterial.widgetImage
+          const originUrl = 'https://36kr.com/p/' + id
+          const author = {
+            name: item.templateMaterial.authorName
+          }
+          const createdAt = item.templateMaterial.publishTime
+          const tag = item.templateMaterial.navName
+          return {
+            id,
+            title,
+            author,
+            createdAt,
+            thumbnailUrl,
+            originUrl,
+            tag
+          }
+        })
+    )
   }
 }

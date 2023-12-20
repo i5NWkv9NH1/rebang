@@ -124,7 +124,7 @@ export class JuejinService {
   }
 
   public async author(
-    type: JUEJIN_AUTHOR_TYPE = JUEJIN_AUTHOR_TYPE.WEEK,
+    type: JUEJIN_AUTHOR_TYPE = 1,
     categoryId: JUEJIN_AUTHOR_CATEGORY = JUEJIN_AUTHOR_CATEGORY.BE
   ) {
     const cacheKey = `${JUEJIN_CACHE_KEY.AUTHOR}/type/${type}/category/${categoryId}`

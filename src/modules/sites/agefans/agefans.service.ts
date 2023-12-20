@@ -16,12 +16,35 @@ export class AgefansService {
   ) {}
 
   public async latest(page: number = 1, size: number = 10) {
-    const response = await this.fetchService.get(AGEFANS_API.LATEST, {
+    const response = await this.fetchService.get<{
+      total: string
+      videos: {
+        AID: number
+        Href: string
+        NewTitle: string
+        PicSmall: string
+        Title: string
+      }[]
+    }>(AGEFANS_API.LATEST, {
       headers: this.headers,
       params: { page, size }
     })
 
-    return response.data
+    const items = response.data.videos.map((item) => {
+      return {
+        id: item.AID,
+        title: item.Title,
+        caption: item.NewTitle,
+        originUrl: 'https://www.agedm.org' + item.Href,
+        thumbnailUrl: item.PicSmall
+      }
+    })
+    const paginate = {
+      totalSize: +response.data.total,
+      totalPage: Math.ceil(+response.data.total / size)
+    }
+
+    return { items, paginate }
   }
 
   public async comment(cid: number, page: number = 1) {

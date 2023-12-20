@@ -4,6 +4,8 @@ import { RedisService } from './redis.service'
 import { HttpModule } from '@nestjs/axios'
 import { FetchService } from './fetch.service'
 import { BullModule } from '@nestjs/bull'
+import { BullBoardModule } from '@bull-board/nestjs'
+import { ExpressAdapter } from '@bull-board/express'
 
 @Global()
 @Module({
@@ -20,6 +22,10 @@ import { BullModule } from '@nestjs/bull'
         host: 'localhost',
         port: 6379
       }
+    }),
+    BullBoardModule.forRoot({
+      route: '/queues',
+      adapter: ExpressAdapter
     }),
     {
       ...HttpModule.register({}),

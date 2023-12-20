@@ -4,5 +4,17 @@ export interface CommonItem {
   caption?: string
   originUrl: string
   thumbnailUrl?: string
-  publishedDate?: number | string
+  createdAt?: number | string
+  type?: 'article' | 'video'
 }
+
+export interface JobData<T> {
+  name: string
+  items?: T
+  createdAt?: number
+  updatedAt?: number
+}
+
+export type GetReturnDataType<T extends (...args: any) => any> = Awaited<
+  ReturnType<T>
+>

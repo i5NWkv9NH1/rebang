@@ -5,5 +5,5 @@ export enum XUEQIU_API {
   DAY = `https://xueqiu.com/statuses/livenews/list.json`
 }
 export enum XUEQIU_CACHE_KEY {
-  COOKIE = 'XUEQIU_COOKIE'
+  COOKIE = 'XUEQIU/COOKIE'
 }

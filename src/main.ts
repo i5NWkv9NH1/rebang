@@ -23,7 +23,7 @@ async function bootstrap() {
   // const configs = app.get(ConfigService);
   // const { host, port } = configs.get<HttpConfig>('http');
   app.enableShutdownHooks()
-  app.setGlobalPrefix('api')
+  // app.setGlobalPrefix('api', { exclude: ['/public/(.*)', '/queues/(.*)'] })
   // app.useStaticAssets({
   //   root: join(__dirname, '..', 'public'),
   //   prefix: '/public/'

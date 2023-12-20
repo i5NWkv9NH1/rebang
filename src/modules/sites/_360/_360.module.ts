@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { _360Entity } from './_360.entity'
 import { _360Task } from './_360.task'
 import { BullModule } from '@nestjs/bull'
+import { BullBoardModule } from '@bull-board/nestjs'
+import { BullAdapter } from '@bull-board/api/bullAdapter'
 
 @Module({
   imports: [
@@ -12,7 +14,11 @@ import { BullModule } from '@nestjs/bull'
     {
       ...BullModule.registerQueue({ name: '_360' }),
       global: true
-    }
+    },
+    BullBoardModule.forFeature({
+      name: '_360',
+      adapter: BullAdapter
+    })
   ],
   providers: [_360Service, _360Task],
   exports: [_360Service, _360Task],

@@ -19,10 +19,14 @@ import { NeteaseModule } from './netease/netease.module'
 import { PearvideoModule } from './pearvideo/pearvideo.module'
 import { PengpaiModule } from './pengpai/pengpai.module'
 import { ShadiaonewsModule } from './shadiaonews/shadiaonews.module'
+import { SitesController } from './sites.controller'
+import { SitesEntity } from './sites.entity'
+import { SitesService } from './sites.service'
 import { SogouModule } from './sogou/sogou.module'
 import { SspModule } from './ssp/ssp.module'
 import { TencentModule } from './tencent/tencent.module'
 import { ToutiaoModule } from './toutiao/toutiao.module'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { WeiboModule } from './weibo/weibo.module'
 import { XueqiuModule } from './xueqiu/xueqiu.module'
 import { YicaiModule } from './yicai/yicai.module'
@@ -32,6 +36,7 @@ import { ZhihuModule } from './zhihu/zhihu.module'
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([SitesEntity]),
     _360Module,
     _36KModule,
     AcfunModule,
@@ -63,6 +68,8 @@ import { ZhihuModule } from './zhihu/zhihu.module'
     ZhihuDailyModule,
     ZhihuModule
   ],
-  exports: []
+  providers: [SitesService],
+  exports: [SitesService],
+  controllers: [SitesController]
 })
 export class SitesModule {}

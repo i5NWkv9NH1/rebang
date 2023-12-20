@@ -27,8 +27,8 @@ export class BaiduService {
     const response = await this.fetchService.get<string>(url, {
       headers: this.headers
     })
-    const data = this.parseDom(response.data)
-    return data
+    const items = this.parseDom(response.data)
+    return items
   }
 
   public parseDom(html: string) {

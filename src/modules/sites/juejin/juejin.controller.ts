@@ -31,9 +31,12 @@ export class JuejinController {
 
   @Get('author')
   async author(
-    @Query('type') type: JUEJIN_AUTHOR_TYPE,
-    @Query('categoryId') categoryId: JUEJIN_AUTHOR_CATEGORY
+    @Query('type') type: JUEJIN_AUTHOR_TYPE = JUEJIN_AUTHOR_TYPE.WEEK,
+    @Query('categoryId')
+    categoryId: JUEJIN_AUTHOR_CATEGORY = JUEJIN_AUTHOR_CATEGORY.BE
   ) {
+    console.log(type)
+    console.log(categoryId)
     return await this.juejinService.author(type, categoryId)
   }
 }

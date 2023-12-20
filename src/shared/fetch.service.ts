@@ -11,6 +11,8 @@ export class FetchService {
 
   public async get<T>(url: string, config: AxiosRequestConfig) {
     this.logger.log(`Http Request: ${url}`)
+    this.logger.debug(config.params)
+    this.logger.debug(config.headers)
     // return await firstValueFrom(
     //   this.httpService.get<T>(url, config).pipe(
     //     catchError((error: AxiosError) => {
@@ -25,6 +27,8 @@ export class FetchService {
 
   public async post<T>(url: string, payload: any, config: AxiosRequestConfig) {
     this.logger.log(`Http Request: ${url}`)
+    this.logger.debug(payload)
+    this.logger.debug(config.headers)
     return await firstValueFrom(
       this.httpService.post<T>(url, payload, config).pipe(
         catchError((error: AxiosError) => {
