@@ -14,6 +14,7 @@ export const _36K_API = {
   }
 }
 export const _36K_CACHE_KEY = {
+  LATEST: `36K/LATEST`,
   RANK: {
     HOT: `36K/RANK/HOT`,
     VIDEO: `36K/RANK/VIDEO`,

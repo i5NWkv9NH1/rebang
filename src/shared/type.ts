@@ -18,3 +18,7 @@ export interface JobData<T> {
 export type GetReturnDataType<T extends (...args: any) => any> = Awaited<
   ReturnType<T>
 >
+
+export interface ServiceType<T> extends Function {
+  new (...args: any[]): T
+}

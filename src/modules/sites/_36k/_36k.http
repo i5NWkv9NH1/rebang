@@ -1,4 +1,4 @@
-@prefix = http://localhost:4002/api/sites/36k
+@prefix = http://localhost:4002/sites/36k
 
 ###? 最新
 GET {{prefix}}/latest

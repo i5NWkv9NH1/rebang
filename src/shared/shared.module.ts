@@ -6,7 +6,7 @@ import { FetchService } from './fetch.service'
 import { BullModule } from '@nestjs/bull'
 import { BullBoardModule } from '@bull-board/nestjs'
 import { ExpressAdapter } from '@bull-board/express'
-import { LoggingModule } from './logging/logging.module'
+import { RedisCachingInterceptor } from './redis-caching-interceptor'
 
 @Global()
 @Module({
@@ -33,7 +33,7 @@ import { LoggingModule } from './logging/logging.module'
       global: true
     }
   ],
-  providers: [RedisService, FetchService],
-  exports: [RedisService, FetchService, BullModule]
+  providers: [RedisService, FetchService, RedisCachingInterceptor],
+  exports: [RedisService, FetchService, RedisCachingInterceptor]
 })
 export class SharedModule {}
