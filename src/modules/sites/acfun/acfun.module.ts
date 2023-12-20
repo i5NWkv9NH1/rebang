@@ -7,7 +7,7 @@ import { AcFunEntity } from './acfun.entity'
 import { SharedModule } from 'src/shared/shared.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AcFunEntity]), SharedModule],
+  // imports: [TypeOrmModule.forFeature([AcFunEntity]), SharedModule],
   providers: [AcFunService, AcFunTask],
   exports: [AcFunService, AcFunTask],
   controllers: [AcfunController]

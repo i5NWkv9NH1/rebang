@@ -6,7 +6,7 @@ import { ToutiaoEntity } from './toutiao.entity'
 import { ToutiaoTask } from './toutiao.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ToutiaoEntity])],
+  // imports: [TypeOrmModule.forFeature([ToutiaoEntity])],
   providers: [ToutiaoService, ToutiaoTask],
   exports: [ToutiaoService, ToutiaoTask],
   controllers: [ToutiaoController]

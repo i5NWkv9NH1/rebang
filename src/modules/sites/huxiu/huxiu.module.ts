@@ -6,7 +6,7 @@ import { HuxiuEntity } from './huxiu.entity'
 import { HuxiuTask } from './huxiu.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([HuxiuEntity])],
+  // imports: [TypeOrmModule.forFeature([HuxiuEntity])],
   providers: [HuxiuService, HuxiuTask],
   exports: [HuxiuService, HuxiuTask],
   controllers: [HuxiuController]

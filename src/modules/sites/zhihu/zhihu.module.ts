@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ZhihuEntity } from './zhihu.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ZhihuEntity])],
+  // imports: [TypeOrmModule.forFeature([ZhihuEntity])],
   providers: [ZhihuService, ZhihuTask],
   exports: [ZhihuService, ZhihuTask],
   controllers: [ZhihuController]

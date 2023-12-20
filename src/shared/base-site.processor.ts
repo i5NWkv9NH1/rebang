@@ -1,9 +1,9 @@
 import { Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { JobOptions } from 'agenda-nest/dist/interfaces'
 import { JobStatus, Queue } from 'bull'
-import { ServiceType } from 'src/shared/type'
+import { ServiceType } from './type'
 
-export class AbstractSiteProcessor {
+export class BaseSiteProcessor {
   public logger: Logger
   public queue: Queue
   public readonly types = [

@@ -6,7 +6,7 @@ import { HistoryEntity } from './history.entity'
 import { HistoryTask } from './history.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([HistoryEntity])],
+  // imports: [TypeOrmModule.forFeature([HistoryEntity])],
   providers: [HistoryService, HistoryTask],
   exports: [HistoryService, HistoryTask],
   controllers: [HistoryController]

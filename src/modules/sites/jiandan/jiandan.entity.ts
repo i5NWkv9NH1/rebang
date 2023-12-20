@@ -1,5 +1,5 @@
+import { BaseSiteEntity } from 'src/shared/base-site.entity'
 import { Entity } from 'typeorm'
-import { SiteAbstractEntity } from '../site.abstract.entity'
 
-@Entity('jiandan')
-export class JiandanEntity extends SiteAbstractEntity {}
+// @Entity('jiandan')
+export class JiandanEntity extends BaseSiteEntity {}

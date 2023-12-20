@@ -6,7 +6,7 @@ import { BilibiliEntity } from './bilibili.entity'
 import { BilibiliTask } from './bilibili.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BilibiliEntity])],
+  // imports: [TypeOrmModule.forFeature([BilibiliEntity])],
   providers: [BilibiliService, BilibiliTask],
   exports: [BilibiliService, BilibiliTask],
   controllers: [BilibiliController]

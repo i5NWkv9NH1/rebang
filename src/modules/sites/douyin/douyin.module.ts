@@ -6,7 +6,7 @@ import { DouyinTask } from './douyin.task'
 import { DouyinEntity } from './douyin.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DouyinEntity])],
+  // imports: [TypeOrmModule.forFeature([DouyinEntity])],
   providers: [DouyinService, DouyinTask],
   exports: [DouyinService, DouyinTask],
   controllers: [DouyinController]

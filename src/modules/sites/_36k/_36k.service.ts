@@ -37,8 +37,6 @@ export class _36KService {
   }
 
   constructor(
-    @InjectRepository(_36KEntity)
-    private readonly repo: Repository<_36KEntity>,
     private readonly redisService: RedisService,
     private readonly fetchService: FetchService
   ) {}

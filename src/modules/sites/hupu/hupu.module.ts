@@ -6,7 +6,7 @@ import { HupuEntity } from './hupu.entity'
 import { HupuTask } from './hupu.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([HupuEntity])],
+  // imports: [TypeOrmModule.forFeature([HupuEntity])],
   providers: [HupuService, HupuTask],
   exports: [HupuService, HupuTask],
   controllers: [HupuController]

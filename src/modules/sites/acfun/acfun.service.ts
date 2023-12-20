@@ -26,8 +26,6 @@ export class AcFunService {
   }
 
   constructor(
-    @InjectRepository(AcFunEntity)
-    private readonly repo: Repository<AcFunEntity>,
     private readonly redisService: RedisService,
     private readonly fetchService: FetchService
   ) {}

@@ -6,7 +6,7 @@ import { ITHomeEntity } from './ithome.entity'
 import { ITHomeTask } from './ithome.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ITHomeEntity])],
+  // imports: [TypeOrmModule.forFeature([ITHomeEntity])],
   providers: [ITHomeService, ITHomeTask],
   exports: [ITHomeService, ITHomeTask],
   controllers: [ITHomeController]

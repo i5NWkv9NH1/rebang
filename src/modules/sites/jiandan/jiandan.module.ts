@@ -6,7 +6,7 @@ import { JiandanEntity } from './jiandan.entity'
 import { JiandanTask } from './jiandan.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([JiandanEntity])],
+  // imports: [TypeOrmModule.forFeature([JiandanEntity])],
   providers: [JiandanService, JiandanTask],
   exports: [JiandanService, JiandanTask],
   controllers: [JiandanController]

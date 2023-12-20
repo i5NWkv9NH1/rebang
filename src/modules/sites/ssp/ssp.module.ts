@@ -6,7 +6,7 @@ import { SspEntity } from './ssp.entity'
 import { SspTask } from './ssp.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SspEntity])],
+  // imports: [TypeOrmModule.forFeature([SspEntity])],
   providers: [SspService, SspTask],
   exports: [SspService, SspTask],
   controllers: [SspController]

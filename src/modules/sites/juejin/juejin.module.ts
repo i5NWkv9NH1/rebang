@@ -6,7 +6,7 @@ import { JuejinEntity } from './juejin.entity'
 import { JuejinTask } from './juejin.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([JuejinEntity])],
+  // imports: [TypeOrmModule.forFeature([JuejinEntity])],
   providers: [JuejinService, JuejinTask],
   exports: [JuejinService, JuejinTask],
   controllers: [JuejinController]

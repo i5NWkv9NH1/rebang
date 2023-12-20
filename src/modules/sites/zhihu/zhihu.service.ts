@@ -26,8 +26,6 @@ export class ZhihuService {
   }
 
   constructor(
-    @InjectRepository(ZhihuEntity)
-    private readonly repo: Repository<ZhihuEntity>,
     private readonly redisService: RedisService,
     private readonly fetchService: FetchService
   ) {}

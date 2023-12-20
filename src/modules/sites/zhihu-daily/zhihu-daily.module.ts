@@ -6,7 +6,7 @@ import { ZhihuDailyEntity } from './zhihu-daily.entity'
 import { ZhihuDailyTask } from './zhihu-daily.task'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ZhihuDailyEntity])],
+  // imports: [TypeOrmModule.forFeature([ZhihuDailyEntity])],
   providers: [ZhihuDailyService, ZhihuDailyTask],
   exports: [ZhihuDailyService, ZhihuDailyTask],
   controllers: [ZhihuDailyController]

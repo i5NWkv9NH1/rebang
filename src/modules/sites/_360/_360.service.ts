@@ -17,8 +17,6 @@ export class _360Service {
   }
 
   constructor(
-    @InjectRepository(_360Entity)
-    private readonly repo: Repository<_360Entity>,
     private readonly redisService: RedisService,
     private readonly fetchService: FetchService
   ) {}
