@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
-import { HttpConfig, IConfigs } from './shared/configuration'
+import { HttpConfig, IConfigs, LOGO_MAKER } from './shared/configuration'
 import fastifyListRoutes from 'fastify-list-routes'
 // import expressListRoutes from 'express-list-routes'
 import {
@@ -50,5 +50,7 @@ async function bootstrap() {
   // })
 
   await app.listen(4002, '0.0.0.0')
+  //? https://patorjk.com/software/taag/#p=display&h=0&v=0&f=Doom&t=Data%20Center%20For%20Sora
+  console.log(LOGO_MAKER)
 }
 bootstrap()

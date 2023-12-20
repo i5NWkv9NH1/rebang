@@ -4,6 +4,7 @@ import { join, resolve } from 'path'
 
 const CONFIG_FILE_NAME = 'config.yaml'
 
+export const LOGO_MAKER = readFileSync('logo.txt', 'utf8').toString()
 export interface IConfigs {
   http: HttpConfig
 }
