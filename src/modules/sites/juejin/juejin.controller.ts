@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common'
 import { JuejinService } from './juejin.service'
 import {
   JUEJIN_ARTICLE_TYPE,
@@ -6,8 +6,11 @@ import {
   JUEJIN_AUTHOR_TYPE,
   JUEJIN_AUTHOR_CATEGORY
 } from './juejin.constant'
+import { RedisCachingInterceptor } from 'src/shared/redis-caching-interceptor'
 
+//TODO: dynamic redis key
 @Controller('sites/juejin')
+@UseInterceptors(RedisCachingInterceptor)
 export class JuejinController {
   constructor(private readonly juejinService: JuejinService) {}
 

@@ -5,6 +5,7 @@ import { RedisService } from 'src/shared/redis.service'
 import { SHADIAONEWS_API, SHADIAONEWS_CACHE_KEY } from './shadiaonews.constant'
 import * as cheerio from 'cheerio'
 
+//TODO: paginate
 @Injectable()
 export class ShadiaonewsService {
   private readonly logger = new Logger(ShadiaonewsService.name)
@@ -18,9 +19,6 @@ export class ShadiaonewsService {
   ) {}
 
   public async start(currentPage: number = 0) {
-    const cache = await this.redisService.get(`shadiaonews/${currentPage}`)
-    if (cache) return cache
-
     const response = await this.fetchService.get<string>(
       `${SHADIAONEWS_API.MAIN}/${currentPage}`,
       { headers: this.headers }
@@ -67,10 +65,6 @@ export class ShadiaonewsService {
         }
       })
 
-    await this.redisService.set(
-      `${SHADIAONEWS_CACHE_KEY.MAIN}/${currentPage}`,
-      items
-    )
     return items
   }
 }

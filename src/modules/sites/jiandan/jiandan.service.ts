@@ -19,9 +19,6 @@ export class JiandanService {
 
   //#region 4小时热门
   public async _4h() {
-    const cache = await this.redisService.get('jiandan/4h')
-    if (cache) return cache
-
     const url = JIANDAN_API._4H
     const response = await this.fetchService.get<string>(url, {
       headers: this.headers
@@ -139,8 +136,8 @@ export class JiandanService {
         const author = {
           name: $(el).find('.author').find('strong').text().trim()
         }
-        const publishDate = $(el).find('.author').find('small').text().trim()
-        const category = $(el).find('.text').find('b').text().trim()
+        const createdAt = $(el).find('.author').find('small').text().trim()
+        const tag = $(el).find('.text').find('b').text().trim()
         //TODO: text / image / images
         const caption = $(el).find('.text').find('p').html().trim()
         const stats = {
@@ -151,7 +148,7 @@ export class JiandanService {
           tucao: $(el).find('.jiandan-vote').find('a').last().text().trim() || 0
         }
 
-        let hotTucaoList = []
+        let comments = []
         const hotTucaoEl = $(el).find('.tucao-hot')
 
         if (hotTucaoEl.length) {
@@ -165,21 +162,21 @@ export class JiandanService {
                 },
                 content: $(el).find('.tucao-content').text().trim()
               }
-              hotTucaoList.push(item)
+              comments.push(item)
             })
 
           return {
             id,
             originUrl,
             author,
-            publishDate,
-            category,
+            createdAt,
+            tag,
             caption,
-            hotTucaoList,
+            comments,
             stats
           }
         }
-        return { id, originUrl, author, publishDate, category, caption, stats }
+        return { id, originUrl, author, createdAt, tag, caption, stats }
       })
       .toArray()
 

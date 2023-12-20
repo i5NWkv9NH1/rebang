@@ -26,9 +26,6 @@ export class PengpaiService {
   ) {}
 
   public async hot() {
-    const cache = await this.redisService.get(PENGPAI_CACHE_KEY.HOT)
-    if (cache) return cache
-
     const response = await this.fetchService.get<OriginPengpaiHotRespones>(
       PENGPAI_API.HOT,
       { headers: this.headers }
@@ -36,16 +33,10 @@ export class PengpaiService {
 
     const items = this.transformFields(response.data.data)
 
-    await this.redisService.set(PENGPAI_CACHE_KEY.HOT, items)
     return items
   }
 
   public async findByChannel(dto: PengpaiChannelDto) {
-    const cache = await this.redisService.get(
-      `${PENGPAI_CACHE_KEY.CHANNEL}/${dto.channelId}`
-    )
-    if (cache) return cache
-
     const response = await this.fetchService.post<OriginPengpaiChannelResponse>(
       PENGPAI_API.CHANNEL,
       dto,
@@ -61,19 +52,9 @@ export class PengpaiService {
 
     const data = { items, paginate }
 
-    await this.redisService.set(
-      `${PENGPAI_CACHE_KEY.CHANNEL}/${dto.channelId}`,
-      data
-    )
-
     return data
   }
   public async findByNode(dto: PengpaiNodeDto) {
-    const cache = await this.redisService.get(
-      `${PENGPAI_CACHE_KEY.NODE}/${dto.nodeId}`
-    )
-    if (cache) return cache
-
     const response = await this.fetchService.post<OriginPengpaiNodeResponse>(
       PENGPAI_API.NODE,
       dto,
@@ -88,8 +69,6 @@ export class PengpaiService {
     }
 
     const data = { items, paginate }
-
-    await this.redisService.set(`${PENGPAI_CACHE_KEY.NODE}/${dto.nodeId}`, data)
 
     return data
   }

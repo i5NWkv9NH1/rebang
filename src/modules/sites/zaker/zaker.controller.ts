@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UseInterceptors
+} from '@nestjs/common'
 import { ZakerService } from './zaker.service'
+import { RedisCachingInterceptor } from 'src/shared/redis-caching-interceptor'
 
 @Controller('sites/zaker')
+@UseInterceptors(RedisCachingInterceptor)
 export class ZakerController {
   constructor(private readonly zakerService: ZakerService) {}
 

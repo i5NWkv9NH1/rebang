@@ -13,6 +13,7 @@ import { Reflector } from '@nestjs/core'
 
 export const RedisKey = (key: string) => SetMetadata('redis-key', key)
 
+//TODO: dynamic redis key
 @Injectable()
 export class RedisCachingInterceptor implements NestInterceptor {
   logger = new Logger(RedisCachingInterceptor.name)
@@ -40,6 +41,9 @@ export class RedisCachingInterceptor implements NestInterceptor {
     const key = this.reflector.get('redis-key', handler)
     this.logger.debug(key)
     if (!key) return next.handle()
+
+    const query = context.switchToHttp().getRequest()
+    this.logger.debug(query)
 
     const cache = await this.redisService.get(key)
     this.logger.debug(cache)

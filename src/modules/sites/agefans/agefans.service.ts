@@ -39,12 +39,12 @@ export class AgefansService {
         thumbnailUrl: item.PicSmall
       }
     })
-    const paginate = {
+    const meta = {
       totalSize: +response.data.total,
       totalPage: Math.ceil(+response.data.total / size)
     }
 
-    return { items, paginate }
+    return { items, meta }
   }
 
   public async comment(cid: number, page: number = 1) {

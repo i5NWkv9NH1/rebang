@@ -61,17 +61,19 @@ export class WeiboService {
         HttpStatusCode.BadRequest
       )
     }
-
-    return {
+    const data = {
       message: response.data.msg,
       sendsms: response.data.sendsms
     }
+    await this.redisService.set(WEIBO_CACHE_KEY.VERIFY_CODE, data)
+
+    return data
   }
   //#endregion
 
   //#region 登录
   public async login(loginDto: LoginDto) {
-    const cache = await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
+    const cache = await this.redisService.get(WEIBO_CACHE_KEY.LOGIN)
     if (cache) return cache
 
     const { phone, smscode, getuser, getcookie, getoauth } = loginDto
@@ -104,12 +106,15 @@ export class WeiboService {
       .toString()
       .replaceAll(',', ';')
 
+    const data = {
+      cookie,
+      user: { ...response.data }
+    }
+
+    await this.redisService.set(WEIBO_CACHE_KEY.LOGIN, data, 259200)
     await this.redisService.set(WEIBO_CACHE_KEY.COOKIE, cookie, 259200)
 
-    return {
-      cookies: cookie,
-      ...response.data
-    }
+    return data
   }
   //#endregion
 
@@ -121,10 +126,7 @@ export class WeiboService {
 
   //#region  热搜
   public async hotsearch() {
-    const cache = await this.redisService.get(WEIBO_CACHE_KEY.HOT_SEARCH)
-    if (cache) return cache
     const cookie = await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
-
     const response = await this.fetchService.get<OriginWeiboHotSearchResponse>(
       WEIBO_API.HOT_SEARCH,
       {
@@ -163,16 +165,12 @@ export class WeiboService {
         }
       })
 
-    const data = { items }
-    await this.redisService.set(WEIBO_CACHE_KEY.HOT_SEARCH, data)
-    return data
+    return items
   }
   //#endregion
 
   //#region  要闻 新时代
   public async socialevent() {
-    const cache = await this.redisService.get(WEIBO_CACHE_KEY.NEWS)
-    if (cache) return cache
     const cookie = await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
 
     const response = await this.fetchService.get<OriginWeiboNewsResponse>(
@@ -208,17 +206,12 @@ export class WeiboService {
       }
     })
 
-    const data = { items }
-    await this.redisService.set(WEIBO_CACHE_KEY.NEWS, data)
-
-    return data
+    return items
   }
   //#endregion
 
   //#region 文娱
   public async entrank() {
-    const cache = await this.redisService.get(WEIBO_CACHE_KEY.ENTRANK)
-    if (cache) return cache
     const cookie = await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
 
     const response = await this.fetchService.get<OriginWeiboEntrankResponse>(
@@ -256,18 +249,13 @@ export class WeiboService {
       }
     )
 
-    const data = { items }
-    await this.redisService.set(WEIBO_CACHE_KEY.ENTRANK, data)
-    return data
+    return items
   }
   //#endregion
 
   //#region  话题
   public async topicband(page: number = 1, count: number = 10) {
     const cookie = await this.redisService.get(WEIBO_CACHE_KEY.COOKIE)
-    const cacheKey = WEIBO_CACHE_KEY.TOPIC_BAND + `page/${page}/count/${count}`
-    const cache = await this.redisService.get(cacheKey)
-    if (cache) return cache
 
     const query = {
       sid: 'v_weibopro',
@@ -287,7 +275,7 @@ export class WeiboService {
       }
     )
 
-    const pagination = {
+    const meta = {
       totalSize: response.data.data.total_data_num,
       totalPage: response.data.data.total_num
     }
@@ -320,11 +308,9 @@ export class WeiboService {
     })
 
     const data = {
-      pagination,
-      items
+      items,
+      meta
     }
-
-    await this.redisService.set(cacheKey, data)
 
     return data
   }

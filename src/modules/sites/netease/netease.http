@@ -1,9 +1,9 @@
 @prefix = http://localhost:4002/api/sites/netease
 
 ###! news
-GET {{prefix}}/news/comment
+GET {{prefix}}/news/hot
 ###
-GET {{prefix}}/news/rank
+GET {{prefix}}/news/comment
 ###
 GET {{prefix}}/news/search
 ###

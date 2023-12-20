@@ -47,3 +47,7 @@ export enum JUEJIN_CACHE_KEY {
   AUTHOR = `JUEJIN/AUTHOR`,
   ARTICLE_COLLECT = `JUEJIN/ARTICLE_COLLE`
 }
+
+export const JUEJIN_QUEUE_NAME = `掘金（施工中...）` as const
+
+export const JUEJIN_JOB_DEFINE = {}

@@ -1,7 +1,10 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, UseInterceptors } from '@nestjs/common'
 import { XueqiuService } from './xueqiu.service'
+import { RedisCachingInterceptor } from 'src/shared/redis-caching-interceptor'
 
+//TODO: dynamic redis key
 @Controller('sites/xueqiu')
+@UseInterceptors(RedisCachingInterceptor)
 export class XueqiuController {
   constructor(private readonly xueqiuService: XueqiuService) {}
 

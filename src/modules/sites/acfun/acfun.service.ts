@@ -4,7 +4,7 @@ import { AcFunEntity } from './acfun.entity'
 import { Repository } from 'typeorm'
 import { RedisService } from 'src/shared/redis.service'
 import { FetchService } from 'src/shared/fetch.service'
-import { ACFUN_API, ACFUN_CACHE_KEY, ACFUN_CACHE_TTL } from './acfun.constant'
+import { ACFUN_API, ACFUN_CACHE_KEY } from './acfun.constant'
 import { genUserAgent } from 'src/helpers'
 import {
   AcFunItem,
@@ -30,7 +30,7 @@ export class AcFunService {
     private readonly fetchService: FetchService
   ) {}
 
-  public async fetchDay() {
+  public async day() {
     const payload = {
       ...this.payload,
       rankPeriod: 'DAY'
@@ -49,7 +49,7 @@ export class AcFunService {
     return items
   }
 
-  public async fetchThreeDays() {
+  public async threedays() {
     const payload = {
       ...this.payload,
       rankPeriod: 'THREE_DAYS'
@@ -68,7 +68,7 @@ export class AcFunService {
     return items
   }
 
-  public async fetchWeek() {
+  public async week() {
     const payload = {
       ...this.payload,
       rankPeriod: 'WEEK'

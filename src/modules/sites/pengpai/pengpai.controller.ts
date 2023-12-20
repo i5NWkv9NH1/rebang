@@ -1,8 +1,11 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common'
 import { PengpaiService } from './pengpai.service'
 import { PengpaiChannelDto, PengpaiNodeDto } from './pengpai.dto'
+import { RedisCachingInterceptor } from 'src/shared/redis-caching-interceptor'
 
+//TODO: dynamic redis key
 @Controller('sites/pengpai')
+@UseInterceptors(RedisCachingInterceptor)
 export class PengpaiController {
   constructor(private readonly pengpaiService: PengpaiService) {}
 

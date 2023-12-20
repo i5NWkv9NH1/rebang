@@ -22,7 +22,7 @@ export class BaiduService {
     private readonly fetchService: FetchService
   ) {}
 
-  public async rank(tab: BaiduRankTab = BaiduRankTab.RealTime) {
+  public async rank(tab: BaiduRankTab = BaiduRankTab.REALTIME) {
     const url = `https://top.baidu.com/board?tab=${tab}`
     const response = await this.fetchService.get<string>(url, {
       headers: this.headers

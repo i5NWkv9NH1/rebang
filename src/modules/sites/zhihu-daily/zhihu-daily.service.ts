@@ -13,6 +13,7 @@ import {
   ZhihuDailyItem
 } from './zhihu-daily.type'
 
+//TODO: paginate
 @Injectable()
 export class ZhihuDailyService {
   private readonly logger = new Logger(ZhihuDailyService.name)
@@ -21,20 +22,17 @@ export class ZhihuDailyService {
     'User-Agent': genUserAgent('mobile')
   }
 
-  constructor(
-    private readonly redisService: RedisService,
-    private readonly fetchService: FetchService
-  ) {}
+  constructor(private readonly fetchService: FetchService) {}
 
-  public async fetchLatest() {
+  public async latest() {
     const url = `https://news-at.zhihu.com/api/4/news/latest`
     const response =
       await this.fetchService.get<OriginZhihuDailyLatestResponse>(url, {
         headers: this.headers
       })
-    const data = this.transformField(response.data.stories)
+    const items = this.transformField(response.data.stories)
 
-    return data
+    return items
   }
 
   public async fetchByDate(date: string) {
@@ -44,9 +42,9 @@ export class ZhihuDailyService {
         headers: this.headers
       })
 
-    const data = this.transformField(response.data.stories)
+    const items = this.transformField(response.data.stories)
 
-    return data
+    return items
   }
 
   public async fetchContentById(newsId: string) {

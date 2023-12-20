@@ -16,7 +16,7 @@ import { JiandanModule } from './jiandan/jiandan.module'
 import { JuejinModule } from './juejin/juejin.module'
 import { Module } from '@nestjs/common'
 import { NeteaseModule } from './netease/netease.module'
-import { PearvideoModule } from './pearvideo/pearvideo.module'
+import { PearVideoModule } from './pearvideo/pearvideo.module'
 import { PengpaiModule } from './pengpai/pengpai.module'
 import { ShadiaonewsModule } from './shadiaonews/shadiaonews.module'
 import { SitesController } from './sites.controller'
@@ -38,7 +38,7 @@ import { ZhihuModule } from './zhihu/zhihu.module'
   imports: [
     TypeOrmModule.forFeature([SitesEntity]),
     _360Module,
-    _36KModule,
+    // _36KModule,
     AcfunModule,
     AgefansModule,
     BaiduModule,
@@ -54,7 +54,7 @@ import { ZhihuModule } from './zhihu/zhihu.module'
     JiandanModule,
     JuejinModule,
     NeteaseModule,
-    PearvideoModule,
+    PearVideoModule,
     PengpaiModule,
     ShadiaonewsModule,
     SogouModule,

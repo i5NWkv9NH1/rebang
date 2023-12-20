@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ITHomeService } from './ithome.service'
-import { ITHOME_TABS } from './ihome.constant'
+import { ITHOME_TABS } from './ithome.constant'
 import { OriginITHomeHotType } from './ithome.type'
 
 @Controller('sites/ithome')

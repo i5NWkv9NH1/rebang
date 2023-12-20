@@ -16,18 +16,16 @@ export class SogouService {
     private readonly redisService: RedisService
   ) {}
 
-  public async hot() {
-    const cache = await this.redisService.get(SOGOU_CACHE_KEY.HOT)
-    if (cache) return cache
-
+  async hot() {
     const response = await this.fetchService.get<any>(SOGOU_API.HOT, {
       headers: this.headers
     })
 
-    const items = response.data.data.map((item) => {
+    const items = response.data.data.map((item: any) => {
       return {
-        url: 'https://www.sogou.com/web?ie=utf8&query=' + item.attributes.title,
         title: item.attributes.title,
+        originUrl:
+          'https://www.sogou.com/web?ie=utf8&query=' + item.attributes.title,
         status: {
           flag: item.attributes.flag
         },
@@ -36,8 +34,6 @@ export class SogouService {
         }
       }
     })
-
-    await this.redisService.set(SOGOU_CACHE_KEY.HOT, items)
 
     return items
   }

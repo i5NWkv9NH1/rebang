@@ -16,6 +16,7 @@ import {
 import { BILIBILI_API } from './bilibili.constant'
 import { BiliBiliItem } from './bilibili.type'
 
+//TODO: paginate
 @Injectable()
 export class BilibiliService {
   private logger = new Logger(BilibiliService.name)
@@ -29,7 +30,6 @@ export class BilibiliService {
     private readonly fetchService: FetchService
   ) {}
 
-  //TODO: paginate
   //#region 热门
   //? 各个领域中新奇好玩的优质内容都在这里~
   public async hot() {

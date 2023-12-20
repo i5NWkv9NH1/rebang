@@ -30,9 +30,6 @@ export class NeteaseNewsService {
 
   //#region 热议榜
   public async comment() {
-    const cache = await this.redisService.get(NETEASE_NEWS_CACHE_KEY.COMMENT)
-    if (cache) return cache
-
     const res = await this.fetchService.get<OriginNeteaseNewsCommentResponse>(
       NETEASE_NEWS_API.COMMENT,
       { headers: this.headers }
@@ -72,18 +69,14 @@ export class NeteaseNewsService {
       }
     })
 
-    await this.redisService.set(NETEASE_NEWS_CACHE_KEY.COMMENT, items)
-    return { items }
+    return items
   }
   //#endregion
 
   //#region 新闻榜
-  public async rank() {
-    const cache = await this.redisService.get(NETEASE_NEWS_CACHE_KEY.RANK)
-    if (cache) return cache
-
+  public async hot() {
     const res = await this.fetchService.get<OriginNeteaseNewsRankResponse>(
-      NETEASE_NEWS_API.RANK,
+      NETEASE_NEWS_API.HOT,
       {
         headers: this.headers
       }
@@ -127,16 +120,12 @@ export class NeteaseNewsService {
       }
     })
 
-    await this.redisService.set(NETEASE_NEWS_CACHE_KEY.RANK, items)
     return items
   }
   //#endregion
 
   //#region 搜索榜
   async search() {
-    const cache = await this.redisService.get(NETEASE_NEWS_CACHE_KEY.SEARCH)
-    if (cache) return cache
-
     const res = await this.fetchService.get<OriginNeteaseNewsSearchResponse>(
       NETEASE_NEWS_API.SEARCH,
       {
@@ -152,16 +141,12 @@ export class NeteaseNewsService {
       return { title, originUrl, stats }
     })
 
-    await this.redisService.set(NETEASE_NEWS_CACHE_KEY.SEARCH, items)
     return items
   }
   //#endregion
 
   //#region 视频榜
   async video() {
-    const cache = await this.redisService.get(NETEASE_NEWS_CACHE_KEY.VIDEO)
-    if (cache) return cache
-
     const res = await this.fetchService.get<OriginNeteaseNewsVideoResponse>(
       NETEASE_NEWS_API.VIDEO,
       {
@@ -194,17 +179,12 @@ export class NeteaseNewsService {
       }
     })
 
-    await this.redisService.set(NETEASE_NEWS_CACHE_KEY.VIDEO, items)
-
     return items
   }
   //#endregion
 
   //#region 话题榜
   async topic() {
-    const cache = await this.redisService.get(NETEASE_NEWS_CACHE_KEY.TOPIC)
-    if (cache) return cache
-
     const res = await this.fetchService.get<OriginNeteaseNewsTopicResponse>(
       NETEASE_NEWS_API.TOPIC,
       {
@@ -222,7 +202,6 @@ export class NeteaseNewsService {
       return { id, title, originUrl, thumbnailUrl, stats }
     })
 
-    await this.redisService.set(NETEASE_NEWS_CACHE_KEY.TOPIC, items)
     return items
   }
   //#endregion

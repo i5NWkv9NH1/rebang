@@ -1,11 +1,19 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common'
 import { AgefansService } from './agefans.service'
+import {
+  RedisCachingInterceptor,
+  RedisKey
+} from 'src/shared/redis-caching-interceptor'
+import { AGEFANS_CACHE_KEY } from './agefans.constant'
 
+//TODO: pagniate
 @Controller('sites/agefans')
+@UseInterceptors(RedisCachingInterceptor)
 export class AgefansController {
   constructor(private readonly agefansService: AgefansService) {}
 
   @Get('latest')
+  @RedisKey(AGEFANS_CACHE_KEY.LATEST)
   async latest(@Query('page') page: number, @Query('size') size: number) {
     return await this.agefansService.latest(page, size)
   }

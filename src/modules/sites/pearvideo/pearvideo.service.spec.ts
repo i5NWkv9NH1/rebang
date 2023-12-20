@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PearvideoService } from './pearvideo.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { PearVideoService } from './pearvideo.service'
 
 describe('PearvideoService', () => {
-  let service: PearvideoService;
+  let service: PearVideoService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PearvideoService],
-    }).compile();
+      providers: [PearVideoService]
+    }).compile()
 
-    service = module.get<PearvideoService>(PearvideoService);
-  });
+    service = module.get<PearVideoService>(PearVideoService)
+  })
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+    expect(service).toBeDefined()
+  })
+})

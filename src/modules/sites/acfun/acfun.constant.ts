@@ -14,38 +14,35 @@ export const ACFUN_API = {
   }
 }
 
-export const ACFUN_CRON = {
-  RANK: {
-    DAY: CronExpression.EVERY_10_SECONDS,
-    THREE_DAYS: CronExpression.EVERY_10_SECONDS,
-    WEEK: CronExpression.EVERY_10_SECONDS
-  }
-}
 export const ACFUN_CACHE_KEY = {
   RANK: {
     DAY: 'ACFUN/RANK/DAY',
-    THREE_DAYS: '',
-    WEEK: ''
+    THREE_DAYS: 'ACFUN/RANK/THREE_DAYS',
+    WEEK: 'ACFUN/RANK/WEEK'
   }
 }
-export const ACFUN_CACHE_TTL = {
+
+export const ACFUN_QUEUE_NAME = `A站` as const
+
+export const ACFUN_JOB_DEFINE = {
   RANK: {
-    DAY: 3600,
-    THREE_DAYS: 3600,
-    WEEK: 3600
-  }
-}
-export const ACFUN_ROUTE = {
-  RANK: {
-    DAY: '',
-    THREE_DAYS: '',
-    WEEK: ''
-  }
-}
-export const ACFUN_TASK = {
-  RANK: {
-    DAY: 'ACFUN_TASK_DAY',
-    THREE_DAYS: 'ACFUN_TASK_THREE_DAY',
-    WEEK: 'ACFUN_TASK_WEEK'
+    DAY: {
+      KEY: `今日榜`,
+      NAME: `今日榜`,
+      SCOPE: `A站/榜单/今日`,
+      CRON: CronExpression.EVERY_DAY_AT_MIDNIGHT
+    },
+    THREE_DAYS: {
+      KEY: `三日榜`,
+      NAME: `三日榜`,
+      SCOPE: `A站/榜单/三日`,
+      CRON: CronExpression.EVERY_DAY_AT_MIDNIGHT
+    },
+    WEEK: {
+      KEY: `周榜`,
+      NAME: `周榜`,
+      SCOPE: `A站/榜单/周榜`,
+      CRON: CronExpression.EVERY_DAY_AT_MIDNIGHT
+    }
   }
 }

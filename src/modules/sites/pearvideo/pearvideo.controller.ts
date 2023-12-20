@@ -1,4 +1,6 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseInterceptors } from '@nestjs/common'
+import { RedisCachingInterceptor } from 'src/shared/redis-caching-interceptor'
 
 @Controller('pearvideo')
-export class PearvideoController {}
+@UseInterceptors(RedisCachingInterceptor)
+export class PearVideoController {}

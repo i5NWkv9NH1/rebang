@@ -4,79 +4,117 @@ import { CronExpression } from '@nestjs/schedule'
 import { Job, JobStatus, Queue } from 'bull'
 import { RedisService } from 'src/shared/redis.service'
 import { _36KService } from './_36k.service'
-import { _36K_CACHE_KEY } from './_36k.constant'
+import {
+  _36K_CACHE_KEY,
+  _36K_JOB_DEFINE,
+  _36K_QUEUE_NAME
+} from './_36k.constant'
 import { JobData, GetReturnDataType } from 'src/shared/type'
 
-@Processor('_36k')
-export class _36kProcessor implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(_36kProcessor.name)
-  private readonly types = [
-    'active',
-    'completed',
-    'delayed',
-    'failed',
-    'paused',
-    'waiting'
-  ] as JobStatus[]
-
+@Processor(_36K_QUEUE_NAME)
+export class _36kProcessor {
   constructor(
-    @InjectQueue('_36k')
-    private readonly queue: Queue,
     private readonly redisService: RedisService,
     private readonly _36kService: _36KService
   ) {}
 
-  @OnQueueActive()
-  onActive(job: Job) {}
-
-  async onModuleInit() {
-    const jobs = await this.queue.getJobs(this.types)
-    jobs.forEach((job: Job) => {
-      job.remove()
-    })
-
-    // await this.queue.add(
-    //   'rank-hot',
-    //   { name: '36氪-热榜' },
-    //   // { repeat: { cron: CronExpression.EVERY_5_MINUTES } }
-    //   { delay: 5000 }
-    // )
-  }
-
-  async onModuleDestroy() {
-    const jobs = await this.queue.getJobs(this.types)
-    jobs.forEach((job: Job) => {
-      job.remove()
-    })
-  }
-
-  public async removeAll() {
-    const jobs = await this.queue.getJobs(this.types)
-    for await (const job of jobs) {
-      job.remove()
-    }
-
-    return jobs
-  }
-
-  @Process('rank-hot')
-  async rankHot(job: Job) {
-    await job.log(`开始获取数据`)
-    const items = await this._36kService.rankHot()
-    await job.log(`获取数据成功`)
-    type Items = GetReturnDataType<typeof this._36kService.rankHot>
-    await job.log(`正在更新。。。`)
+  @Process(_36K_JOB_DEFINE.LATEST.KEY)
+  async latest(job: Job) {
+    await job.progress(0)
+    const { items, meta } = await this._36kService.latest()
     await job.progress(50)
-    const data: JobData<Items> = {
-      name: '36k-热榜',
+    const data: JobData<any, any> = {
+      // name: _36K_JOB_DEFINE.LATEST.NAME,
+      ...job.data,
       createdAt: job.timestamp,
       updatedAt: job.finishedOn,
+      processedAt: job.processedOn,
+      items,
+      meta
+    }
+    await job.update(data)
+    await this.redisService.set(_36K_CACHE_KEY.LATEST, data)
+    await job.progress(100)
+    return await job.data
+  }
+
+  @Process(_36K_JOB_DEFINE.RANK.HOT.KEY)
+  async rankHot(job: Job) {
+    await job.progress(0)
+    const items = await this._36kService.rankHot()
+    type Items = GetReturnDataType<typeof this._36kService.rankHot>
+    await job.progress(50)
+    const data: JobData<Items> = {
+      // name: _36K_JOB_DEFINE.RANK.HOT.NAME,
+      ...job.data,
+      createdAt: job.timestamp,
+      updatedAt: job.finishedOn,
+      processedAt: job.processedOn,
       items
     }
     await job.update(data)
-    await this.redisService.set(_36K_CACHE_KEY.RANK.HOT, data, 300)
+    await this.redisService.set(_36K_CACHE_KEY.RANK.HOT, data)
     await job.progress(100)
-    await job.log(`更新成功！`)
+    return await job.data
+  }
+
+  @Process(_36K_JOB_DEFINE.RANK.VIDEO.KEY)
+  async rankVideo(job: Job) {
+    await job.progress(0)
+    const items = await this._36kService.rankVideo()
+    type Items = GetReturnDataType<typeof this._36kService.rankVideo>
+    await job.progress(50)
+    const data: JobData<Items> = {
+      // name: _36K_JOB_DEFINE.RANK.VIDEO.NAME,
+      ...job.data,
+      createdAt: job.timestamp,
+      updatedAt: job.finishedOn,
+      processedAt: job.processedOn,
+      items
+    }
+    await job.update(data)
+    await this.redisService.set(_36K_CACHE_KEY.RANK.VIDEO, data)
+    await job.progress(100)
+    return await job.data
+  }
+
+  @Process(_36K_JOB_DEFINE.RANK.COMMENT.KEY)
+  async rankComment(job: Job) {
+    await job.progress(0)
+    const items = await this._36kService.rankComment()
+    type Items = GetReturnDataType<typeof this._36kService.rankComment>
+    await job.progress(50)
+    const data: JobData<Items> = {
+      // name: _36K_JOB_DEFINE.RANK.COMMENT.NAME,
+      ...job.data,
+      createdAt: job.timestamp,
+      updatedAt: job.finishedOn,
+      processedAt: job.processedOn,
+      items
+    }
+    await job.update(data)
+    await this.redisService.set(_36K_CACHE_KEY.RANK.COMMENT, data)
+    await job.progress(100)
+    return await job.data
+  }
+
+  @Process(_36K_JOB_DEFINE.RANK.COLLECT.KEY)
+  async rankCollect(job: Job) {
+    await job.progress(0)
+    const items = await this._36kService.rankCollect()
+    type Items = GetReturnDataType<typeof this._36kService.rankCollect>
+    await job.progress(50)
+    const data: JobData<Items> = {
+      // name: _36K_JOB_DEFINE.RANK.COLLECT.NAME,
+      ...job.data,
+      createdAt: job.timestamp,
+      updatedAt: job.finishedOn,
+      processedAt: job.processedOn,
+      items
+    }
+    await job.update(data)
+    await this.redisService.set(_36K_CACHE_KEY.RANK.COLLECT, data)
+    await job.progress(100)
     return await job.data
   }
 }

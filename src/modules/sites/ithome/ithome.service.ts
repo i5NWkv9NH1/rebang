@@ -4,7 +4,7 @@ import { InjectBrowser } from 'nestjs-playwright'
 import { Browser, BrowserContextOptions } from 'playwright'
 import { genUserAgent, removeHtmlTag } from 'src/helpers'
 import { RedisService } from 'src/shared/redis.service'
-import { ITHOME_API, ITHOME_CACHE_KEY, ITHOME_TABS } from './ihome.constant'
+import { ITHOME_API, ITHOME_CACHE_KEY, ITHOME_TABS } from './ithome.constant'
 import { FetchService } from 'src/shared/fetch.service'
 import { HttpStatusCode } from 'axios'
 import {

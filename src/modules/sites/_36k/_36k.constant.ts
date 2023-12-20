@@ -23,23 +23,79 @@ export const _36K_CACHE_KEY = {
   }
 }
 
-export const _36K_CRON = {
+export const _36K_QUEUE_NAME = `36氪` as const
+
+export const _36K_JOB_DEFINE = {
+  LATEST: {
+    KEY: '最新',
+    NAME: '最新',
+    SCOPE: '36氪/最新',
+    CRON: CronExpression.EVERY_5_MINUTES
+  },
   RANK: {
     HOT: {
-      NAME: '36氪/榜单/人气榜',
-      VALUE: CronExpression.EVERY_5_MINUTES
+      KEY: '人气榜',
+      NAME: '人气榜',
+      SCOPE: '36氪/榜单/人气榜',
+      CRON: CronExpression.EVERY_5_MINUTES
     },
     VIDEO: {
-      NAME: '36氪/榜单/视频榜',
-      VALUE: CronExpression.EVERY_5_MINUTES
+      KEY: '视频榜',
+      NAME: '视频榜',
+      SCOPE: '36氪/榜单/视频榜',
+      CRON: CronExpression.EVERY_5_MINUTES
     },
     COMMENT: {
-      NAME: '36氪/榜单/热议榜',
-      VALUE: CronExpression.EVERY_5_MINUTES
+      KEY: '热议榜',
+      NAME: '热议榜',
+      SCOPE: '36氪/榜单/热议榜',
+      CRON: CronExpression.EVERY_5_MINUTES
     },
     COLLECT: {
-      NAME: '36氪/榜单/收藏榜',
-      VALUE: CronExpression.EVERY_5_MINUTES
+      KEY: '收藏榜',
+      NAME: '收藏榜',
+      SCOPE: '36氪/榜单/收藏榜',
+      CRON: CronExpression.EVERY_5_MINUTES
+    }
+  },
+  *[Symbol.iterator]() {
+    for (let key in this) {
+      yield [key, this[key]]
     }
   }
 }
+
+// export const _36K_JOB_DEFINE = {
+//   LATEST: {
+//     KEY: 'latest',
+//     NAME: '36氪/最新',
+//     CRON: CronExpression.EVERY_5_MINUTES
+//   },
+//   RANK: {
+//     HOT: {
+//       KEY: 'rank-hot',
+//       NAME: '36氪/榜单/人气榜',
+//       CRON: CronExpression.EVERY_5_MINUTES
+//     },
+//     VIDEO: {
+//       KEY: 'rank-video',
+//       NAME: '36氪/榜单/视频榜',
+//       CRON: CronExpression.EVERY_5_MINUTES
+//     },
+//     COMMENT: {
+//       KEY: 'rank-comment',
+//       NAME: '36氪/榜单/热议榜',
+//       CRON: CronExpression.EVERY_5_MINUTES
+//     },
+//     COLLECT: {
+//       KEY: 'rank-collect',
+//       NAME: '36氪/榜单/收藏榜',
+//       CRON: CronExpression.EVERY_5_MINUTES
+//     }
+//   },
+//   *[Symbol.iterator]() {
+//     for (let key in this) {
+//       yield [key, this[key]]
+//     }
+//   }
+// }

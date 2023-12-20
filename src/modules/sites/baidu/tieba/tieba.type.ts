@@ -1,6 +1,6 @@
 import { CommonItem } from 'src/shared/type'
 
-export interface OriginTiebaItem {
+export interface OriginTiebaTopicItem {
   topic_id: 20918942
   topic_name: '陈志朋回应偷税漏税'
   topic_desc: '陈志朋回应被举报偷漏税：已补缴税款，前员工所述为恶意捏造。此前，陈志朋前员工爆料其2019-2021年偷税漏税被罚补交1000多万，除此之外，员工还曝陈志朋不签劳动合同、拖欠工资，经常随意辱骂、 PUA员工。'
@@ -21,12 +21,12 @@ export interface OriginTiebaResponse {
   errmsg: string
   errno: number
 }
-export interface OriginTiebaHotResponse extends OriginTiebaResponse {
+export interface OriginTiebaTopicListResponse extends OriginTiebaResponse {
   data: {
     bang_head_pic: string
     bang_topic: {
       module_title: string
-      topic_list: OriginTiebaItem[]
+      topic_list: OriginTiebaTopicItem[]
     }
     manual_topic: {
       module_title: string

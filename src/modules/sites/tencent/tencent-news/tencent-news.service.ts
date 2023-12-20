@@ -24,11 +24,6 @@ export class TencentNewsService {
   ) {}
 
   public async rank() {
-    const cache = await this.redisService.get(
-      TENCENT_NEWS_CACHE_KEY.HOT_RANK_LIST
-    )
-    if (cache) return cache
-
     const response = await this.fetchService.get<OriginTencentNewsRankResponse>(
       TENCENT_NEWS_API.HOT_RANK_LIST,
       { headers: this.headers }
@@ -78,21 +73,15 @@ export class TencentNewsService {
           stats
         }
       })
-    const paginate = {
+    const meta = {
       hasMore: response.data.idlist[0].has_more
     }
 
-    const data = { items, paginate }
-    await this.redisService.set(TENCENT_NEWS_CACHE_KEY.HOT_RANK_LIST, data)
+    const data = { items, meta }
     return data
   }
 
   public async questions() {
-    const cache = await this.redisService.get(
-      TENCENT_NEWS_CACHE_KEY.HOT_QUESTION_LIST
-    )
-    if (cache) return cache
-
     const response =
       await this.fetchService.get<OriginTencentNewsQuestionResponse>(
         TENCENT_NEWS_API.HOT_QUESTION_LIST,
@@ -114,9 +103,6 @@ export class TencentNewsService {
       return { title, caption, thumbnailUrl, originUrl, author, stats }
     })
 
-    const data = { items }
-
-    await this.redisService.set(TENCENT_NEWS_CACHE_KEY.HOT_QUESTION_LIST, data)
-    return data
+    return items
   }
 }

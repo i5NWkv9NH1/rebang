@@ -21,7 +21,7 @@ export class _360Service {
     private readonly fetchService: FetchService
   ) {}
 
-  public async fetchRank(pageSize: number = 50) {
+  public async rank(pageSize: number = 50) {
     const url = _360_API.RANK
     const params = {
       type: 'news',

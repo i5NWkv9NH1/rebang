@@ -16,6 +16,7 @@ import { HUXIU_API } from './huxiu.constant'
 
 //TODO: paginate
 //TODO: channel
+//TODO: node
 @Injectable()
 export class HuxiuService {
   private readonly logger = new Logger(HuxiuService.name)
@@ -46,7 +47,7 @@ export class HuxiuService {
       url,
       { params, headers: this.headers }
     )
-    this.logger.debug(response.data)
+    // this.logger.debug(response.data)
 
     const items = this.transformLatestItems(response.data.data.dataList)
 
@@ -68,7 +69,7 @@ export class HuxiuService {
   //#region 7x24
   public async timeline() {
     const cache = await this.redisService.get('huxiu/timeline')
-    if (cache) return cache
+    // if (cache) return cache
 
     const url = HUXIU_API.TIMELINE
     const params = {
@@ -148,7 +149,7 @@ export class HuxiuService {
         caption: item.summary,
         originUrl: 'https://huxiu/article/' + item.aid,
         thumbnailUrl: item.origin_pic_path,
-        publishedDate: +(item.dateline + '000'),
+        createdAt: +(item.dateline + '000'),
         formatDate: item.formatDate,
         author: {
           id: item.user_info.uid,
@@ -186,7 +187,7 @@ export class HuxiuService {
         caption: item.introduce,
         thumbnailUrl: item.cover_path,
         originUrl: 'https://www.huxiu.com/event/' + item.event_id,
-        publishedDate: +(item.publish_time + '000'),
+        createdAt: +(item.publish_time + '000'),
         stats: {
           view: item.multiple_view_num,
           join: item.join_person_num

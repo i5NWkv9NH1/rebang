@@ -53,7 +53,7 @@ export class ZakerService {
 
     if (!nextUrl) {
       const cache = await this.redisService.get(ZAKER_CACHE_KEY.HOT)
-      if (cache) return cache
+      // if (cache) return cache
       data = await this.getNextUrl(ZAKER_API.WEB_HOT_NEXT_URL)
       await this.redisService.set(ZAKER_CACHE_KEY.HOT, data)
 
@@ -65,7 +65,7 @@ export class ZakerService {
 
     const cacheKey = `${ZAKER_CACHE_KEY.HOT}/${nextArticleId}`
     const cache = await this.redisService.get(cacheKey)
-    if (cache) return cache
+    // if (cache) return cache
 
     const response = await this.fetchService.get<OriginZakerHotResponse>(
       nextUrl,
@@ -76,12 +76,12 @@ export class ZakerService {
     const items = this.transformFields(response.data.data.article)
     data = {
       items,
-      pagniate: {
+      meta: {
         nextUrl: response.data.next_url.value
       }
     }
 
-    await this.redisService.set(cacheKey, data)
+    // await this.redisService.set(cacheKey, data)
     return data
   }
   //#endregion
@@ -94,9 +94,9 @@ export class ZakerService {
       const cache = await this.redisService.get(
         ZAKER_CACHE_KEY.WEB_ONLY_ONE_NEXT_URL
       )
-      if (cache) return cache
+      // if (cache) return cache
       data = await this.getNextUrl(ZAKER_API.WEB_ONLY_ONE_URL)
-      await this.redisService.set(ZAKER_CACHE_KEY.WEB_ONLY_ONE_NEXT_URL, data)
+      // await this.redisService.set(ZAKER_CACHE_KEY.WEB_ONLY_ONE_NEXT_URL, data)
 
       return data
     }
@@ -106,7 +106,7 @@ export class ZakerService {
 
     const cacheKey = `${ZAKER_CACHE_KEY.WEB_ONLY_ONE_NEXT_URL}/${nextArticleId}`
     const cache = await this.redisService.get(cacheKey)
-    if (cache) return cache
+    // if (cache) return cache
 
     const response = await this.fetchService.get<OriginZakerHotResponse>(
       nextUrl,
@@ -117,12 +117,12 @@ export class ZakerService {
     const items = this.transformFields(response.data.data.article)
     data = {
       items,
-      pagniate: {
+      meta: {
         nextUrl: response.data.next_url.value
       }
     }
 
-    await this.redisService.set(cacheKey, data)
+    // await this.redisService.set(cacheKey, data)
     return data
   }
   //#endregion

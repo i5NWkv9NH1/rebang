@@ -32,9 +32,6 @@ export class ZhihuService {
 
   //#region not use cookie
   public async billboard() {
-    const cache = await this.redisService.get(ZHIHU_CACHE_KEY.BILLBOARD)
-    if (cache) return cache
-
     const url = `https://www.zhihu.com/billboard`
 
     const response = await this.fetchService.get<string>(url, {
@@ -64,9 +61,7 @@ export class ZhihuService {
       }
     })
 
-    await this.redisService.set(ZHIHU_CACHE_KEY.BILLBOARD, { items })
-
-    return { items }
+    return items
   }
   //#endregion
 
@@ -86,19 +81,14 @@ export class ZhihuService {
     return await this.getCookie()
   }
 
-  public async hot(limit: number = 50, desktop: boolean = true) {
-    const cache = await this.redisService.get(ZHIHU_CACHE_KEY.HOT)
-    if (cache) return cache
-
-    const response = await this.fetchService.get<any>(ZHIHU_API.HOT, {
+  public async rank(limit: number = 50, desktop: boolean = true) {
+    const response = await this.fetchService.get<any>(ZHIHU_API.RANK, {
       headers: {
         ...this.headers,
         Referer: 'https://www.zhihu.com/hot'
       },
       params: { limit, desktop }
     })
-
-    this.logger.debug(response.data)
 
     const items = response.data.data.map((item) => {
       const title = item.target.title_area.text
@@ -140,9 +130,7 @@ export class ZhihuService {
       // }
     })
 
-    const data = { items }
-    await this.redisService.set(ZHIHU_CACHE_KEY.HOT, data)
-    return data
+    return items
   }
 
   public async me() {
