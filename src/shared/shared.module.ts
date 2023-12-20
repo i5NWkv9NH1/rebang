@@ -6,6 +6,7 @@ import { FetchService } from './fetch.service'
 import { BullModule } from '@nestjs/bull'
 import { BullBoardModule } from '@bull-board/nestjs'
 import { ExpressAdapter } from '@bull-board/express'
+import { LoggingModule } from './logging/logging.module'
 
 @Global()
 @Module({

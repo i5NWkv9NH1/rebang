@@ -16,7 +16,7 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule
-    // new FastifyAdapter()
+    // new FastifyAdapter(),
   )
   // await app.register(fastifyListRoutes, { colors: true })
 

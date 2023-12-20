@@ -1,7 +1,7 @@
 import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis'
 import { HttpService } from '@nestjs/axios'
 import { InjectQueue } from '@nestjs/bull'
-import { Injectable } from '@nestjs/common'
+import { Injectable, OnModuleInit } from '@nestjs/common'
 import { Queue } from 'bull'
 import { Redis } from 'ioredis'
 
@@ -9,9 +9,7 @@ import { Redis } from 'ioredis'
 export class AppService {
   constructor(
     @InjectRedis()
-    private readonly redis: Redis,
-    @InjectQueue('_36k')
-    private readonly _36kQueue: Queue
+    private readonly redis: Redis
   ) {}
 
   async get(key: string) {
@@ -28,22 +26,5 @@ export class AppService {
 
   getHello(): string {
     return 'Hello World!'
-  }
-
-  public async findAllTask() {
-    return await this._36kQueue.getJobs([
-      'active',
-      'completed',
-      'delayed',
-      'failed',
-      'paused',
-      'waiting'
-    ])
-  }
-
-  public async findTaskByName(id: string) {
-    // return await this._36kQueue.getJobs(['active', 'completed', 'delayed', 'failed', 'paused', 'waiting'])
-    return await this._36kQueue.getJob(id)
-    // return this.schedulerRegistry.getCronJob(name)
   }
 }
