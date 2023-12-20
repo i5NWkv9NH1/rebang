@@ -5,6 +5,8 @@ import { BullModule } from '@nestjs/bull'
 import { AGEFANS_QUEUE_NAME } from './agefans.constant'
 import { BullBoardModule } from '@bull-board/nestjs'
 import { BullAdapter } from '@bull-board/api/bullAdapter'
+import { AgefansJob } from './agefans.job'
+import { AgefansProcessor } from './agefans.processor'
 
 @Module({
   imports: [
@@ -17,7 +19,8 @@ import { BullAdapter } from '@bull-board/api/bullAdapter'
       adapter: BullAdapter
     })
   ],
-  providers: [AgefansService],
+  providers: [AgefansService, AgefansJob, AgefansProcessor],
+  exports: [AgefansService, AgefansJob, AgefansProcessor],
   controllers: [AgefansController]
 })
 export class AgefansModule {}
