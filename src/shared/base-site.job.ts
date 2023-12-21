@@ -34,11 +34,17 @@ export class BaseSiteJob {
   }
 
   async removeAll() {
-    const jobs = await this.queue.getJobs(this.types)
-    for await (const job of jobs) {
-      await job.remove()
-    }
-    return jobs
+    // await this.queue.empty()
+    // const jobs = await this.queue.getJobs(this.types)
+    // for await (const job of jobs) {
+    //   const opt = job.opts
+    //   if (opt.repeat.key) {
+    //     await this.queue.removeRepeatableByKey(job.opts.repeat.key)
+    //   } else {
+    //     await job.remove()
+    //   }
+    // }
+    await this.queue.removeJobs('*')
   }
 
   async findAll() {
