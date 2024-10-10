@@ -14,7 +14,7 @@ import { Website } from './entities/website.entity'
 import { Repository } from 'typeorm'
 import { Part } from './entities/part.entity'
 import { PartConfig } from './entities/part-config.entity'
-import { WebsiteQueryDto } from './dtos/website-query.dto'
+import { WebsiteQueryDto } from './dto/website-query.dto'
 
 @Controller('website')
 export class WebsiteContoller {
