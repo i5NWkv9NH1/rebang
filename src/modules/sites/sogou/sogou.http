@@ -1,4 +1,0 @@
-@prefix = http://localhost:4002/api/sites/sogou
-
-###
-GET {{prefix}}/hot

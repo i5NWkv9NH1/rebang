@@ -1,6 +1,0 @@
-@prefix = http://localhost:4002/api/sites/zhihu-daily
-
-###
-GET {{prefix}}/latest
-###
-GET {{prefix}}/date/20231202

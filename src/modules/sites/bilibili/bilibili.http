@@ -1,9 +1,0 @@
-@prefix = http://localhost:4002/api/sites/bilibili
-
-###
-GET {{prefix}}/hot
-###
-GET {{prefix}}/week
-###
-GET {{prefix}}/rank
-

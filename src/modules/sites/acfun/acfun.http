@@ -1,8 +1,0 @@
-@prefix = http://localhost:4002/api/sites/acfun
-###
-GET {{prefix}}/day
-### 
-GET {{prefix}}/threedays
-###
-GET {{prefix}}/week
-###

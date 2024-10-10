@@ -1,7 +1,0 @@
-@prefix = http://localhost:4002/api/tasks
-
-###
-GET {{prefix}}
-
-###
-GET {{prefix}}/36k

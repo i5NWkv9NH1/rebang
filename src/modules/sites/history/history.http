@@ -1,4 +1,0 @@
-@prefix = http://localhost:4002/api/sites/history
-
-###
-GET {{prefix}}/360

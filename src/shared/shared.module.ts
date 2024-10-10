@@ -1,39 +1,66 @@
 import { Global, Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { BullModule } from '@nestjs/bullmq'
+import { TypeormConfigService } from 'src/configs/typeorm-config.service'
+import { BullMqConfigService } from 'src/configs/bullmq-config.service'
+import { MeiliSearchModule } from 'nestjs-meilisearch'
+import { MeilliSearchConfigService } from 'src/configs/meilisearch-config.service'
+import { PlaywrightModule } from 'nestjs-playwright'
+import { RedisService } from './services/redis.service'
+import { RedisConfigService } from 'src/configs/redis-config.service'
 import { RedisModule } from '@liaoliaots/nestjs-redis'
-import { RedisService } from './redis.service'
+import { FetchService } from './services/fetch.service'
 import { HttpModule } from '@nestjs/axios'
-import { FetchService } from './fetch.service'
-import { BullModule } from '@nestjs/bull'
-import { BullBoardModule } from '@bull-board/nestjs'
-import { ExpressAdapter } from '@bull-board/express'
-import { RedisCachingInterceptor } from './redis-caching-interceptor'
+import { HttpConfigService } from 'src/configs/http-config.service'
+import { EventEmitterModule } from '@nestjs/event-emitter'
+import { SearchService } from './services/search.service'
 
 @Global()
 @Module({
   imports: [
-    RedisModule.forRoot({
-      config: {
-        host: 'localhost',
-        port: 6379,
-        password: ''
-      }
+    ConfigModule.forRoot({
+      isGlobal: true
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379
-      }
+    RedisModule.forRootAsync({
+      useClass: RedisConfigService
     }),
-    BullBoardModule.forRoot({
-      route: '/queues',
-      adapter: ExpressAdapter
+    TypeOrmModule.forRootAsync({
+      useClass: TypeormConfigService
     }),
-    {
-      ...HttpModule.register({}),
-      global: true
-    }
+    BullModule.forRootAsync({
+      useClass: BullMqConfigService
+    }),
+    MeiliSearchModule.forRootAsync({
+      useClass: MeilliSearchConfigService
+    }),
+    PlaywrightModule.forRoot({
+      executablePath: `/opt/homebrew/Caskroom/google-chrome/129.0.6668.71/Google Chrome.app/Contents/MacOS/Google Chrome`,
+      headless: true,
+      chromiumSandbox: true,
+      channel: 'chrome'
+    }),
+    HttpModule.registerAsync({
+      useClass: HttpConfigService
+    }),
+    EventEmitterModule.forRoot({
+      global: true,
+      wildcard: true,
+      // the delimiter used to segment namespaces
+      delimiter: '.',
+      // set this to `true` if you want to emit the newListener event
+      newListener: false,
+      // set this to `true` if you want to emit the removeListener event
+      removeListener: false,
+      // the maximum amount of listeners that can be assigned to an event
+      maxListeners: 10,
+      // show event name in memory leak message when more than maximum amount of listeners is assigned
+      verboseMemoryLeak: false,
+      // disable throwing uncaughtException if an error event is emitted and it has no listeners
+      ignoreErrors: false
+    })
   ],
-  providers: [RedisService, FetchService, RedisCachingInterceptor],
-  exports: [RedisService, FetchService, RedisCachingInterceptor]
+  providers: [RedisService, FetchService, SearchService],
+  exports: [RedisService, FetchService, SearchService]
 })
-export class SharedModule {}
+export class ShareModule {}

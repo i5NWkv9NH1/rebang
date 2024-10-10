@@ -1,4 +1,19 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.preferences.organizeImports": {
+    "typeOrder": "first",
+    "unicodeCollation": "ordinal",
+    "accentCollation": false,
+    "caseFirst": "default",
+    "caseSensitivity": "auto",
+    "numericCollation": false
+  },
+  "typescript.referencesCodeLens.enabled": true, // 启用引用计数
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true, // 启用项目诊断
+  "typescript.tsserver.watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents"
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true // 允许使用工作区的 TypeScript SDK
 }
