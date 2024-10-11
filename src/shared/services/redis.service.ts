@@ -21,7 +21,6 @@ export class RedisService {
     expiry: number = this.defaultExpiry
   ): Promise<string> {
     const serializedValue = stringify(value) // 使用 flatted 库序列化
-    this.logger.debug('Set key', key, 'value', serializedValue)
     return await this.redis.set(key, serializedValue, 'EX', expiry)
   }
 
@@ -29,7 +28,6 @@ export class RedisService {
   async get<T = RedisData>(key: string): Promise<T | null> {
     const value = await this.redis.get(key)
     if (value) {
-      this.logger.debug('Get key', key)
       return parse(value) as T // 使用 flatted 库反序列化
     }
     return null // 如果不存在，则返回 null

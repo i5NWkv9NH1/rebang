@@ -34,10 +34,10 @@ export class PartService {
     })
   }
 
-  async findOneByName(name: string): Promise<Part> {
+  async findOneByName(websiteName: string, partName: string): Promise<Part> {
     return await this.partRepository.findOne({
-      where: { name },
-      relations: ['website']
+      relations: ['website'],
+      where: { website: { name: websiteName }, name: partName }
     })
   }
 

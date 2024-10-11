@@ -5,16 +5,14 @@ import {
   NotFoundException,
   Query
 } from '@nestjs/common'
-import { WebsiteService } from './website.service'
 import { RedisService } from 'src/shared/services/redis.service'
-import { PartService } from './services/part.service'
-import { PartConfigService } from './services/part-config.service'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Website } from './entities/website.entity'
 import { Repository } from 'typeorm'
 import { Part } from './entities/part.entity'
 import { PartConfig } from './entities/part-config.entity'
 import { WebsiteQueryDto } from './dto/website-query.dto'
+import { WebsiteService } from './services/website.service'
 
 @Controller('website')
 export class WebsiteContoller {
@@ -23,6 +21,7 @@ export class WebsiteContoller {
     // private readonly partService: PartService,
     // private readonly partConfigService: PartConfigService,
     private readonly redisService: RedisService,
+    private readonly websiteService: WebsiteService,
 
     @InjectRepository(Website)
     private readonly websiteRepository: Repository<Website>,
@@ -35,14 +34,6 @@ export class WebsiteContoller {
   @Get()
   async find(@Query() query: WebsiteQueryDto) {
     const { site: siteName, part: partName } = query
-    // const website = await this.websiteSerivce.findOneByName(siteName)
-    // const parts = await this.partService.findByWebsiteId(website.id)
-    // const part = parts.find((_) => _.name === partName)
-    // const config = await this.partConfigService.findOneByPartId(part.id)
-    // const { redisKey } = config
-    // return await this.redisService.get(redisKey)
-
-    // *
     const website = await this.websiteRepository.findOne({
       where: { name: siteName }
     })

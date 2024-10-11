@@ -1,0 +1,69 @@
+services:
+  # api:
+  #   build: .
+  #   container_name: rebang-api
+  #   ports:
+  #     - '${PORT}:3000'
+  #   volumes:
+  #     - .:/app
+  #     # - /app/node_modules
+  #   command: npm run dev
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #     - meilisearch
+  #     - meilisearch-ui
+  #   networks:
+  #     - rebang
+
+  postgres:
+    image: postgres
+    restart: always
+    container_name: rebang-postgres
+    env_file:
+      - .env
+    volumes:
+      - rebang-postgres:/var/lib/postgresql/data
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    networks:
+      - rebang
+
+  redis:
+    image: redis
+    container_name: rebang-redis
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '${REDIS_PORT}:6379'
+    volumes:
+      - rebang-redis:/data
+    networks:
+      - rebang
+
+  meilisearch:
+    image: getmeili/meilisearch
+    container_name: rebang-meilisearch
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '${MEILI_PORT}:7700'
+    networks:
+      - rebang
+
+  meilisearch-ui:
+    image: riccoxie/meilisearch-ui:latest
+    container_name: meilisearch-ui
+    restart: always
+    ports:
+      - '${MEILI_UI_PORT}:24900'
+
+volumes:
+  rebang-postgres:
+  rebang-redis:
+  rebang-search:
+
+networks:
+  rebang:

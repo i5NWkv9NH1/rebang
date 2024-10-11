@@ -63,6 +63,13 @@ export class PartScrapedService {
     })
   }
 
+  async findOneByTitle(partName: string, title: string) {
+    return await this.partScrapedRepository.findOne({
+      relations: ['part'],
+      where: { title, part: { name: partName } }
+    })
+  }
+
   async update(
     id: string,
     partScraped: Partial<PartScraped>

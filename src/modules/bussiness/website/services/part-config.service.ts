@@ -5,12 +5,15 @@ import { PartConfig } from '../entities/part-config.entity'
 import { Website } from '../entities/website.entity'
 import { PartService } from './part.service'
 import { WebsiteService } from './website.service'
+import { Part } from '../entities/part.entity'
 
 @Injectable()
 export class PartConfigService {
   constructor(
-    private readonly websiteService: WebsiteService,
-    private readonly partService: PartService,
+    @InjectRepository(Website)
+    private readonly websiteRepository: Repository<Website>,
+    @InjectRepository(Part)
+    private readonly partRepository: Repository<Part>,
     @InjectRepository(PartConfig)
     private readonly partConfigRepository: Repository<PartConfig>
   ) {}
@@ -57,8 +60,13 @@ export class PartConfigService {
     websiteName: string,
     partName: string
   ): Promise<PartConfig | null> {
-    const website = await this.websiteService.findOneByName(websiteName)
-    const parts = await this.partService.findByWebsiteId(website.id)
+    const website = await this.websiteRepository.findOne({
+      where: { name: websiteName }
+    })
+    const parts = await this.partRepository.find({
+      relations: ['website'],
+      where: { website: { id: website.id } }
+    })
     const part = parts.find((part) => part.name === partName)
 
     if (part.activedConfigId) {

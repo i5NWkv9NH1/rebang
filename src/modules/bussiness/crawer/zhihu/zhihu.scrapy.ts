@@ -2,38 +2,26 @@
  * * description 爬虫逻辑，返回数据
  * TODO: 监测日志、进度
  */
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { FetchService } from 'src/shared/services/fetch.service'
 import { ZhihuAPI } from './zhihu.constant'
 import * as cheerio from 'cheerio'
 import { Job } from 'bullmq'
 import { JobDefinitData } from 'src/@types'
 import { v4 as uuid } from 'uuid'
-import { genUserAgent } from 'src/utils'
-import { PartConfig } from '../entities/part-config.entity'
+import dayjs from 'dayjs'
+import { BaseScrapy } from 'src/common/abstracts/base-scrapy.service'
 
 @Injectable()
-export class ZhihuScrapy {
-  constructor(private readonly http: FetchService) {}
+export class ZhihuScrapy extends BaseScrapy {
+  protected readonly logger = new Logger(ZhihuScrapy.name)
 
-  private getHeaders(config: PartConfig) {
-    const cookie = config.cookie || ''
-    const userAgent = config.userAgent || genUserAgent('desktop')
-
-    return {
-      ...config.headers,
-      headers: {
-        Cookie: cookie,
-        'User-Agent': userAgent
-      }
-    }
+  constructor(http: FetchService) {
+    super(http)
   }
 
   public async trend(job: Job<JobDefinitData>) {
-    const { config } = job.data
-    const headers = this.getHeaders(config)
-    const url = config.url || ZhihuAPI.Trend
-    const response = await this.http.get<string>(url, headers)
+    const response = await this.fetchData(job, ZhihuAPI.Trend)
 
     const $ = cheerio.load(response.data, { xmlMode: false })
     let items = []
@@ -53,7 +41,8 @@ export class ZhihuScrapy {
             stats: {
               hot: this.convertSingleHeat(item.target.metricsArea.text),
               answer: item.feedSpecific.answerCount
-            }
+            },
+            time: dayjs().format('YYYY-MM-DD HH:mm:ss')
           }
         })
       }

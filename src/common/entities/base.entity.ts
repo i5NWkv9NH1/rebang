@@ -18,8 +18,14 @@ export abstract class AbstractBaseEntity {
   })
   sort: number
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'time with time zone',
+    name: 'created_at'
+  })
   createdAt: Date
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'time with time zone',
+    name: 'updated_at'
+  })
   updatedAt: Date
 }

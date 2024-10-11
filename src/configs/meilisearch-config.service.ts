@@ -8,13 +8,13 @@ export class MeilliSearchConfigService implements MeiliModuleOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
 
   createMeiliOptions(): Promise<Config> | Config {
-    const url = `http://${this.configService.get(
-      'MEILLI_HOST'
-    )}:${this.configService.get('MEILLI_PORT')}`
+    const url = `${this.configService.get(
+      'MEILI_HOST'
+    )}:${parseInt(this.configService.get('MEILI_PORT'))}`
 
     return {
       host: url,
-      apiKey: this.configService.get('MEILLI_KEY')
+      apiKey: this.configService.get('MEILI_MASTER_KEY')
     }
   }
 }

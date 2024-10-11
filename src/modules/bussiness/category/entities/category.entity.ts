@@ -1,4 +1,4 @@
-import { AbstractBaseEntity } from 'src/shared/entities/base.entity'
+import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 import {
   Column,
   Entity,

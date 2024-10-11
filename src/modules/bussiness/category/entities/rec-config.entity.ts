@@ -1,4 +1,4 @@
-import { AbstractBaseEntity } from 'src/shared/entities/base.entity'
+import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 import { Entity, ManyToOne } from 'typeorm'
 import { Category } from './category.entity'
 import { Part } from '../../website/entities/part.entity'

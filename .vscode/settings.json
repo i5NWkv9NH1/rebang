@@ -9,7 +9,7 @@
     "caseSensitivity": "auto",
     "numericCollation": false
   },
-  "typescript.referencesCodeLens.enabled": true, // 启用引用计数
+  // "typescript.referencesCodeLens.enabled": true, // 启用引用计数
   "typescript.tsserver.experimental.enableProjectDiagnostics": true, // 启用项目诊断
   "typescript.tsserver.watchOptions": {
     "watchFile": "useFsEvents",

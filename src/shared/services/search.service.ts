@@ -1,75 +1,79 @@
 import { Injectable, Logger } from '@nestjs/common'
-import MeiliSearch from 'meilisearch'
+import MeiliSearch, {
+  DocumentOptions,
+  DocumentsQuery,
+  Settings,
+  TasksQuery
+} from 'meilisearch'
 import { InjectMeiliSearch } from 'nestjs-meilisearch'
 
 @Injectable()
 export class SearchService {
   protected readonly logger = new Logger(SearchService.name)
-  private indexName: string
+  protected indexName: string
 
   constructor(
     @InjectMeiliSearch()
     private readonly client: MeiliSearch
   ) {}
 
-  async setIndex(indexName: string, ...args) {
-    const [searchableAttributes, filterableAttributes] = args
-    this.createIndex(indexName, searchableAttributes, filterableAttributes)
+  public async getIndex(index: string) {
+    return await this.client.getIndex(index)
   }
 
-  async updateIndex() {
-    return await this.client.index(this.indexName).updateSettings({
-      searchableAttributes: ['title']
+  async updateIndex(index: string, settings: Settings) {
+    return await this.client.index(index).updateSettings(settings)
+  }
+
+  async createIndex(index: string, primaryKey = 'id') {
+    return await this.client.createIndex(index, {
+      primaryKey
     })
   }
 
-  async createIndex(
-    indexName: string,
-    searchableAttributes?: string[],
-    filterableAttributes?: string[]
+  async search(index: string, query: string) {
+    return await this.client.index(index).search(query)
+  }
+
+  async addDocuments(
+    index: string,
+    documents: any[],
+    options?: DocumentOptions
   ) {
-    this.indexName = indexName
-    const saved = await this.client.createIndex(this.indexName, {
-      primaryKey: 'id'
-    })
-    if (searchableAttributes) {
-      await this.client.index(this.indexName).updateSettings({
-        searchableAttributes
-      })
-    }
-    // if (filterableAttributes) {
-    //   await this._index.updateSettings({
-    //     filterableAttributes
-    //   })
-    // }
-    return saved
+    return await this.client.index(index).addDocuments(documents, options)
   }
 
-  async search(query: string) {
-    return await this.client.index(this.indexName).search(query)
+  async updateDocuments(
+    index: string,
+    documents: any[],
+    options?: DocumentOptions
+  ) {
+    return await this.client.index(index).updateDocuments(documents, options)
   }
 
-  async addDocuments(documents: any[]) {
-    return await this.client.index(this.indexName).addDocuments(documents)
+  async deleteDocuments(index: string, documentIds: string[]) {
+    return await this.client.index(index).deleteDocuments(documentIds)
   }
 
-  async updateDocuments(documents: any[]) {
-    return await this.client.index(this.indexName).updateDocuments(documents)
+  async getDocument(index: string, documentId: string) {
+    return await this.client.index(index).getDocument(documentId)
   }
 
-  async deleteDocuments(documentIds: string[]) {
-    return await this.client.index(this.indexName).deleteDocuments(documentIds)
+  async getDocuments<T extends Record<string, any>>(
+    index: string,
+    parameters: DocumentsQuery<T> = {}
+  ) {
+    return await this.client.index(index).getDocuments(parameters)
   }
 
-  async getDocument(documentId: string) {
-    return await this.client.index(this.indexName).getDocument(documentId)
+  async deleteIndex(index: string) {
+    return await this.client.index(index).delete()
   }
 
-  async getDocuments() {
-    return await this.client.index(this.indexName).getDocuments()
+  async getTasks(index: string, query: TasksQuery = {}) {
+    return await this.client.index(index).getTasks(query)
   }
-
-  async deleteIndex() {
-    return await this.client.index(this.indexName).delete()
+  async findTask(index: string, uid: number) {
+    return await this.client.index(index).getTask(uid)
   }
 }

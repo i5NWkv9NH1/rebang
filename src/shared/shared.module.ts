@@ -15,6 +15,7 @@ import { HttpModule } from '@nestjs/axios'
 import { HttpConfigService } from 'src/configs/http-config.service'
 import { EventEmitterModule } from '@nestjs/event-emitter'
 import { SearchService } from './services/search.service'
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Global()
 @Module({
@@ -43,6 +44,7 @@ import { SearchService } from './services/search.service'
     HttpModule.registerAsync({
       useClass: HttpConfigService
     }),
+    ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({
       global: true,
       wildcard: true,

@@ -1,7 +1,7 @@
-import { AbstractBaseEntity } from 'src/shared/entities/base.entity'
+import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 import { Column, Entity, ManyToOne, Relation } from 'typeorm'
 import { Part } from './part.entity'
-import { ZhihuAPI } from '../zhihu/zhihu.constant'
+import { ZhihuAPI } from '../../crawer/zhihu/zhihu.constant'
 import { genUserAgent } from 'src/utils'
 import { CronExpression } from '@nestjs/schedule'
 
@@ -18,6 +18,9 @@ export class PartConfig extends AbstractBaseEntity {
 
   @Column({ type: 'varchar', name: 'name' })
   name: string
+
+  @Column({ type: 'varchar', nullable: true })
+  title: string
 
   @Column({ type: 'varchar', name: 'job_name' })
   jobName: string

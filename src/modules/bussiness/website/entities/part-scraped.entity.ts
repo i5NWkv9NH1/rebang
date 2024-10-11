@@ -6,7 +6,7 @@ import {
   Relation
 } from 'typeorm'
 import { Part } from './part.entity'
-import { AbstractBaseEntity } from 'src/shared/entities/base.entity'
+import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 
 @Entity('part_scraped')
 export class PartScraped extends AbstractBaseEntity {
@@ -22,8 +22,14 @@ export class PartScraped extends AbstractBaseEntity {
   @Column({ type: 'varchar', nullable: true })
   originUrl: string
 
-  @Column({ type: 'json' })
+  @Column({ type: 'json', nullable: true })
   stats: Record<string, any>
+
+  @Column({ type: 'json', nullable: true })
+  extra: Record<string, any>
+
+  @Column({ type: 'varchar', nullable: true })
+  time: string
 
   @ManyToOne(() => Part, (part) => part.scraped)
   part: Relation<Part>

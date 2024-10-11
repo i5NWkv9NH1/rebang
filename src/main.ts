@@ -17,6 +17,6 @@ async function bootstrap() {
 
   app.enableShutdownHooks()
 
-  await app.listen(port, host)
+  await app.listen(3000, '0.0.0.0')
 }
 bootstrap()

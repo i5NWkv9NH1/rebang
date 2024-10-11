@@ -13,7 +13,7 @@ export class FetchService {
 
   constructor(private readonly httpService: HttpService) {}
 
-  public async get<T>(
+  public async get<T = any>(
     url: string,
     config: AxiosRequestConfig = {
       headers: this.headers
