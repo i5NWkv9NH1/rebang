@@ -35,4 +35,7 @@ export class Part extends AbstractBaseEntity {
 
   @Column({ nullable: true, type: 'uuid' })
   activedConfigId: string
+
+  @Column({ type: 'boolean', name: 'is_rec', default: false })
+  rec: boolean
 }

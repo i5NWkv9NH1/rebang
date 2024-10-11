@@ -6,7 +6,7 @@ import { Tracker } from './entities/tracker.entity'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tracker])],
-  controllers: [TrackerController],
-  providers: [TrackerService]
+  providers: [TrackerService],
+  exports: [TrackerService]
 })
 export class TrackerModule {}

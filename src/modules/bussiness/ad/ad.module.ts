@@ -7,7 +7,7 @@ import { AdStat } from './entities/ad-stat.entity'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Ad, AdStat])],
-  controllers: [AdController],
-  providers: [AdService]
+  providers: [AdService],
+  exports: [AdService]
 })
 export class AdModule {}

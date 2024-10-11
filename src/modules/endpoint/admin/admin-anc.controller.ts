@@ -1,9 +1,9 @@
 import { Controller, Post, Get, Put, Delete, Body, Param } from '@nestjs/common'
-import { AncService } from './anc.service'
-import { Anc } from './entities/anc.entity'
+import { AncService } from 'src/modules/bussiness/anc/anc.service'
+import { Anc } from 'src/modules/bussiness/anc/entities/anc.entity'
 
 @Controller('ancs')
-export class AncController {
+export class AdminAncController {
   constructor(private readonly ancService: AncService) {}
 
   // 创建公告

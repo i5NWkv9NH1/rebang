@@ -1,4 +1,0 @@
-@host = localhost:4200
-@prefix = website
-
-GET {{host}}/{{prefix}}

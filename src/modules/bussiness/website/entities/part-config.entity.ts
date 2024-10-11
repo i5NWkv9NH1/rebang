@@ -1,7 +1,7 @@
 import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 import { Column, Entity, ManyToOne, Relation } from 'typeorm'
 import { Part } from './part.entity'
-import { ZhihuAPI } from '../../crawer/zhihu/zhihu.constant'
+import { ZhihuAPI } from '../../../crawer/zhihu/zhihu.constant'
 import { genUserAgent } from 'src/utils'
 import { CronExpression } from '@nestjs/schedule'
 

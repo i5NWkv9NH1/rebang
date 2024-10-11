@@ -9,7 +9,6 @@ import { RecConfig } from './entities/rec-config.entity'
 @Module({
   imports: [TypeOrmModule.forFeature([Category, RecConfig]), WebsiteModule],
   providers: [CategoryService],
-  exports: [CategoryService],
-  controllers: [CategoryController]
+  exports: [CategoryService]
 })
 export class CategoryModule {}

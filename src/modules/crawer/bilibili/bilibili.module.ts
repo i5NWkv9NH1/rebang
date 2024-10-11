@@ -4,7 +4,7 @@ import { BilibiliService } from './bilibili.service'
 import { BilibiliProcessor } from './bilibili.processor'
 import { BILIBILI_QUEUE_NAME } from './bilibili.constant'
 import { ScraperModule } from 'src/common/abstracts/scrapy.module'
-import { WebsiteModule } from '../../website/website.module'
+import { WebsiteModule } from '../../bussiness/website/website.module'
 
 @Module({
   imports: [

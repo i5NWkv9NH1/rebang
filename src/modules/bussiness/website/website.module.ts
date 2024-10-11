@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { ZhihuModule } from '../crawer/zhihu/zhihu.module'
+import { ZhihuModule } from '../../crawer/zhihu/zhihu.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Website } from './entities/website.entity'
 import { Part } from './entities/part.entity'

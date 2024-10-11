@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ScraperModule } from 'src/common/abstracts/scrapy.module'
-import { WebsiteModule } from '../../website/website.module'
+import { WebsiteModule } from '../../bussiness/website/website.module'
 import { ZHIHU_QUEUE_NAME } from './zhihu.constant'
 import { ZhihuProcessor } from './zhihu.processor'
 import { ZhihuService } from './zhihu.service'

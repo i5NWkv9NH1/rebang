@@ -6,7 +6,7 @@ import { Anc } from './entities/anc.entity'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Anc])],
-  controllers: [AncController],
-  providers: [AncService]
+  providers: [AncService],
+  exports: [AncService]
 })
 export class AncModule {}
