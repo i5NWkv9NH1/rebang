@@ -10,7 +10,7 @@ import { Job } from 'bullmq'
 import { JobDefinitData } from 'src/@types'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
-import { BaseScrapy } from 'src/common/abstracts/base-scrapy.service'
+import { BaseScrapy } from 'src/common/abstracts/base-scrapy-service.abstract'
 
 @Injectable()
 export class ZhihuScrapy extends BaseScrapy {

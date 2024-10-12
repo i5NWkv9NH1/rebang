@@ -2,12 +2,10 @@ import { Injectable, Logger } from '@nestjs/common'
 import { Job } from 'bullmq'
 import { JobDefinitData } from 'src/@types'
 import { FetchService } from 'src/shared/services/fetch.service'
-import { PartConfig } from '../../bussiness/website/entities/part-config.entity'
-import { genUserAgent } from 'src/utils'
 import { BilibiliApi } from './bilibili.constant'
 import { v4 } from 'uuid'
 import { formatCurrentDay } from 'src/utils/day.util'
-import { BaseScrapy } from 'src/common/abstracts/base-scrapy.service'
+import { BaseScrapy } from 'src/common/abstracts/base-scrapy-service.abstract'
 
 @Injectable()
 export class BilibiliScrapy extends BaseScrapy {

@@ -1,39 +1,32 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DeepPartial, Repository, SelectQueryBuilder } from 'typeorm'
 import { Anc } from './entities/anc.entity'
+import { BaseCrudService } from 'src/common/abstracts/base-crud-service.abstract'
 
 @Injectable()
-export class AncService {
+export class AncService extends BaseCrudService<Anc> {
   constructor(
     @InjectRepository(Anc)
-    private announcementRepository: Repository<Anc>
-  ) {}
-
-  // 创建公告
-  async createAnc(ancData: Partial<Anc>): Promise<Anc> {
-    const anc = this.announcementRepository.create(ancData)
-    return this.announcementRepository.save(anc)
+    private ancRepository: Repository<Anc>
+  ) {
+    super(ancRepository)
   }
 
-  // 获取所有公告
-  async findAllAncs(): Promise<Anc[]> {
-    return this.announcementRepository.find()
+  protected createQueryBuilder(): SelectQueryBuilder<Anc> {
+    return this.ancRepository.createQueryBuilder('anc')
   }
-
-  // 根据 ID 获取公告
-  async findAncById(id: string): Promise<Anc> {
-    return this.announcementRepository.findOneBy({ id })
-  }
-
-  // 更新公告
-  async updateAnc(id: string, announcementData: Partial<Anc>): Promise<Anc> {
-    await this.announcementRepository.update(id, announcementData)
-    return this.findAncById(id)
-  }
-
-  // 删除公告
-  async deleteAnc(id: string): Promise<void> {
-    await this.announcementRepository.delete(id)
-  }
+  protected applyFilter<F>(
+    qb: SelectQueryBuilder<Anc>,
+    filter: F
+  ): void | Promise<void> {}
+  protected applyCustom(qb: SelectQueryBuilder<Anc>): void | Promise<void> {}
+  protected beforeCreate(
+    dto: DeepPartial<Anc>,
+    entity: Anc
+  ): Promise<void> | void {}
+  protected beforeUpdate<Dto>(entity: Anc, dto: Dto): Promise<void> | void {}
+  protected beforeRemove(entity: Anc): Promise<void> | void {}
+  protected beforeSoftRemove(entity: Anc): Promise<void> | void {}
+  protected beforeRecover(entity: Anc): Promise<void> | void {}
 }

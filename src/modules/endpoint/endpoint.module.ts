@@ -5,15 +5,29 @@ import { AdminAncController } from './admin/admin-anc.controller'
 import { AdminCategoryController } from './admin/admin-category.controller'
 import { WebHomeController } from './web/web-home.controller'
 import { AdminTrackerController } from './admin/admin-tracker.controller'
+import { AdminUserController } from './admin/admin-user.controller'
+import { AdminWebsiteController } from './admin/admin-website.controller'
+import { AdminAuthController } from './admin/admin-auth.controller'
+import { RbacModule } from '../rbac/rbac.module'
+import { SystemModule } from '../system/system.module'
+import { AdminAccountController } from './admin/admin-account.controller'
+import { AdminRoleContoller } from './admin/admin-role.controller'
+import { AdminPermissionController } from './admin/admin-permission.controller'
 
 @Module({
-  imports: [BusinessModule],
+  imports: [BusinessModule, RbacModule, SystemModule],
   controllers: [
     //* admin
     AdminAdController,
     AdminAncController,
+    AdminAuthController,
+    AdminAccountController,
+    AdminRoleContoller,
+    AdminPermissionController,
     AdminCategoryController,
     AdminTrackerController,
+    AdminUserController,
+    AdminWebsiteController,
     //* ssr web
     WebHomeController
     //* h5

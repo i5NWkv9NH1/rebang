@@ -11,7 +11,7 @@ import { BilibiliScrapy } from './bilibili.scrapy'
 import { JobDefinitData, RedisData } from 'src/@types'
 import { RedisService } from 'src/shared/services/redis.service'
 import { PartScrapedService } from '../../bussiness/website/services/part-scraped.service'
-import { WorkerHostProcessor } from 'src/common/abstracts/worker-host.processor'
+import { WorkerHostProcessor } from 'src/common/abstracts/worker-host-processor.abstract'
 
 @Processor(BILIBILI_QUEUE_NAME)
 export class BilibiliProcessor extends WorkerHostProcessor<BilibiliScrapy> {

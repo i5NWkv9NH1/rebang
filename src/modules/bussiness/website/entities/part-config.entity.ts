@@ -4,8 +4,9 @@ import { Part } from './part.entity'
 import { ZhihuAPI } from '../../../crawer/zhihu/zhihu.constant'
 import { genUserAgent } from 'src/utils'
 import { CronExpression } from '@nestjs/schedule'
+import { Status } from 'src/@types'
 
-@Entity('part_config')
+@Entity('b_part_config')
 export class PartConfig extends AbstractBaseEntity {
   @ManyToOne(() => Part, (part) => part.configs)
   part: Relation<Part>
@@ -13,8 +14,12 @@ export class PartConfig extends AbstractBaseEntity {
   @Column({ type: 'boolean', default: false })
   enabled: boolean
 
-  @Column({ type: 'text', name: 'description', nullable: true })
-  description: string
+  @Column({
+    type: 'enum',
+    enum: Status,
+    default: Status.Disabled
+  })
+  status: Status
 
   @Column({ type: 'varchar', name: 'name' })
   name: string

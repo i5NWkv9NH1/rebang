@@ -13,7 +13,7 @@ import { PartScraped } from './part-scraped.entity'
 import { PartConfig } from './part-config.entity'
 import { Category } from '../../category/entities/category.entity'
 
-@Entity('part')
+@Entity('b_part')
 export class Part extends AbstractBaseEntity {
   @Column({ nullable: false })
   name: string

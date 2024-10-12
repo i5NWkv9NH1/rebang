@@ -10,7 +10,7 @@ import {
 import { Website } from '../../website/entities/website.entity'
 import { Part } from '../../website/entities/part.entity'
 
-@Entity('category')
+@Entity('b_category')
 export class Category extends AbstractBaseEntity {
   @Column({ nullable: true })
   icon: string
@@ -25,7 +25,7 @@ export class Category extends AbstractBaseEntity {
   websites: Relation<Website[]>
 
   @ManyToMany(() => Part, (_) => _.categories)
-  @JoinTable({ name: 'category_parts' })
+  @JoinTable({ name: 'b_category_parts' })
   parts: Relation<Part[]>
 
   // @Column({ type: 'simple-array', nullable: true, select: false })

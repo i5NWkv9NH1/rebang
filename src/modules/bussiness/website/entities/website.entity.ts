@@ -11,7 +11,7 @@ import {
 import { Category } from '../../category/entities/category.entity'
 import { Part } from './part.entity'
 
-@Entity('website')
+@Entity('b_website')
 export class Website extends AbstractBaseEntity {
   @Column({ nullable: false })
   url: string
@@ -28,7 +28,7 @@ export class Website extends AbstractBaseEntity {
 
   @ManyToMany(() => Category, (category) => category.websites)
   @JoinTable({
-    name: 'website_categories', // 中间表的名称
+    name: 'b_website_categories', // 中间表的名称
     joinColumn: {
       name: 'website_id',
       referencedColumnName: 'id'

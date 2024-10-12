@@ -2,7 +2,7 @@ import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 import { Column, Entity, OneToOne, Relation } from 'typeorm'
 import { Ad } from './ad.entity'
 
-@Entity('ad-stat')
+@Entity('b_ad_stat')
 export class AdStat extends AbstractBaseEntity {
   @Column({ type: 'integer', default: 0 })
   views: number

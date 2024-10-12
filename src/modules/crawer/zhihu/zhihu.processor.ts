@@ -16,7 +16,7 @@ import { JobDefinitData } from 'src/@types'
 import { PartScrapedService } from '../../bussiness/website/services/part-scraped.service'
 import { SearchService } from 'src/shared/services/search.service'
 import { RedisService } from 'src/shared/services/redis.service'
-import { WorkerHostProcessor } from 'src/common/abstracts/worker-host.processor'
+import { WorkerHostProcessor } from 'src/common/abstracts/worker-host-processor.abstract'
 
 @Processor(ZHIHU_QUEUE_NAME)
 export class ZhihuProcessor extends WorkerHostProcessor<ZhihuScrapy> {

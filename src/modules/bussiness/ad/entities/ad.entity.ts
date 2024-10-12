@@ -9,7 +9,7 @@ export enum AdType {
   Banner = 'Banner'
 }
 
-@Entity('ad')
+@Entity('b_ad')
 export class Ad extends AbstractBaseEntity {
   @Column({ type: 'varchar' })
   title: string

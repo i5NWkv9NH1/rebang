@@ -1,46 +1,18 @@
-import { Controller, Post, Get, Put, Delete, Body, Param } from '@nestjs/common'
-import { AdService } from 'src/modules/bussiness/ad/ad.service'
+import { Post, Get, Put, Body, Param, Logger } from '@nestjs/common'
+import { BaseCrudController } from 'src/common/abstracts/base-crud-controller.abstract'
+import { UseAdminController } from 'src/common/decorators/router/admin-router.decorator'
+import { AdService } from 'src/modules/bussiness/ad/services/ad.service'
 import { Ad } from 'src/modules/bussiness/ad/entities/ad.entity'
+import { AdStatService } from 'src/modules/bussiness/ad/services/ad-stat.service'
 
-@Controller({ path: 'ads', version: '1' })
-export class AdminAdController {
-  constructor(private readonly adService: AdService) {}
+@UseAdminController('ads', ['1', '2'])
+export class AdminAdController extends BaseCrudController<Ad, {}, {}> {
+  protected readonly logger = new Logger(AdminAdController.name)
 
-  @Post()
-  create(@Body() adData: Partial<Ad>): Promise<Ad> {
-    return this.adService.createAd(adData)
-  }
-
-  @Get()
-  findAll(): Promise<Ad[]> {
-    return this.adService.findAllAds()
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Ad> {
-    return this.adService.findAdById(id)
-  }
-
-  @Put(':id')
-  update(@Param('id') id: string, @Body() adData: Partial<Ad>): Promise<Ad> {
-    return this.adService.updateAd(id, adData)
-  }
-
-  @Delete(':id')
-  delete(@Param('id') id: string): Promise<void> {
-    return this.adService.deleteAd(id)
-  }
-
-  @Post(':id/stats')
-  recordStat(
-    @Param('id') id: string,
-    @Body('action') action: 'view' | 'click'
-  ): Promise<void> {
-    return this.adService.recordAdStat(id, action)
-  }
-
-  @Get(':id/stats')
-  getStats(@Param('id') id: string) {
-    return this.adService.getAdStats(id)
+  constructor(
+    private readonly adService: AdService,
+    private readonly adStatService: AdStatService
+  ) {
+    super(adService)
   }
 }

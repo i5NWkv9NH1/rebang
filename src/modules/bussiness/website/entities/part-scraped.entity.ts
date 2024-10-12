@@ -8,7 +8,7 @@ import {
 import { Part } from './part.entity'
 import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 
-@Entity('part_scraped')
+@Entity('b_part_scraped')
 export class PartScraped extends AbstractBaseEntity {
   @Column({ type: 'varchar' })
   title: string

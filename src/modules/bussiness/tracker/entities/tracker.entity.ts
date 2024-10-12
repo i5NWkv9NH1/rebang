@@ -6,7 +6,7 @@ export enum TrackerType {
   View = 'View'
 }
 
-@Entity('tracker')
+@Entity('b_tracker')
 export class Tracker extends AbstractBaseEntity {
   @Column({ type: 'json', nullable: true })
   data: object

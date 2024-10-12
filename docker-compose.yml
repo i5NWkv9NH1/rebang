@@ -16,7 +16,7 @@ services:
   #   networks:
   #     - rebang
 
-  postgres:
+  rebang-postgres:
     image: postgres
     restart: always
     container_name: rebang-postgres
@@ -29,7 +29,7 @@ services:
     networks:
       - rebang
 
-  redis:
+  rebang-redis:
     image: redis
     container_name: rebang-redis
     restart: always
@@ -42,7 +42,7 @@ services:
     networks:
       - rebang
 
-  meilisearch:
+  rebang-meilisearch:
     image: getmeili/meilisearch
     container_name: rebang-meilisearch
     restart: always
@@ -53,7 +53,7 @@ services:
     networks:
       - rebang
 
-  meilisearch-ui:
+  rebang-meilisearch-ui:
     image: riccoxie/meilisearch-ui:latest
     container_name: meilisearch-ui
     restart: always

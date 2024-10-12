@@ -16,6 +16,8 @@ import { HttpConfigService } from 'src/configs/http-config.service'
 import { EventEmitterModule } from '@nestjs/event-emitter'
 import { SearchService } from './services/search.service'
 import { ScheduleModule } from '@nestjs/schedule'
+import { JwtModule } from '@nestjs/jwt'
+import { JwtConfigService } from 'src/configs/jwt-config.service'
 
 @Global()
 @Module({
@@ -60,7 +62,8 @@ import { ScheduleModule } from '@nestjs/schedule'
       verboseMemoryLeak: false,
       // disable throwing uncaughtException if an error event is emitted and it has no listeners
       ignoreErrors: false
-    })
+    }),
+    JwtModule.registerAsync({ useClass: JwtConfigService, global: true })
   ],
   providers: [RedisService, FetchService, SearchService],
   exports: [RedisService, FetchService, SearchService]

@@ -18,6 +18,7 @@ async function bootstrap() {
     defaultVersion: '1',
     prefix: 'v'
   })
+  //* transform: 传入的字符串可以被自动转换为数值、布尔值，或者嵌套的对象也会被转换为正确的实例。
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
 
   const host = configService.get<string>('HOST')
