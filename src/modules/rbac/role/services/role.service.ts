@@ -4,9 +4,8 @@ import { Role } from '../entities/role.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ILike, Like, Repository, SelectQueryBuilder } from 'typeorm'
 import { CreateRoleDto } from '../dto/create-role.dto'
-import { UpdateRolePermissionsDto } from '../dto/update-role-permissions.dto'
-import { PermissionService } from '../../permission/services/permission.service'
-import { UpdateRoleDto } from '../dto/update-role.dto'
+import { UpdateRoleResourcesDto } from '../dto/update-role-permissions.dto'
+import { ResourceService } from '../../resource/services/resource.service'
 
 @Injectable()
 export class RoleService extends BaseCrudService<Role> {
@@ -15,7 +14,7 @@ export class RoleService extends BaseCrudService<Role> {
   constructor(
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-    private readonly permissionService: PermissionService
+    private readonly permissionService: ResourceService
   ) {
     super(roleRepository)
   }
@@ -40,7 +39,7 @@ export class RoleService extends BaseCrudService<Role> {
     qb.orderBy('role.sort', 'DESC')
   }
 
-  async updateRolePermissions(id: string, dto: UpdateRolePermissionsDto) {
+  async updateRoleResources(id: string, dto: UpdateRoleResourcesDto) {
     const role = await this.findOneByIdWithThrow(id)
   }
 

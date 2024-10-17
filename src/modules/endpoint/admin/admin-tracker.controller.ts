@@ -12,7 +12,7 @@ import { UseAdminController } from 'src/common/decorators/router/admin-router.de
 import { Tracker } from 'src/modules/bussiness/tracker/entities/tracker.entity'
 import { TrackerService } from 'src/modules/bussiness/tracker/tracker.service'
 
-@UseAdminController('trackers', ['1', '2'])
+@UseAdminController('trackers', ['1'])
 export class AdminTrackerController extends BaseCrudController<
   Tracker,
   {},

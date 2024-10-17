@@ -10,12 +10,12 @@ import { UseAdminController } from 'src/common/decorators/router/admin-router.de
 import { AccountSerivce } from 'src/modules/rbac/account/services/account.service'
 import { AdminAuthSigninDto, AdminAuthSignupDto } from './dto/admin-auth-dto'
 import { ConfigService } from '@nestjs/config'
-import { compare, compareSync, hash } from 'bcrypt'
+import { compare } from 'bcrypt'
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard'
 import { Public } from 'src/common/decorators/pubic.decorator'
 
 @UseGuards(JwtAuthGuard)
-@UseAdminController('auth', ['1', '2'])
+@UseAdminController('auth', ['1'])
 export class AdminAuthController {
   protected readonly logger = new Logger(AdminAuthController.name)
 

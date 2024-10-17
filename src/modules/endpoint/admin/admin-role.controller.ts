@@ -27,5 +27,5 @@ export class AdminRoleContoller extends BaseCrudController<
   }
 
   @Patch(':id/permissions')
-  async updaePermissionById(@Param() params: IdParamsDto, @Body() dto) {}
+  async updaeResourceById(@Param() params: IdParamsDto, @Body() dto) {}
 }

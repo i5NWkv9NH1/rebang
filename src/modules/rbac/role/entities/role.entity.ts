@@ -2,7 +2,7 @@ import { Status } from 'src/@types'
 import { AbstractBaseEntity } from 'src/common/entities/base.entity'
 import { Column, Entity, Index, JoinTable, ManyToMany, Relation } from 'typeorm'
 import { Account } from '../../account/entities/account.entity'
-import { Permission } from '../../permission/entities/permission.entity'
+import { Resource } from '../../resource/entities/resource.entity'
 
 @Entity('s_role')
 export class Role extends AbstractBaseEntity {
@@ -24,11 +24,11 @@ export class Role extends AbstractBaseEntity {
   })
   accounts: Relation<Account[]>
 
-  @ManyToMany(() => Permission, (_) => _.roles, { cascade: true })
+  @ManyToMany(() => Resource, (_) => _.roles, { cascade: true })
   @JoinTable({
-    name: 's_role_permission',
+    name: 's_role_resource',
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' }
   })
-  permissions: Relation<Permission[]>
+  permissions: Relation<Resource[]>
 }

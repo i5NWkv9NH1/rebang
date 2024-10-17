@@ -1,11 +1,11 @@
-import { Post, Get, Put, Body, Param, Logger } from '@nestjs/common'
 import { BaseCrudController } from 'src/common/abstracts/base-crud-controller.abstract'
 import { UseAdminController } from 'src/common/decorators/router/admin-router.decorator'
 import { AdService } from 'src/modules/bussiness/ad/services/ad.service'
 import { Ad } from 'src/modules/bussiness/ad/entities/ad.entity'
 import { AdStatService } from 'src/modules/bussiness/ad/services/ad-stat.service'
+import { Logger } from '@nestjs/common'
 
-@UseAdminController('ads', ['1', '2'])
+@UseAdminController('ads', ['1'])
 export class AdminAdController extends BaseCrudController<Ad, {}, {}> {
   protected readonly logger = new Logger(AdminAdController.name)
 

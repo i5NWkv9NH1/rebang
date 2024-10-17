@@ -5,21 +5,26 @@ import {
   FindOneOptions,
   FindOptionsWhere,
   Repository,
-  SelectQueryBuilder
+  SelectQueryBuilder,
+  TreeRepository
 } from 'typeorm'
 
 export abstract class BaseCrudService<T extends AbstractBaseEntity> {
   protected readonly logger: Logger
 
-  constructor(private readonly repository: Repository<T>) {}
+  constructor(private readonly repository: Repository<T> | TreeRepository<T>) {}
 
+  protected getRepository<R extends Repository<T> | TreeRepository<T>>(): R {
+    return this.repository as R
+  }
+
+  //* QueryBuilder
+  //#region QueryBuilder
   protected abstract createQueryBuilder(): SelectQueryBuilder<T>
-
   protected abstract applyFilter<F>(
     qb: SelectQueryBuilder<T>,
     filter: F
   ): void | Promise<void>
-
   protected abstract applyCustom(
     qb: SelectQueryBuilder<T>
   ): void | Promise<void>
@@ -69,6 +74,10 @@ export abstract class BaseCrudService<T extends AbstractBaseEntity> {
     }
   }
 
+  //#endregion
+
+  //* CRUD
+  //#region CRUD
   protected abstract beforeCreate(
     dto: DeepPartial<T>,
     entity: T
@@ -111,6 +120,8 @@ export abstract class BaseCrudService<T extends AbstractBaseEntity> {
     await this.beforeSoftRemove(entity)
     return await this.repository.recover(entity)
   }
+
+  //#endregion
 
   //#region basic find methods
   async findOneByFields(

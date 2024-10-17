@@ -14,7 +14,7 @@ import { Logger } from '@nestjs/common'
 import { ZhihuScrapy } from './zhihu.scrapy'
 import { JobDefinitData } from 'src/@types'
 import { PartScrapedService } from '../../bussiness/website/services/part-scraped.service'
-import { SearchService } from 'src/shared/services/search.service'
+import { SearchService } from 'src/shared/search/search.service'
 import { RedisService } from 'src/shared/services/redis.service'
 import { WorkerHostProcessor } from 'src/common/abstracts/worker-host-processor.abstract'
 

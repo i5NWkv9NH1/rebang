@@ -4,7 +4,7 @@ import { UseAdminController } from 'src/common/decorators/router/admin-router.de
 import { AncService } from 'src/modules/bussiness/anc/anc.service'
 import { Anc } from 'src/modules/bussiness/anc/entities/anc.entity'
 
-@UseAdminController('ancs', ['1', '2'])
+@UseAdminController('ancs', ['1'])
 export class AdminAncController extends BaseCrudController<Anc, {}, {}> {
   constructor(private readonly ancService: AncService) {
     super(ancService)

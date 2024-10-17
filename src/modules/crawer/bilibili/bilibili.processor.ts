@@ -6,7 +6,7 @@ import {
 } from './bilibili.constant'
 import { Injectable, Logger } from '@nestjs/common'
 import { Job } from 'bullmq'
-import { SearchService } from 'src/shared/services/search.service'
+import { SearchService } from 'src/shared/search/search.service'
 import { BilibiliScrapy } from './bilibili.scrapy'
 import { JobDefinitData, RedisData } from 'src/@types'
 import { RedisService } from 'src/shared/services/redis.service'

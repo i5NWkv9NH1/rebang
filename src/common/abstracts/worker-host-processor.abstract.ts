@@ -6,7 +6,7 @@ import { JobDefinitData, RedisData } from 'src/@types'
 import { PartScraped } from 'src/modules/bussiness/website/entities/part-scraped.entity'
 import { PartScrapedService } from 'src/modules/bussiness/website/services/part-scraped.service'
 import { RedisService } from 'src/shared/services/redis.service'
-import { SearchService } from 'src/shared/services/search.service'
+import { SearchService } from 'src/shared/search/search.service'
 
 export abstract class WorkerHostProcessor<T> extends WorkerHost {
   protected abstract readonly logger: Logger

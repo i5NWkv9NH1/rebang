@@ -1,11 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import MeiliSearch, {
   DocumentOptions,
   DocumentsQuery,
+  MeiliSearchApiError,
   Settings,
   TasksQuery
 } from 'meilisearch'
 import { InjectMeiliSearch } from 'nestjs-meilisearch'
+import { SearchQueryDto } from './search.controller'
 
 @Injectable()
 export class SearchService {
@@ -31,8 +33,30 @@ export class SearchService {
     })
   }
 
-  async search(index: string, query: string) {
-    return await this.client.index(index).search(query)
+  async search(_index: string, _q: string) {
+    try {
+      const index = await this.client.getIndex(_index)
+      const {
+        hits,
+        query,
+        processingTimeMs,
+        limit,
+        offset,
+        estimatedTotalHits
+      } = await index.search(_q)
+      return {
+        items: hits,
+        meta: {
+          query,
+          itemsPerPage: limit,
+          page: offset,
+          matched: estimatedTotalHits,
+          processingTimeMs
+        }
+      }
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
   }
 
   async addDocuments(

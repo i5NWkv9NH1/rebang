@@ -10,43 +10,48 @@ import {
   TreeParent
 } from 'typeorm'
 import { Role } from '../../role/entities/role.entity'
-import { Status } from 'src/@types'
 
-export enum PermissionType {
+export enum ResourceType {
   Group = 'Group',
   Page = 'Page',
   Action = 'Action'
 }
 
-@Entity('s_permission')
-@Tree('closure-table')
+@Entity('s_resource')
+// @Tree('closure-table')
+@Tree('materialized-path')
 @Index(['code', 'type'])
-export class Permission extends AbstractBaseEntity {
-  @Column({ type: 'varchar', nullable: true })
+export class Resource extends AbstractBaseEntity {
+  @Column({ type: 'varchar' })
   title: string
 
-  @Column({ type: 'varchar', unique: true })
+  @Index({ unique: true, where: 'code IS NOT NULL' })
+  @Column({ type: 'varchar', nullable: true })
   code: string
 
   @Column({ type: 'varchar', nullable: true })
   name: string
 
-  @Column({ type: 'enum', enum: Status, default: Status.Enabled })
-  status: Status
+  @Column({ type: 'boolean', default: true })
+  status: boolean
 
-  @Column({ type: 'enum', enum: PermissionType, default: PermissionType.Group })
-  type: PermissionType
+  @Column({ type: 'enum', enum: ResourceType, default: ResourceType.Group })
+  type: ResourceType
 
   //* 如果是目录（分组）和页面（路由）
   @Column({ type: 'varchar', nullable: true })
   redirect: string
 
-  //* 目录（分组）和页面（路由）
   @Column({ type: 'varchar', nullable: true })
   icon: string
 
+  //* 是否隐藏
+  @Column({ type: 'boolean', default: false })
+  hidden: boolean
+
   //* 如果是页面（路由）
-  @Column({ type: 'varchar', nullable: true })
+  @Index({ unique: true, where: 'code IS NOT NULL' })
+  @Column({ type: 'varchar', nullable: true, unique: true })
   path: string
 
   //* 如果是页面（路由）外链
@@ -58,7 +63,7 @@ export class Permission extends AbstractBaseEntity {
   view: string
 
   //* 是否在前端缓存目录（分组）和页面（路由）
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', nullable: true })
   keepAlive: boolean
 
   //* 是否在前端页面固定页签
@@ -75,11 +80,11 @@ export class Permission extends AbstractBaseEntity {
 
   // Tree 结构，表示当前节点的子权限
   @TreeChildren()
-  children: Relation<Permission[]>
+  children: Relation<Resource[]>
 
   // Tree 结构，表示当前节点的父权限
   @TreeParent()
-  parent: Relation<Permission>
+  parent: Relation<Resource>
 
   // 权限与角色的多对多关系
   @ManyToMany(() => Role, (role) => role.permissions)

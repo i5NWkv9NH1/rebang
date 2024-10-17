@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { AccountModule } from './account/account.module'
-import { PermissionModule } from './permission/permission.module'
+import { ResourceModule } from './resource/resource.module'
 import { RoleModule } from './role/role.module'
 
 @Module({
-  imports: [AccountModule, PermissionModule, RoleModule],
-  exports: [AccountModule, PermissionModule, RoleModule]
+  imports: [AccountModule, ResourceModule, RoleModule],
+  exports: [AccountModule, ResourceModule, RoleModule]
 })
 export class RbacModule {}

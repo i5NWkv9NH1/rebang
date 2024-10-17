@@ -14,10 +14,11 @@ import { FetchService } from './services/fetch.service'
 import { HttpModule } from '@nestjs/axios'
 import { HttpConfigService } from 'src/configs/http-config.service'
 import { EventEmitterModule } from '@nestjs/event-emitter'
-import { SearchService } from './services/search.service'
+import { SearchService } from './search/search.service'
 import { ScheduleModule } from '@nestjs/schedule'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtConfigService } from 'src/configs/jwt-config.service'
+import { SearchModule } from './search/search.module'
 
 @Global()
 @Module({
@@ -63,9 +64,10 @@ import { JwtConfigService } from 'src/configs/jwt-config.service'
       // disable throwing uncaughtException if an error event is emitted and it has no listeners
       ignoreErrors: false
     }),
-    JwtModule.registerAsync({ useClass: JwtConfigService, global: true })
+    JwtModule.registerAsync({ useClass: JwtConfigService, global: true }),
+    SearchModule
   ],
-  providers: [RedisService, FetchService, SearchService],
-  exports: [RedisService, FetchService, SearchService]
+  providers: [RedisService, FetchService, SearchModule],
+  exports: [RedisService, FetchService, SearchModule]
 })
 export class ShareModule {}

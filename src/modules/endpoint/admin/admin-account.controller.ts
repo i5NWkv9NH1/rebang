@@ -12,7 +12,7 @@ import {
 } from 'src/common/abstracts/base-crud-controller.abstract'
 import { Account } from 'src/modules/rbac/account/entities/account.entity'
 
-@UseAdminController('accounts', ['1', '2'])
+@UseAdminController('accounts', ['1'])
 export class AdminAccountController extends BaseCrudController<
   Account,
   CreateAccountDto,

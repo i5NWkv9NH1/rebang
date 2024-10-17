@@ -12,7 +12,7 @@ import { RbacModule } from '../rbac/rbac.module'
 import { SystemModule } from '../system/system.module'
 import { AdminAccountController } from './admin/admin-account.controller'
 import { AdminRoleContoller } from './admin/admin-role.controller'
-import { AdminPermissionController } from './admin/admin-permission.controller'
+import { AdminResourceController } from './admin/admin-resource.controller'
 
 @Module({
   imports: [BusinessModule, RbacModule, SystemModule],
@@ -23,7 +23,7 @@ import { AdminPermissionController } from './admin/admin-permission.controller'
     AdminAuthController,
     AdminAccountController,
     AdminRoleContoller,
-    AdminPermissionController,
+    AdminResourceController,
     AdminCategoryController,
     AdminTrackerController,
     AdminUserController,
