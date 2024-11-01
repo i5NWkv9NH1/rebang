@@ -13,7 +13,7 @@ import { RbacModule } from './modules/rbac/rbac.module'
     //* 业务模块
     BusinessModule,
     //* 爬虫模块
-    CrawerModule,
+    // CrawerModule,
     //* API 接口
     EndpointModule,
     //* 权限

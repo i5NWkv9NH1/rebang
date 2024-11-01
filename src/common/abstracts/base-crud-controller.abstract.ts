@@ -16,16 +16,23 @@ import { DeepPartial } from 'typeorm'
 import {
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsObject,
   IsOptional,
   IsString
 } from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class PaginationDto {
+  @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   itemsPerPage: number = 10
+
+  @IsNumber()
   @IsOptional()
-  page: number = -1
+  @Type(() => Number)
+  page: number = 1
 }
 export class QueryDto extends PaginationDto {
   @IsOptional()

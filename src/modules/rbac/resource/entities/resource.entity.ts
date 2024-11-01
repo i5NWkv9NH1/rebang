@@ -18,9 +18,9 @@ export enum ResourceType {
 }
 
 @Entity('s_resource')
-// @Tree('closure-table')
-@Tree('materialized-path')
-@Index(['code', 'type'])
+@Tree('closure-table')
+// @Tree('materialized-path')
+// @Index(['code', 'type'])
 export class Resource extends AbstractBaseEntity {
   @Column({ type: 'varchar' })
   title: string

@@ -46,13 +46,13 @@ export abstract class BaseCrudService<T extends AbstractBaseEntity> {
     const itemsLength = await qb.getCount()
     const pagesLength = Math.ceil(itemsLength / itemsPerPage)
 
-    if (page === -1) {
+    if (itemsPerPage < 0) {
       const items = await qb.getMany()
       return {
         items,
         meta: {
-          page: -1,
-          itemsPerPage: itemsLength,
+          page: 1,
+          itemsPerPage,
           itemsLength,
           pagesLength: 1
         }

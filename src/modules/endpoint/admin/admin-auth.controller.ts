@@ -13,8 +13,9 @@ import { ConfigService } from '@nestjs/config'
 import { compare } from 'bcrypt'
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard'
 import { Public } from 'src/common/decorators/pubic.decorator'
+import { RolesGuard } from 'src/shared/guards/roles.guard'
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @UseAdminController('auth', ['1'])
 export class AdminAuthController {
   protected readonly logger = new Logger(AdminAuthController.name)

@@ -13,6 +13,8 @@ import { SystemModule } from '../system/system.module'
 import { AdminAccountController } from './admin/admin-account.controller'
 import { AdminRoleContoller } from './admin/admin-role.controller'
 import { AdminResourceController } from './admin/admin-resource.controller'
+import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard'
+import { RolesGuard } from 'src/shared/guards/roles.guard'
 
 @Module({
   imports: [BusinessModule, RbacModule, SystemModule],

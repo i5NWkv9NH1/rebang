@@ -8,6 +8,9 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import { Reflector } from '@nestjs/core'
 import { PUBLIC_KEY } from 'src/common/decorators/pubic.decorator'
+import { Request } from 'express'
+import { Account } from 'src/modules/rbac/account/entities/account.entity'
+import { JwtVerifyPayload } from 'src/@types/http-context'
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -30,7 +33,7 @@ export class JwtAuthGuard implements CanActivate {
     )
     if (isPublic) return true
 
-    const request = context.switchToHttp().getRequest()
+    const request = context.switchToHttp().getRequest<Request>()
     const authorization = request.headers.authorization
 
     if (!authorization) {
@@ -39,10 +42,10 @@ export class JwtAuthGuard implements CanActivate {
 
     try {
       const token = authorization.split(' ')[1]
-      const payload = await this.jwtService.verifyAsync(token)
-      // TODO: 将信息插入到请求上下文
-      // TODO: 提供给其他 Guard 使用
-      this.logger.debug('Payload', payload)
+      const payload = await this.jwtService.verifyAsync<JwtVerifyPayload>(token)
+      // * 将信息插入到请求上下文
+      // * 提供给其他 Guard 使用
+      request.payload = payload
       return true
     } catch (error) {
       throw new UnauthorizedException('Invalid or expired token' + '\n' + error)
